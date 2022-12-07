@@ -1,0 +1,31 @@
+.footerContainer {
+  box-shadow: rgb(0 0 0 / 16%) 0px 1px 8px;
+  background-color: var(--black);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 40px;
+  width: 100vw;
+  height: 170px;
+}
+.logo {
+  width: 240px;
+  cursor: pointer;
+}
+.text {
+  white-space: nowrap;
+}
+.github {
+  width: 40px;
+  margin-top: 10px;
+}
+.footerCopyrights {
+  background-color: var(--orange);
+  width: 100vw;
+  text-align: center;
+  padding: 20px;
+  color: var(--black);
+  font-weight: bold;
+  font-size: 1rem;
+}

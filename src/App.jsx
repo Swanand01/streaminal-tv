@@ -1,11 +1,12 @@
-import React from 'react';
-import Homepage from './Views/Homepage';
+import React from "react";
+import Footer from "./Components/Footer/index";
+
+import Homepage from "./Views/Homepage";
 import MovieDetails from "./Views/MovieDetails";
 
 import { Routes, Route } from "react-router-dom";
-import { useEffect } from 'react';
-import SearchResults from './Views/SearchResults';
-
+import { useEffect } from "react";
+import SearchResults from "./Views/SearchResults";
 
 function App() {
   useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/watch" element={<MovieDetails />} />
         <Route exact path="/search/:query" element={<SearchResults />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
