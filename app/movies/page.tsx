@@ -35,21 +35,21 @@ export default function MoviesPage() {
     queryKey: ['movies', selectedGenres, minRating, sortBy, currentPage],
     queryFn: async () => {
       const today = new Date().toISOString().split('T')[0];
-      
+
       const params: any = {
         page: currentPage,
         sort_by: sortBy,
         'release_date.lte': today,
       };
-      
+
       if (selectedGenres.length > 0) {
         params.with_genres = selectedGenres.join(',');
       }
-      
+
       if (minRating > 0) {
         params['vote_average.gte'] = minRating;
       }
-      
+
       return discoverMovies(params);
     },
   });
@@ -85,7 +85,7 @@ export default function MoviesPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <div className="container mx-auto px-4 pb-8 pt-24 md:px-8 lg:px-12">
         <div className="flex gap-8">
           {/* Desktop Sidebar */}
@@ -127,7 +127,7 @@ export default function MoviesPage() {
                   </p>
                 )}
               </div>
-              
+
               <div className="flex items-center gap-3">
                 {/* Sort Dropdown */}
                 <DropdownMenu>
@@ -155,7 +155,7 @@ export default function MoviesPage() {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                
+
                 {/* Mobile Filters Button */}
                 <Button
                   variant="outline"
@@ -180,7 +180,7 @@ export default function MoviesPage() {
             ) : (
               <>
                 <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" />
-                
+
                 {totalPages > 1 && (
                   <div className="mt-12">
                     <Pagination
