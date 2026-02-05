@@ -19,6 +19,8 @@ import {
 export default function MoviesPage() {
   const searchParams = useSearchParams();
   
+  console.log('[v0] MoviesPage render - isLoading:', true, 'movies.length:', 0);
+  
   const [genres, setGenres] = useState<Genre[]>([]);
   const [movies, setMovies] = useState<Media[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
@@ -29,6 +31,8 @@ export default function MoviesPage() {
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  
+  console.log('[v0] Current state - isLoading:', isLoading, 'movies.length:', movies.length);
 
   // Load genres on mount
   useEffect(() => {
@@ -37,7 +41,9 @@ export default function MoviesPage() {
 
   // Fetch movies when filters change
   useEffect(() => {
+    console.log('[v0] useEffect triggered - starting fetch');
     const fetchMovies = async () => {
+      console.log('[v0] setIsLoading(true)');
       setIsLoading(true);
       try {
         const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
@@ -57,13 +63,16 @@ export default function MoviesPage() {
         }
         
         const data = await discoverMovies(params);
+        console.log('[v0] Fetch complete - got', data.results.length, 'movies');
         setMovies(data.results);
         setTotalPages(Math.min(data.total_pages, 500)); // TMDB limits to 500 pages
         setTotalResults(data.total_results);
+        console.log('[v0] State updated with movies');
       } catch (error) {
         console.error('[v0] Error fetching movies:', error);
         setMovies([]);
       } finally {
+        console.log('[v0] setIsLoading(false)');
         setIsLoading(false);
       }
     };
@@ -182,29 +191,41 @@ export default function MoviesPage() {
               </div>
             </div>
 
-            {isLoading && movies.length === 0 ? (
-              <div className="flex min-h-[400px] items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-              </div>
-            ) : movies.length > 0 ? (
-              <>
-                <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" />
-                
-                {totalPages > 1 && (
-                  <div className="mt-12">
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={handlePageChange}
-                    />
+            {(() => {
+              console.log('[v0] Render decision - isLoading:', isLoading, 'movies.length:', movies.length);
+              if (isLoading && movies.length === 0) {
+                console.log('[v0] Rendering: LOADER');
+                return (
+                  <div className="flex min-h-[400px] items-center justify-center">
+                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
                   </div>
-                )}
-              </>
-            ) : (
-              <div className="flex min-h-[400px] items-center justify-center">
-                <p className="text-muted-foreground">No movies found with the selected filters</p>
-              </div>
-            )}
+                );
+              } else if (movies.length > 0) {
+                console.log('[v0] Rendering: GRID with', movies.length, 'movies');
+                return (
+                  <>
+                    <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" />
+                    
+                    {totalPages > 1 && (
+                      <div className="mt-12">
+                        <Pagination
+                          currentPage={currentPage}
+                          totalPages={totalPages}
+                          onPageChange={handlePageChange}
+                        />
+                      </div>
+                    )}
+                  </>
+                );
+              } else {
+                console.log('[v0] Rendering: EMPTY STATE');
+                return (
+                  <div className="flex min-h-[400px] items-center justify-center">
+                    <p className="text-muted-foreground">No movies found with the selected filters</p>
+                  </div>
+                );
+              }
+            })()}
           </main>
         </div>
       </div>
