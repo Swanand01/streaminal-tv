@@ -1,4 +1,5 @@
 'use client';
+// TanStack Query implementation - v2
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
