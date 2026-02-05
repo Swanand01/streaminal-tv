@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Media, getImageUrl, getTitle, getReleaseYear } from '@/lib/tmdb';
 import { Play, Info, Star } from 'lucide-react';
@@ -18,13 +17,10 @@ export function HeroBanner({ media }: HeroBannerProps) {
     <section className="relative h-[70vh] min-h-[500px] w-full md:h-[80vh]">
       {media.backdrop_path && (
         <>
-          <Image
+          <img
             src={getImageUrl(media.backdrop_path, 'original')}
             alt={title}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/0" />

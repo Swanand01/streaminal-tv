@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Media, getImageUrl, getTitle, getReleaseYear } from '@/lib/tmdb';
 import { Star } from 'lucide-react';
@@ -21,12 +20,10 @@ export function MediaCard({ media }: MediaCardProps) {
     >
       <div className="relative aspect-[2/3] w-[160px] overflow-hidden rounded-md bg-muted md:w-[200px]">
         {media.poster_path ? (
-          <Image
+          <img
             src={getImageUrl(media.poster_path, 'w500')}
             alt={title}
-            fill
-            sizes="(max-width: 768px) 160px, 200px"
-            className="object-cover transition-opacity duration-300 group-hover:opacity-75"
+            className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-75"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-muted-foreground">
