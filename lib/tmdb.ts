@@ -84,3 +84,57 @@ export function getReleaseYear(media: Media) {
   const date = media.release_date || media.first_air_date;
   return date ? new Date(date).getFullYear() : null;
 }
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export async function getMovieGenres() {
+  const data = await fetchTMDB('/genre/movie/list');
+  return data.genres as Genre[];
+}
+
+export async function getTVGenres() {
+  const data = await fetchTMDB('/genre/tv/list');
+  return data.genres as Genre[];
+}
+
+export interface DiscoverParams {
+  page?: number;
+  with_genres?: string;
+  'vote_average.gte'?: number;
+  sort_by?: string;
+}
+
+export async function discoverMovies(params: DiscoverParams = {}) {
+  const queryParams = new URLSearchParams();
+  queryParams.append('page', (params.page || 1).toString());
+  if (params.with_genres) queryParams.append('with_genres', params.with_genres);
+  if (params['vote_average.gte']) queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
+  if (params.sort_by) queryParams.append('sort_by', params.sort_by);
+  
+  const data = await fetchTMDB(`/discover/movie?${queryParams.toString()}`);
+  return {
+    results: data.results as Media[],
+    total_pages: data.total_pages as number,
+    total_results: data.total_results as number,
+    page: data.page as number,
+  };
+}
+
+export async function discoverTVShows(params: DiscoverParams = {}) {
+  const queryParams = new URLSearchParams();
+  queryParams.append('page', (params.page || 1).toString());
+  if (params.with_genres) queryParams.append('with_genres', params.with_genres);
+  if (params['vote_average.gte']) queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
+  if (params.sort_by) queryParams.append('sort_by', params.sort_by);
+  
+  const data = await fetchTMDB(`/discover/tv?${queryParams.toString()}`);
+  return {
+    results: data.results as Media[],
+    total_pages: data.total_pages as number,
+    total_results: data.total_results as number,
+    page: data.page as number,
+  };
+}
