@@ -12,8 +12,21 @@ export default function MoviePage() {
     const params = useParams();
     const movieId = parseInt(params.id as string);
 
+    // Check for invalid ID
+    if (isNaN(movieId)) {
+        return (
+            <div className="min-h-screen bg-background">
+                <Navigation />
+                <div className="flex min-h-[80vh] flex-col items-center justify-center gap-4">
+                    <p className="text-xl text-muted-foreground">Invalid movie ID</p>
+                    <p className="text-sm text-muted-foreground">Please check the URL and try again</p>
+                </div>
+            </div>
+        );
+    }
+
     // Fetch movie details
-    const { data: movie, isLoading } = useQuery({
+    const { data: movie, isLoading, error } = useQuery({
         queryKey: ['movie', movieId],
         queryFn: () => getMovieDetails(movieId),
     });
@@ -24,6 +37,18 @@ export default function MoviePage() {
                 <Navigation />
                 <div className="flex min-h-[80vh] items-center justify-center">
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-background">
+                <Navigation />
+                <div className="flex min-h-[80vh] flex-col items-center justify-center gap-4">
+                    <p className="text-xl text-muted-foreground">Failed to load movie</p>
+                    <p className="text-sm text-muted-foreground">The movie could not be found or there was an error loading it</p>
                 </div>
             </div>
         );
