@@ -3,21 +3,22 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { Navigation } from '@/components/navigation';
 import { getMovieDetails, getImageUrl } from '@/lib/tmdb';
-import { Star, Calendar, Clock } from 'lucide-react';
+import { Star, Calendar, Clock, User } from 'lucide-react';
 
 export default function MoviePage() {
     const params = useParams();
     const movieId = parseInt(params.id as string);
 
     // Fetch movie details
-    const { data: movie, isLoading: movieLoading } = useQuery({
+    const { data: movie, isLoading } = useQuery({
         queryKey: ['movie', movieId],
         queryFn: () => getMovieDetails(movieId),
     });
 
-    if (movieLoading) {
+    if (isLoading) {
         return (
             <div className="min-h-screen bg-background">
                 <Navigation />
@@ -41,7 +42,6 @@ export default function MoviePage() {
 
     const title = movie.title || 'Untitled';
     const year = movie.release_date ? new Date(movie.release_date).getFullYear() : null;
-
     const videoUrl = `https://vidsrc-embed.ru/embed/movie?tmdb=${movieId}`;
 
     return (
@@ -83,9 +83,6 @@ export default function MoviePage() {
                                 <span>{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m</span>
                             </div>
                         )}
-                        {movie.status && (
-                            <span>{movie.status}</span>
-                        )}
                     </div>
 
                     {movie.genres && movie.genres.length > 0 && (
@@ -107,6 +104,42 @@ export default function MoviePage() {
                         </p>
                     )}
                 </div>
+
+                {movie.credits?.cast && movie.credits.cast.length > 0 && (
+                    <div className="space-y-3">
+                        <h2 className="text-2xl font-bold">Cast</h2>
+                        <div className="relative -mx-4 px-4 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12">
+                            <div className="scrollbar-hide flex gap-4 overflow-x-auto pb-2">
+                                {movie.credits.cast.slice(0, 20).map((actor) => (
+                                    <Link
+                                        key={actor.id}
+                                        href={`/person/${actor.id}`}
+                                        className="group flex flex-shrink-0 flex-col items-center gap-2"
+                                    >
+                                        <div className="relative h-16 w-16 overflow-hidden rounded-full bg-muted ring-2 ring-transparent transition-all group-hover:ring-primary/50">
+                                            {actor.profile_path ? (
+                                                <img
+                                                    src={getImageUrl(actor.profile_path, 'w500')}
+                                                    alt={actor.name}
+                                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                                />
+                                            ) : (
+                                                <div className="flex h-full items-center justify-center text-muted-foreground">
+                                                    <User className="h-8 w-8" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="w-20 text-center">
+                                            <p className="line-clamp-2 text-xs font-medium leading-tight group-hover:text-primary">
+                                                {actor.name}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

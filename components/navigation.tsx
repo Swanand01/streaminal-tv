@@ -2,13 +2,22 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 export function Navigation() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -48,25 +57,69 @@ export function Navigation() {
                 placeholder="Search movies, TV shows..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-[200px] md:w-[300px]"
+                className="w-[200px] md:w-[400px]"
                 autoFocus
               />
               <button
                 type="button"
                 onClick={() => setShowSearch(false)}
-                className="text-sm text-muted-foreground hover:text-foreground"
+                className="flex-shrink-0 text-sm text-muted-foreground hover:text-foreground"
               >
                 Cancel
               </button>
             </form>
           ) : (
-            <button
-              onClick={() => setShowSearch(true)}
-              className="flex items-center gap-2 text-foreground/80 transition-colors hover:text-foreground"
-              aria-label="Search"
-            >
-              <Search className="h-5 w-5" />
-            </button>
+            <>
+              <button
+                onClick={() => setShowSearch(true)}
+                className="flex items-center gap-2 text-foreground/80 transition-colors hover:text-foreground"
+                aria-label="Search"
+              >
+                <Search className="h-5 w-5" />
+              </button>
+              
+              {/* Mobile Menu */}
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="md:hidden"
+                    aria-label="Menu"
+                  >
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <SheetHeader>
+                    <SheetTitle>Menu</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-6 flex flex-col gap-4">
+                    <Link 
+                      href="/" 
+                      className="text-lg font-medium text-foreground/80 transition-colors hover:text-foreground"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Home
+                    </Link>
+                    <Link 
+                      href="/movies" 
+                      className="text-lg font-medium text-foreground/80 transition-colors hover:text-foreground"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Movies
+                    </Link>
+                    <Link 
+                      href="/tv" 
+                      className="text-lg font-medium text-foreground/80 transition-colors hover:text-foreground"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      TV Shows
+                    </Link>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </>
           )}
         </div>
       </div>

@@ -32,6 +32,30 @@ export interface MediaDetails extends Media {
   };
 }
 
+export interface Person {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  known_for_department: string;
+  known_for?: Media[];
+  media_type?: 'person';
+}
+
+export interface PersonDetails extends Person {
+  biography: string;
+  birthday: string | null;
+  place_of_birth: string | null;
+  also_known_as: string[];
+  movie_credits?: {
+    cast: Array<Media & { character: string }>;
+    crew: Array<Media & { job: string }>;
+  };
+  tv_credits?: {
+    cast: Array<Media & { character: string }>;
+    crew: Array<Media & { job: string }>;
+  };
+}
+
 export interface Episode {
   id: number;
   episode_number: number;
@@ -95,6 +119,31 @@ export async function getTVSeason(tvId: number, seasonNumber: number) {
 export async function searchMedia(query: string) {
   const data = await fetchTMDB(`/search/multi?query=${encodeURIComponent(query)}&include_adult=false`);
   return data.results.filter((item: Media) => item.media_type === 'movie' || item.media_type === 'tv') as Media[];
+}
+
+export async function searchAll(query: string) {
+  const data = await fetchTMDB(`/search/multi?query=${encodeURIComponent(query)}&include_adult=false`);
+  return data.results as (Media | Person)[];
+}
+
+export async function searchPeople(query: string) {
+  const data = await fetchTMDB(`/search/person?query=${encodeURIComponent(query)}&include_adult=false`);
+  return data.results as Person[];
+}
+
+export async function getPersonDetails(id: number) {
+  const data = await fetchTMDB(`/person/${id}?append_to_response=movie_credits,tv_credits`);
+  return data as PersonDetails;
+}
+
+export async function getPersonMovieCredits(id: number) {
+  const data = await fetchTMDB(`/person/${id}/movie_credits`);
+  return data.cast as (Media & { character: string })[];
+}
+
+export async function getPersonTVCredits(id: number) {
+  const data = await fetchTMDB(`/person/${id}/tv_credits`);
+  return data.cast as (Media & { character: string })[];
 }
 
 export function getImageUrl(path: string | null, size: 'w500' | 'w780' | 'original' = 'w500') {

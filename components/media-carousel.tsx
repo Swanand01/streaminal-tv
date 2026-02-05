@@ -26,7 +26,7 @@ export function MediaCarousel({ title, items }: MediaCarouselProps) {
 
   return (
     <section className="group/carousel relative mb-8">
-      <h2 className="mb-4 text-xl font-bold text-foreground md:text-2xl">
+      <h2 className="mb-4 px-4 text-xl font-bold text-foreground md:px-8 md:text-2xl lg:px-12">
         {title}
       </h2>
       
@@ -43,7 +43,7 @@ export function MediaCarousel({ title, items }: MediaCarouselProps) {
 
         <div
           ref={scrollRef}
-          className="flex gap-3 overflow-x-auto overflow-y-hidden scrollbar-hide md:gap-4"
+          className="scrollbar-hide flex gap-3 overflow-x-auto overflow-y-hidden px-4 md:gap-4 md:px-8 lg:px-12"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {items.map((item) => (

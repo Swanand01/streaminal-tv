@@ -20,7 +20,7 @@ export default async function HomePage() {
       <main>
         <HeroBanner media={featuredItem} />
         
-        <div className="relative z-10 -mt-32 space-y-12 px-4 pb-20 md:px-8 lg:px-12">
+        <div className="relative z-10 -mt-32 space-y-12 pb-20">
           {trendingAll && trendingAll.length > 0 && (
             <MediaCarousel
               title="Trending Now"
