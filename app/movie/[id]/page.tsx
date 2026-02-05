@@ -1,0 +1,113 @@
+'use client';
+// Movie detail page
+
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { Navigation } from '@/components/navigation';
+import { getMovieDetails, getImageUrl } from '@/lib/tmdb';
+import { Star, Calendar, Clock } from 'lucide-react';
+
+export default function MoviePage() {
+    const params = useParams();
+    const movieId = parseInt(params.id as string);
+
+    // Fetch movie details
+    const { data: movie, isLoading: movieLoading } = useQuery({
+        queryKey: ['movie', movieId],
+        queryFn: () => getMovieDetails(movieId),
+    });
+
+    if (movieLoading) {
+        return (
+            <div className="min-h-screen bg-background">
+                <Navigation />
+                <div className="flex min-h-[80vh] items-center justify-center">
+                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                </div>
+            </div>
+        );
+    }
+
+    if (!movie) {
+        return (
+            <div className="min-h-screen bg-background">
+                <Navigation />
+                <div className="flex min-h-[80vh] items-center justify-center">
+                    <p className="text-muted-foreground">Movie not found</p>
+                </div>
+            </div>
+        );
+    }
+
+    const title = movie.title || 'Untitled';
+    const year = movie.release_date ? new Date(movie.release_date).getFullYear() : null;
+
+    const videoUrl = `https://vidsrc-embed.ru/embed/movie?tmdb=${movieId}`;
+
+    return (
+        <div className="min-h-screen bg-background">
+            <Navigation />
+
+            {/* Video Player Section */}
+            <div className="relative w-full bg-black pt-20">
+                <div className="relative aspect-video w-full">
+                    <iframe
+                        src={videoUrl}
+                        className="h-full w-full"
+                        allowFullScreen
+                        allow="autoplay; fullscreen"
+                    />
+                </div>
+            </div>
+
+            {/* Movie Info */}
+            <div className="container mx-auto px-4 py-8 md:px-8 lg:px-12">
+                <div className="mb-8">
+                    <h1 className="mb-2 text-3xl font-bold text-balance md:text-4xl">{title}</h1>
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                        {year && (
+                            <div className="flex items-center gap-1">
+                                <Calendar className="h-4 w-4" />
+                                <span>{year}</span>
+                            </div>
+                        )}
+                        {movie.vote_average > 0 && (
+                            <div className="flex items-center gap-1">
+                                <Star className="h-4 w-4 fill-primary text-primary" />
+                                <span className="font-medium text-foreground">{movie.vote_average.toFixed(1)}</span>
+                            </div>
+                        )}
+                        {movie.runtime && (
+                            <div className="flex items-center gap-1">
+                                <Clock className="h-4 w-4" />
+                                <span>{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m</span>
+                            </div>
+                        )}
+                        {movie.status && (
+                            <span>{movie.status}</span>
+                        )}
+                    </div>
+
+                    {movie.genres && movie.genres.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                            {movie.genres.map((genre) => (
+                                <span
+                                    key={genre.id}
+                                    className="rounded-full bg-muted px-3 py-1 text-xs font-medium"
+                                >
+                                    {genre.name}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+
+                    {movie.overview && (
+                        <p className="mt-4 max-w-4xl text-pretty leading-relaxed text-foreground/90">
+                            {movie.overview}
+                        </p>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
