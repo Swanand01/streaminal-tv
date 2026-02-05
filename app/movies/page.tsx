@@ -184,11 +184,11 @@ export default function MoviesPage() {
               </div>
             </div>
 
-            {!hasLoaded || isLoading ? (
+            {isLoading && movies.length === 0 ? (
               <div className="flex min-h-[400px] items-center justify-center">
                 <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
               </div>
-            ) : (
+            ) : movies.length > 0 ? (
               <>
                 <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" />
                 
@@ -202,6 +202,10 @@ export default function MoviesPage() {
                   </div>
                 )}
               </>
+            ) : (
+              <div className="flex min-h-[400px] items-center justify-center">
+                <p className="text-muted-foreground">No movies found with the selected filters</p>
+              </div>
             )}
           </main>
         </div>
