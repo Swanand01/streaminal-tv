@@ -34,9 +34,12 @@ export default function MoviesPage() {
     const fetchMovies = async () => {
       setIsLoading(true);
       try {
+        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        
         const params: any = {
           page: currentPage,
           sort_by: sortBy,
+          'release_date.lte': today, // Only show released movies
         };
         
         if (selectedGenres.length > 0) {
