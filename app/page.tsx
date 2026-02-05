@@ -5,13 +5,13 @@ import { getTrending, getPopularMovies, getPopularTVShows } from '@/lib/tmdb';
 
 export default async function HomePage() {
   const [trendingAll, popularMovies, popularTVShows] = await Promise.all([
-    getTrending('all', 'day'),
-    getPopularMovies(),
-    getPopularTVShows(),
+    getTrending('all', 'day').catch(() => []),
+    getPopularMovies().catch(() => []),
+    getPopularTVShows().catch(() => []),
   ]);
 
   // Get a random featured item from trending for the hero
-  const featuredItem = trendingAll[Math.floor(Math.random() * Math.min(5, trendingAll.length))];
+  const featuredItem = trendingAll?.[Math.floor(Math.random() * Math.min(5, trendingAll.length))];
 
   return (
     <div className="min-h-screen bg-background">

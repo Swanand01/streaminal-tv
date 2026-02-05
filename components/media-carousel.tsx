@@ -7,10 +7,10 @@ import { useRef } from 'react';
 
 interface MediaCarouselProps {
   title: string;
-  media: Media[];
+  items: Media[];
 }
 
-export function MediaCarousel({ title, media }: MediaCarouselProps) {
+export function MediaCarousel({ title, items }: MediaCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -19,6 +19,10 @@ export function MediaCarousel({ title, media }: MediaCarouselProps) {
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
+
+  if (!items || items.length === 0) {
+    return null;
+  }
 
   return (
     <section className="group/carousel relative mb-8">
@@ -42,7 +46,7 @@ export function MediaCarousel({ title, media }: MediaCarouselProps) {
           className="flex gap-3 overflow-x-auto scrollbar-hide md:gap-4"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {media.map((item) => (
+          {items.map((item) => (
             <MediaCard key={item.id} media={item} />
           ))}
         </div>
