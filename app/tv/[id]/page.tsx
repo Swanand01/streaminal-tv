@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { Navigation } from '@/components/navigation';
+import { CastList } from '@/components/cast-list';
 import { getTVDetails, getTVSeason, getImageUrl } from '@/lib/tmdb';
 import { Star, Calendar, Tv } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -141,6 +142,13 @@ export default function TVShowPage() {
                         </p>
                     )}
                 </div>
+
+                {/* Cast */}
+                {show.credits?.cast && (
+                    <div className="mb-8">
+                        <CastList cast={show.credits.cast} limit={20} />
+                    </div>
+                )}
 
                 {/* Episode Selection */}
                 <div className="space-y-6">
