@@ -173,7 +173,7 @@ export default function PersonPage() {
 
                     {activeCredits.length > 0 ? (
                         <>
-                            <MediaGrid media={displayedCredits as Media[]} />
+                            <MediaGrid items={displayedCredits as Media[]} />
 
                             {activeCredits.length > itemsShown && (
                                 <div className="mt-8 flex justify-center">
