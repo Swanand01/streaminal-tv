@@ -105,7 +105,6 @@ export default function MoviePage() {
                     )}
                 </div>
 
-                {/* Cast Section */}
                 {movie.credits?.cast && movie.credits.cast.length > 0 && (
                     <div className="space-y-3">
                         <h2 className="text-2xl font-bold">Cast</h2>
