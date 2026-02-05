@@ -141,11 +141,11 @@ export default function MoviesPage() {
                 )}
               </div>
               
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 {/* Sort Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="default" className="min-w-[140px]">
                       {sortBy === 'popularity.desc' && 'Popular'}
                       {sortBy === 'vote_average.desc' && 'Top Rated'}
                       {sortBy === 'primary_release_date.desc' && 'Latest'}
@@ -153,7 +153,7 @@ export default function MoviesPage() {
                       <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="w-[140px]">
                     <DropdownMenuItem onClick={() => handleSortChange('popularity.desc')}>
                       Popular
                     </DropdownMenuItem>
@@ -172,7 +172,7 @@ export default function MoviesPage() {
                 {/* Mobile Filters Button */}
                 <Button
                   variant="outline"
-                  size="sm"
+                  size="default"
                   onClick={() => setShowMobileFilters(true)}
                   className="lg:hidden"
                 >
