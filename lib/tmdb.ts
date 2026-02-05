@@ -46,6 +46,16 @@ export async function getTrending(mediaType: 'movie' | 'tv' | 'all' = 'all', tim
   return data.results as Media[];
 }
 
+export async function getPopularMovies() {
+  const data = await fetchTMDB('/movie/popular');
+  return data.results as Media[];
+}
+
+export async function getPopularTVShows() {
+  const data = await fetchTMDB('/tv/popular');
+  return data.results as Media[];
+}
+
 export async function getMovieDetails(id: number) {
   const data = await fetchTMDB(`/movie/${id}?append_to_response=credits`);
   return data as MediaDetails;

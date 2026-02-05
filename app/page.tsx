@@ -11,7 +11,7 @@ export default async function HomePage() {
   ]);
 
   // Get a random featured item from trending for the hero
-  const featuredItem = trendingAll.results[Math.floor(Math.random() * Math.min(5, trendingAll.results.length))];
+  const featuredItem = trendingAll[Math.floor(Math.random() * Math.min(5, trendingAll.length))];
 
   return (
     <div className="min-h-screen bg-background">
@@ -23,17 +23,17 @@ export default async function HomePage() {
         <div className="relative z-10 -mt-32 space-y-12 pb-20">
           <MediaCarousel
             title="Trending Now"
-            items={trendingAll.results}
+            items={trendingAll}
           />
           
           <MediaCarousel
             title="Popular Movies"
-            items={popularMovies.results}
+            items={popularMovies}
           />
           
           <MediaCarousel
             title="Popular TV Shows"
-            items={popularTVShows.results}
+            items={popularTVShows}
           />
         </div>
       </main>
