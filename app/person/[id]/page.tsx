@@ -17,8 +17,21 @@ export default function PersonPage() {
     const [activeTab, setActiveTab] = useState<'movies' | 'tv'>('movies');
     const [itemsShown, setItemsShown] = useState(20);
 
+    // Check for invalid ID
+    if (isNaN(personId)) {
+        return (
+            <div className="min-h-screen bg-background">
+                <Navigation />
+                <div className="flex min-h-[80vh] flex-col items-center justify-center gap-4">
+                    <p className="text-xl text-muted-foreground">Invalid person ID</p>
+                    <p className="text-sm text-muted-foreground">Please check the URL and try again</p>
+                </div>
+            </div>
+        );
+    }
+
     // Fetch person details
-    const { data: person, isLoading } = useQuery({
+    const { data: person, isLoading, error } = useQuery({
         queryKey: ['person', personId],
         queryFn: () => getPersonDetails(personId),
     });
@@ -29,6 +42,18 @@ export default function PersonPage() {
                 <Navigation />
                 <div className="flex min-h-[80vh] items-center justify-center">
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-background">
+                <Navigation />
+                <div className="flex min-h-[80vh] flex-col items-center justify-center gap-4">
+                    <p className="text-xl text-muted-foreground">Failed to load person</p>
+                    <p className="text-sm text-muted-foreground">The person could not be found or there was an error loading their information</p>
                 </div>
             </div>
         );

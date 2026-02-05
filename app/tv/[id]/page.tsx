@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { Navigation } from '@/components/navigation';
+import { CastList } from '@/components/cast-list';
 import { getTVDetails, getTVSeason, getImageUrl } from '@/lib/tmdb';
 import { Star, Calendar, Tv } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -23,8 +24,21 @@ export default function TVShowPage() {
     const [selectedEpisode, setSelectedEpisode] = useState(1);
     const [episodesShown, setEpisodesShown] = useState(24);
 
+    // Check for invalid ID
+    if (isNaN(tvId)) {
+        return (
+            <div className="min-h-screen bg-background">
+                <Navigation />
+                <div className="flex min-h-[80vh] flex-col items-center justify-center gap-4">
+                    <p className="text-xl text-muted-foreground">Invalid TV show ID</p>
+                    <p className="text-sm text-muted-foreground">Please check the URL and try again</p>
+                </div>
+            </div>
+        );
+    }
+
     // Fetch TV show details
-    const { data: show, isLoading: showLoading } = useQuery({
+    const { data: show, isLoading: showLoading, error: showError } = useQuery({
         queryKey: ['tv', tvId],
         queryFn: () => getTVDetails(tvId),
     });
@@ -53,6 +67,18 @@ export default function TVShowPage() {
                 <Navigation />
                 <div className="flex min-h-[80vh] items-center justify-center">
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                </div>
+            </div>
+        );
+    }
+
+    if (showError) {
+        return (
+            <div className="min-h-screen bg-background">
+                <Navigation />
+                <div className="flex min-h-[80vh] flex-col items-center justify-center gap-4">
+                    <p className="text-xl text-muted-foreground">Failed to load TV show</p>
+                    <p className="text-sm text-muted-foreground">The TV show could not be found or there was an error loading it</p>
                 </div>
             </div>
         );
@@ -141,6 +167,13 @@ export default function TVShowPage() {
                         </p>
                     )}
                 </div>
+
+                {/* Cast */}
+                {show.credits?.cast && (
+                    <div className="mb-8">
+                        <CastList cast={show.credits.cast} limit={20} />
+                    </div>
+                )}
 
                 {/* Episode Selection */}
                 <div className="space-y-6">
