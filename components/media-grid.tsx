@@ -16,7 +16,7 @@ export function MediaGrid({ items, emptyMessage = 'No results found' }: MediaGri
   }
 
   return (
-    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:gap-8 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:gap-8 lg:grid-cols-4">
       {items.map((item) => (
         <MediaCard key={item.id} media={item} variant="grid" />
       ))}
