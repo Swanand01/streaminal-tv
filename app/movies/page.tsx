@@ -145,7 +145,7 @@ export default function MoviesPage() {
                 {/* Sort Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="default" className="min-w-[140px]">
+                    <Button variant="secondary" size="default" className="min-w-[140px]">
                       {sortBy === 'popularity.desc' && 'Popular'}
                       {sortBy === 'vote_average.desc' && 'Top Rated'}
                       {sortBy === 'primary_release_date.desc' && 'Latest'}
