@@ -33,21 +33,27 @@ export default async function HomePage() {
       <main>
         <HeroBanner media={featuredItem} />
         
-        <div className="relative z-10 -mt-32 space-y-12 pb-20">
-          <MediaCarousel
-            title="Trending Now"
-            items={trendingAll}
-          />
+        <div className="relative z-10 -mt-32 space-y-12 px-4 pb-20 md:px-8 lg:px-12">
+          {trendingAll && trendingAll.length > 0 && (
+            <MediaCarousel
+              title="Trending Now"
+              items={trendingAll}
+            />
+          )}
           
-          <MediaCarousel
-            title="Popular Movies"
-            items={popularMovies}
-          />
+          {popularMovies && popularMovies.length > 0 && (
+            <MediaCarousel
+              title="Popular Movies"
+              items={popularMovies}
+            />
+          )}
           
-          <MediaCarousel
-            title="Popular TV Shows"
-            items={popularTVShows}
-          />
+          {popularTVShows && popularTVShows.length > 0 && (
+            <MediaCarousel
+              title="Popular TV Shows"
+              items={popularTVShows}
+            />
+          )}
         </div>
       </main>
     </div>
