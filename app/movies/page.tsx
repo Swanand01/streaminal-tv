@@ -28,7 +28,6 @@ export default function MoviesPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [hasLoaded, setHasLoaded] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // Load genres on mount
@@ -66,7 +65,6 @@ export default function MoviesPage() {
         setMovies([]);
       } finally {
         setIsLoading(false);
-        setHasLoaded(true);
       }
     };
 
