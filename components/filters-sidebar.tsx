@@ -55,7 +55,7 @@ export function FiltersSidebar({
       {/* Genre Filter */}
       <div className="space-y-3">
         <Label className="text-sm font-semibold">Genres</Label>
-        <div className="max-h-64 space-y-2 overflow-y-auto">
+        <div className="scrollbar-hide max-h-64 space-y-2 overflow-y-auto">
           {genres.map((genre) => (
             <label
               key={genre.id}
