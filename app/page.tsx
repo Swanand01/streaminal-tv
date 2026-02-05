@@ -5,23 +5,10 @@ import { getTrending, getPopularMovies, getPopularTVShows } from '@/lib/tmdb';
 
 export default async function HomePage() {
   const [trendingAll, popularMovies, popularTVShows] = await Promise.all([
-    getTrending('all', 'day').catch((e) => {
-      console.log('[v0] Error fetching trending:', e.message);
-      return [];
-    }),
-    getPopularMovies().catch((e) => {
-      console.log('[v0] Error fetching popular movies:', e.message);
-      return [];
-    }),
-    getPopularTVShows().catch((e) => {
-      console.log('[v0] Error fetching popular TV shows:', e.message);
-      return [];
-    }),
+    getTrending('all', 'day').catch(() => []),
+    getPopularMovies().catch(() => []),
+    getPopularTVShows().catch(() => []),
   ]);
-
-  console.log('[v0] Trending data:', trendingAll?.length, 'items');
-  console.log('[v0] Popular movies:', popularMovies?.length, 'items');
-  console.log('[v0] Popular TV shows:', popularTVShows?.length, 'items');
 
   // Get a random featured item from trending for the hero
   const featuredItem = trendingAll?.[Math.floor(Math.random() * Math.min(5, trendingAll.length))];

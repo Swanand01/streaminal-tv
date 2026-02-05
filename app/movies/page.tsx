@@ -18,8 +18,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export default function MoviesPage() {
-  console.log('[v0] MoviesPage render');
-  
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState('popularity.desc');
@@ -33,10 +31,9 @@ export default function MoviesPage() {
   });
 
   // Fetch movies with TanStack Query
-  const { data: moviesData, isLoading, isFetching } = useQuery({
+  const { data: moviesData, isLoading } = useQuery({
     queryKey: ['movies', selectedGenres, minRating, sortBy, currentPage],
     queryFn: async () => {
-      console.log('[v0] queryFn executing - fetchin movies');
       const today = new Date().toISOString().split('T')[0];
       
       const params: any = {
@@ -53,17 +50,13 @@ export default function MoviesPage() {
         params['vote_average.gte'] = minRating;
       }
       
-      const result = await discoverMovies(params);
-      console.log('[v0] queryFn completed -', result.results.length, 'movies fetched');
-      return result;
+      return discoverMovies(params);
     },
   });
 
   const movies = moviesData?.results || [];
   const totalPages = Math.min(moviesData?.total_pages || 1, 500);
   const totalResults = moviesData?.total_results || 0;
-  
-  console.log('[v0] State: isLoading=', isLoading, 'isFetching=', isFetching, 'movies.length=', movies.length);
 
   const handleGenreToggle = (genreId: number) => {
     setSelectedGenres((prev) =>
@@ -176,38 +169,29 @@ export default function MoviesPage() {
               </div>
             </div>
 
-            {(() => {
-              const showLoader = isLoading || movies.length === 0;
-              console.log('[v0] Render: showLoader=', showLoader, '(isLoading=', isLoading, 'movies.length=', movies.length, ')');
-              
-              if (showLoader) {
-                return (
-                  <div className="flex min-h-[400px] items-center justify-center">
-                    {isLoading ? (
-                      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-                    ) : (
-                      <p className="text-muted-foreground">No movies found with the selected filters</p>
-                    )}
+            {isLoading || movies.length === 0 ? (
+              <div className="flex min-h-[400px] items-center justify-center">
+                {isLoading ? (
+                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                ) : (
+                  <p className="text-muted-foreground">No movies found with the selected filters</p>
+                )}
+              </div>
+            ) : (
+              <>
+                <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" />
+                
+                {totalPages > 1 && (
+                  <div className="mt-12">
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                    />
                   </div>
-                );
-              }
-              
-              return (
-                <>
-                  <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" />
-                  
-                  {totalPages > 1 && (
-                    <div className="mt-12">
-                      <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={handlePageChange}
-                      />
-                    </div>
-                  )}
-                </>
-              );
-            })()}
+                )}
+              </>
+            )}
           </main>
         </div>
       </div>
