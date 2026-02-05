@@ -109,23 +109,18 @@ export default function MoviesPage() {
 
           {/* Mobile Filters Overlay */}
           {showMobileFilters && (
-            <div className="fixed inset-0 z-50 overflow-y-auto bg-background lg:hidden">
-              <div className="sticky top-0 z-10 border-b border-border bg-background/95 px-6 py-4 backdrop-blur">
-                <Navigation />
-              </div>
-              <div className="p-6">
-                <FiltersSidebar
-                  genres={genres}
-                  selectedGenres={selectedGenres}
-                  minRating={minRating}
-                  sortBy={sortBy}
-                  onGenreToggle={handleGenreToggle}
-                  onRatingChange={handleRatingChange}
-                  onSortChange={handleSortChange}
-                  onClose={() => setShowMobileFilters(false)}
-                  showCloseButton
-                />
-              </div>
+            <div className="fixed inset-0 z-50 overflow-y-auto bg-background p-6 lg:hidden">
+              <FiltersSidebar
+                genres={genres}
+                selectedGenres={selectedGenres}
+                minRating={minRating}
+                sortBy={sortBy}
+                onGenreToggle={handleGenreToggle}
+                onRatingChange={handleRatingChange}
+                onSortChange={handleSortChange}
+                onClose={() => setShowMobileFilters(false)}
+                showCloseButton
+              />
             </div>
           )}
 
