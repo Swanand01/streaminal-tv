@@ -90,11 +90,11 @@ export default function MoviesPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8 md:px-8 lg:px-12">
+      <div className="container mx-auto px-4 pb-8 pt-24 md:px-8 lg:px-12">
         <div className="flex gap-8">
           {/* Desktop Sidebar */}
           <aside className="hidden w-64 flex-shrink-0 lg:block">
-            <div className="sticky top-8">
+            <div className="sticky top-24">
               <FiltersSidebar
                 genres={genres}
                 selectedGenres={selectedGenres}
@@ -109,7 +109,7 @@ export default function MoviesPage() {
 
           {/* Mobile Filters Overlay */}
           {showMobileFilters && (
-            <div className="fixed inset-0 z-50 bg-background/95 p-6 lg:hidden">
+            <div className="fixed inset-0 z-50 bg-background p-6 pt-24 lg:hidden">
               <div className="h-full overflow-y-auto">
                 <FiltersSidebar
                   genres={genres}
