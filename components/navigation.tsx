@@ -5,14 +5,6 @@ import { useState } from 'react';
 import { Search, Menu, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
 
 export function Navigation() {
   const [searchQuery, setSearchQuery] = useState('');
