@@ -7,8 +7,14 @@ import { MediaGrid } from '@/components/media-grid';
 import { Pagination } from '@/components/pagination';
 import { discoverMovies, getMovieGenres, Genre, Media } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal, ChevronDown } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export default function MoviesPage() {
   const searchParams = useSearchParams();
@@ -102,10 +108,8 @@ export default function MoviesPage() {
                 genres={genres}
                 selectedGenres={selectedGenres}
                 minRating={minRating}
-                sortBy={sortBy}
                 onGenreToggle={handleGenreToggle}
                 onRatingChange={handleRatingChange}
-                onSortChange={handleSortChange}
               />
             </div>
           </aside>
@@ -117,10 +121,8 @@ export default function MoviesPage() {
                 genres={genres}
                 selectedGenres={selectedGenres}
                 minRating={minRating}
-                sortBy={sortBy}
                 onGenreToggle={handleGenreToggle}
                 onRatingChange={handleRatingChange}
-                onSortChange={handleSortChange}
                 onClose={() => setShowMobileFilters(false)}
                 showCloseButton
               />
@@ -129,7 +131,7 @@ export default function MoviesPage() {
 
           {/* Main Content */}
           <main className="flex-1">
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mb-6 flex items-center justify-between gap-4">
               <div>
                 <h1 className="text-3xl font-bold text-balance">Movies</h1>
                 {!isLoading && (
@@ -139,15 +141,45 @@ export default function MoviesPage() {
                 )}
               </div>
               
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowMobileFilters(true)}
-                className="lg:hidden"
-              >
-                <SlidersHorizontal className="mr-2 h-4 w-4" />
-                Filters
-              </Button>
+              <div className="flex items-center gap-2">
+                {/* Sort Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      {sortBy === 'popularity.desc' && 'Popular'}
+                      {sortBy === 'vote_average.desc' && 'Top Rated'}
+                      {sortBy === 'primary_release_date.desc' && 'Latest'}
+                      {sortBy === 'primary_release_date.asc' && 'Oldest'}
+                      <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => handleSortChange('popularity.desc')}>
+                      Popular
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleSortChange('vote_average.desc')}>
+                      Top Rated
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleSortChange('primary_release_date.desc')}>
+                      Latest
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleSortChange('primary_release_date.asc')}>
+                      Oldest
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                
+                {/* Mobile Filters Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowMobileFilters(true)}
+                  className="lg:hidden"
+                >
+                  <SlidersHorizontal className="mr-2 h-4 w-4" />
+                  Filters
+                </Button>
+              </div>
             </div>
 
             {isLoading ? (

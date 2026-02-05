@@ -10,10 +10,8 @@ interface FiltersSidebarProps {
   genres: Genre[];
   selectedGenres: number[];
   minRating: number;
-  sortBy: string;
   onGenreToggle: (genreId: number) => void;
   onRatingChange: (rating: number) => void;
-  onSortChange: (sort: string) => void;
   onClose?: () => void;
   showCloseButton?: boolean;
 }
@@ -38,10 +36,8 @@ export function FiltersSidebar({
   genres,
   selectedGenres,
   minRating,
-  sortBy,
   onGenreToggle,
   onRatingChange,
-  onSortChange,
   onClose,
   showCloseButton = false,
 }: FiltersSidebarProps) {
@@ -55,28 +51,6 @@ export function FiltersSidebar({
           </Button>
         </div>
       )}
-      
-      {/* Sort By */}
-      <div className="space-y-3">
-        <Label className="text-sm font-semibold">Sort By</Label>
-        <div className="space-y-2">
-          {SORT_OPTIONS.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => onSortChange(option.value)}
-              className={`block w-full rounded-md px-3 py-2 text-left text-sm transition-colors ${
-                sortBy === option.value
-                  ? 'bg-primary text-primary-foreground'
-                  : 'hover:bg-muted'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <Separator />
 
       {/* Genre Filter */}
       <div className="space-y-3">
