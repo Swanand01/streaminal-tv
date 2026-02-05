@@ -14,7 +14,7 @@ export function MediaCard({ media }: MediaCardProps) {
   const rating = media.vote_average.toFixed(1);
 
   return (
-    <div className="group relative w-[160px] flex-shrink-0 md:w-[200px]">
+    <div className="group relative w-full">
       <Link href={href}>
         <div className="relative aspect-[2/3] overflow-hidden rounded-md bg-muted transition-transform duration-300 group-hover:scale-105">
           {media.poster_path ? (
