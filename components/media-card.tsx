@@ -4,17 +4,20 @@ import { Star } from 'lucide-react';
 
 interface MediaCardProps {
   media: Media;
+  variant?: 'grid' | 'carousel';
 }
 
-export function MediaCard({ media }: MediaCardProps) {
+export function MediaCard({ media, variant = 'carousel' }: MediaCardProps) {
   const mediaType = media.media_type || 'movie';
   const href = `/${mediaType}/${media.id}`;
   const title = getTitle(media);
   const year = getReleaseYear(media);
   const rating = media.vote_average.toFixed(1);
 
+  const widthClass = variant === 'grid' ? 'w-full' : 'w-[160px] flex-shrink-0 md:w-[200px]';
+
   return (
-    <div className="group relative w-full">
+    <div className={`group relative ${widthClass}`}>
       <Link href={href}>
         <div className="relative aspect-[2/3] overflow-hidden rounded-md bg-muted transition-transform duration-300 group-hover:scale-105">
           {media.poster_path ? (
