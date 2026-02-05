@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Navigation } from '@/components/navigation';
 import { FiltersSidebar } from '@/components/filters-sidebar';
 import { MediaGrid } from '@/components/media-grid';
 import { Pagination } from '@/components/pagination';
-import { discoverMovies, getMovieGenres, Genre, Media } from '@/lib/tmdb';
+import { discoverMovies, getMovieGenres, Genre } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 import { SlidersHorizontal, ChevronDown } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,60 +17,45 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export default function MoviesPage() {
-  const searchParams = useSearchParams();
-  
-  const [genres, setGenres] = useState<Genre[]>([]);
-  const [movies, setMovies] = useState<Media[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState('popularity.desc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalResults, setTotalResults] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  // Load genres on mount
-  useEffect(() => {
-    getMovieGenres().then(setGenres).catch(console.error);
-  }, []);
+  // Fetch genres
+  const { data: genres = [] } = useQuery({
+    queryKey: ['movieGenres'],
+    queryFn: getMovieGenres,
+  });
 
-  // Fetch movies when filters change
-  useEffect(() => {
-    const fetchMovies = async () => {
-      setIsLoading(true);
-      setMovies([]); // Clear old movies immediately when fetching new ones
-      try {
-        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-        
-        const params: any = {
-          page: currentPage,
-          sort_by: sortBy,
-          'release_date.lte': today, // Only show released movies
-        };
-        
-        if (selectedGenres.length > 0) {
-          params.with_genres = selectedGenres.join(',');
-        }
-        
-        if (minRating > 0) {
-          params['vote_average.gte'] = minRating;
-        }
-        
-        const data = await discoverMovies(params);
-        setMovies(data.results);
-        setTotalPages(Math.min(data.total_pages, 500)); // TMDB limits to 500 pages
-        setTotalResults(data.total_results);
-      } catch (error) {
-        console.error('[v0] Error fetching movies:', error);
-        setMovies([]);
-      } finally {
-        setIsLoading(false);
+  // Fetch movies with TanStack Query
+  const { data: moviesData, isLoading } = useQuery({
+    queryKey: ['movies', selectedGenres, minRating, sortBy, currentPage],
+    queryFn: async () => {
+      const today = new Date().toISOString().split('T')[0];
+      
+      const params: any = {
+        page: currentPage,
+        sort_by: sortBy,
+        'release_date.lte': today,
+      };
+      
+      if (selectedGenres.length > 0) {
+        params.with_genres = selectedGenres.join(',');
       }
-    };
+      
+      if (minRating > 0) {
+        params['vote_average.gte'] = minRating;
+      }
+      
+      return discoverMovies(params);
+    },
+  });
 
-    fetchMovies();
-  }, [selectedGenres, minRating, sortBy, currentPage]);
+  const movies = moviesData?.results || [];
+  const totalPages = Math.min(moviesData?.total_pages || 1, 500);
+  const totalResults = moviesData?.total_results || 0;
 
   const handleGenreToggle = (genreId: number) => {
     setSelectedGenres((prev) =>
