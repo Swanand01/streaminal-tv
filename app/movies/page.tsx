@@ -27,7 +27,8 @@ export default function MoviesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // Load genres on mount
@@ -65,6 +66,7 @@ export default function MoviesPage() {
         setMovies([]);
       } finally {
         setIsLoading(false);
+        setHasLoaded(true);
       }
     };
 
@@ -182,7 +184,7 @@ export default function MoviesPage() {
               </div>
             </div>
 
-            {isLoading ? (
+            {!hasLoaded || isLoading ? (
               <div className="flex min-h-[400px] items-center justify-center">
                 <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
               </div>
