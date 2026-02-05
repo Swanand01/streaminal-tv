@@ -41,7 +41,7 @@ export function MediaCard({ media }: MediaCardProps) {
         </div>
       </div>
       
-      <div className="mt-2 space-y-1">
+      <div className="mt-2 w-[160px] space-y-1 md:w-[200px]">
         <h3 className="line-clamp-1 text-sm font-medium leading-tight text-foreground">
           {title}
         </h3>

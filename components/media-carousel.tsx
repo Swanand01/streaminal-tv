@@ -43,7 +43,7 @@ export function MediaCarousel({ title, items }: MediaCarouselProps) {
 
         <div
           ref={scrollRef}
-          className="flex gap-3 overflow-x-auto scrollbar-hide md:gap-4"
+          className="flex gap-3 overflow-x-auto overflow-y-hidden scrollbar-hide md:gap-4"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {items.map((item) => (
