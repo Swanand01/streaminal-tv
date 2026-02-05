@@ -110,32 +110,29 @@ export default function MoviePage() {
                     <div className="space-y-3">
                         <h2 className="text-2xl font-bold">Cast</h2>
                         <div className="relative -mx-4 px-4 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12">
-                            <div className="scrollbar-hide flex gap-3 overflow-x-auto pb-2">
-                                {movie.credits.cast.slice(0, 15).map((actor) => (
+                            <div className="scrollbar-hide flex gap-4 overflow-x-auto pb-2">
+                                {movie.credits.cast.slice(0, 20).map((actor) => (
                                     <Link
                                         key={actor.id}
                                         href={`/person/${actor.id}`}
-                                        className="group flex w-[280px] flex-shrink-0 items-center gap-3 rounded-lg border border-border p-2 transition-all hover:border-primary/50 hover:bg-muted/50 sm:w-[320px]"
+                                        className="group flex flex-shrink-0 flex-col items-center gap-2"
                                     >
-                                        <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-muted">
+                                        <div className="relative h-16 w-16 overflow-hidden rounded-full bg-muted ring-2 ring-transparent transition-all group-hover:ring-primary/50">
                                             {actor.profile_path ? (
                                                 <img
                                                     src={getImageUrl(actor.profile_path, 'w500')}
                                                     alt={actor.name}
-                                                    className="h-full w-full object-cover"
+                                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                 />
                                             ) : (
                                                 <div className="flex h-full items-center justify-center text-muted-foreground">
-                                                    <User className="h-6 w-6" />
+                                                    <User className="h-8 w-8" />
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="min-w-0 flex-1">
-                                            <p className="truncate text-sm font-semibold group-hover:text-primary">
+                                        <div className="w-20 text-center">
+                                            <p className="line-clamp-2 text-xs font-medium leading-tight group-hover:text-primary">
                                                 {actor.name}
-                                            </p>
-                                            <p className="truncate text-xs text-muted-foreground">
-                                                {actor.character}
                                             </p>
                                         </div>
                                     </Link>
