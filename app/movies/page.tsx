@@ -130,7 +130,7 @@ export default function MoviesPage() {
           )}
 
           {/* Main Content */}
-          <main className="flex-1">
+          <main className="min-w-0 flex-1">
             <div className="mb-6 flex items-center justify-between gap-4">
               <div>
                 <h1 className="text-3xl font-bold text-balance">Movies</h1>
