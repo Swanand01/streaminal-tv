@@ -130,7 +130,7 @@ export default function TVShowPage() {
             <div className="container mx-auto px-4 py-8 md:px-8 lg:px-12">
                 <div className="flex flex-col gap-8 lg:flex-row">
                     {/* Main Content */}
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                         <div className="mb-8">
                             <h1 className="mb-2 text-3xl font-bold text-balance md:text-4xl">{title}</h1>
                             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
