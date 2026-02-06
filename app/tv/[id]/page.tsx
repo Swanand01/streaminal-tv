@@ -38,11 +38,11 @@ export default function TVShowPage() {
 
     // Update URL when season or episode changes
     useEffect(() => {
-        const newParams = new URLSearchParams(searchParams.toString());
+        const newParams = new URLSearchParams();
         newParams.set('season', selectedSeason.toString());
         newParams.set('episode', selectedEpisode.toString());
         router.replace(`/tv/${tvId}?${newParams.toString()}`, { scroll: false });
-    }, [selectedSeason, selectedEpisode, tvId, router, searchParams]);
+    }, [selectedSeason, selectedEpisode, tvId, router]);
 
     // Check for invalid ID
     if (isNaN(tvId)) {
