@@ -75,7 +75,7 @@ export default function MoviePage() {
 
             {/* Video Player Section */}
             <div className="relative w-full bg-black pt-20">
-                <div className="mx-auto max-w-[1920px]">
+                <div className="container mx-auto px-4 md:px-8 lg:px-12">
                     <div className="relative aspect-video w-full">
                         <iframe
                             src={videoUrl}
