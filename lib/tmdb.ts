@@ -93,12 +93,12 @@ export async function getTrending(mediaType: 'movie' | 'tv' | 'all' = 'all', tim
 
 export async function getPopularMovies() {
   const data = await fetchTMDB('/movie/popular');
-  return data.results as Media[];
+  return data.results.map((item: Media) => ({ ...item, media_type: 'movie' as const })) as Media[];
 }
 
 export async function getPopularTVShows() {
   const data = await fetchTMDB('/tv/popular');
-  return data.results as Media[];
+  return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
 export async function getMovieDetails(id: number) {
