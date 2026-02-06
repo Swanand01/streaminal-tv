@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { FiltersSidebar } from '@/components/filters-sidebar';
-import { MediaGrid } from '@/components/media-grid';
+import { MediaGrid } from '@/components/media/media-grid';
 import { Pagination } from '@/components/pagination';
-import { discoverMovies, Genre, Media } from '@/lib/tmdb';
+import { discoverMovies, DiscoverParams, Genre, Media } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 import { SlidersHorizontal, ChevronDown } from 'lucide-react';
 import {
@@ -37,7 +37,7 @@ export function MoviesContent({ initialGenres, initialMovies }: MoviesContentPro
     queryFn: async () => {
       const today = new Date().toISOString().split('T')[0];
 
-      const params: any = {
+      const params: DiscoverParams = {
         page: currentPage,
         sort_by: sortBy,
         'release_date.lte': today,
@@ -53,9 +53,13 @@ export function MoviesContent({ initialGenres, initialMovies }: MoviesContentPro
 
       return discoverMovies(params);
     },
-    initialData: currentPage === 1 && selectedGenres.length === 0 && minRating === 0 && sortBy === 'popularity.desc'
-      ? initialMovies
-      : undefined,
+    initialData:
+      currentPage === 1 &&
+      selectedGenres.length === 0 &&
+      minRating === 0 &&
+      sortBy === 'popularity.desc'
+        ? initialMovies
+        : undefined,
   });
 
   const movies = moviesData?.results || [];
@@ -64,9 +68,7 @@ export function MoviesContent({ initialGenres, initialMovies }: MoviesContentPro
 
   const handleGenreToggle = (genreId: number) => {
     setSelectedGenres((prev) =>
-      prev.includes(genreId)
-        ? prev.filter((id) => id !== genreId)
-        : [...prev, genreId]
+      prev.includes(genreId) ? prev.filter((id) => id !== genreId) : [...prev, genreId]
     );
     setCurrentPage(1);
   };
@@ -87,7 +89,7 @@ export function MoviesContent({ initialGenres, initialMovies }: MoviesContentPro
   };
 
   return (
-    <div className="container mx-auto px-4 md:px-8 lg:px-12 pt-24">
+    <div className="container mx-auto px-4 pt-24 md:px-8 lg:px-12">
       <div className="flex gap-8">
         {/* Desktop Sidebar */}
         <aside className="hidden w-64 flex-shrink-0 lg:block">
@@ -104,7 +106,7 @@ export function MoviesContent({ initialGenres, initialMovies }: MoviesContentPro
 
         {/* Mobile Filters Overlay */}
         {showMobileFilters && (
-          <div className="fixed inset-0 z-50 overflow-y-auto bg-background p-6 lg:hidden">
+          <div className="bg-background fixed inset-0 z-50 overflow-y-auto p-6 lg:hidden">
             <FiltersSidebar
               genres={initialGenres}
               selectedGenres={selectedGenres}
@@ -123,7 +125,7 @@ export function MoviesContent({ initialGenres, initialMovies }: MoviesContentPro
             <div>
               <h1 className="text-3xl font-bold text-balance">Movies</h1>
               {!isLoading && (
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="text-muted-foreground mt-1 text-sm">
                   {totalResults.toLocaleString('en-US')} movies found
                 </p>
               )}
@@ -173,14 +175,18 @@ export function MoviesContent({ initialGenres, initialMovies }: MoviesContentPro
           {isLoading || movies.length === 0 ? (
             <div className="flex min-h-[400px] items-center justify-center">
               {isLoading ? (
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                <div className="border-primary h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" />
               ) : (
                 <p className="text-muted-foreground">No movies found with the selected filters</p>
               )}
             </div>
           ) : (
             <>
-              <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" showMediaType={false} />
+              <MediaGrid
+                items={movies}
+                emptyMessage="No movies found with the selected filters"
+                showMediaType={false}
+              />
 
               {totalPages > 1 && (
                 <div className="mt-12">

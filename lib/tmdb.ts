@@ -87,7 +87,10 @@ async function fetchTMDB(endpoint: string) {
   return response.json();
 }
 
-export async function getTrending(mediaType: 'movie' | 'tv' | 'all' = 'all', timeWindow: 'day' | 'week' = 'week') {
+export async function getTrending(
+  mediaType: 'movie' | 'tv' | 'all' = 'all',
+  timeWindow: 'day' | 'week' = 'week'
+) {
   const data = await fetchTMDB(`/trending/${mediaType}/${timeWindow}`);
   return data.results as Media[];
 }
@@ -118,17 +121,25 @@ export async function getTVSeason(tvId: number, seasonNumber: number) {
 }
 
 export async function searchMedia(query: string) {
-  const data = await fetchTMDB(`/search/multi?query=${encodeURIComponent(query)}&include_adult=false`);
-  return data.results.filter((item: Media) => item.media_type === 'movie' || item.media_type === 'tv') as Media[];
+  const data = await fetchTMDB(
+    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`
+  );
+  return data.results.filter(
+    (item: Media) => item.media_type === 'movie' || item.media_type === 'tv'
+  ) as Media[];
 }
 
 export async function searchAll(query: string) {
-  const data = await fetchTMDB(`/search/multi?query=${encodeURIComponent(query)}&include_adult=false`);
+  const data = await fetchTMDB(
+    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`
+  );
   return data.results as (Media | Person)[];
 }
 
 export async function searchPeople(query: string) {
-  const data = await fetchTMDB(`/search/person?query=${encodeURIComponent(query)}&include_adult=false`);
+  const data = await fetchTMDB(
+    `/search/person?query=${encodeURIComponent(query)}&include_adult=false`
+  );
   return data.results as Person[];
 }
 
@@ -188,13 +199,18 @@ export async function discoverMovies(params: DiscoverParams = {}) {
   const queryParams = new URLSearchParams();
   queryParams.append('page', (params.page || 1).toString());
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
-  if (params['vote_average.gte']) queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
-  if (params['release_date.lte']) queryParams.append('release_date.lte', params['release_date.lte']);
+  if (params['vote_average.gte'])
+    queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
+  if (params['release_date.lte'])
+    queryParams.append('release_date.lte', params['release_date.lte']);
   if (params.sort_by) queryParams.append('sort_by', params.sort_by);
 
   const data = await fetchTMDB(`/discover/movie?${queryParams.toString()}`);
   return {
-    results: data.results.map((item: Media) => ({ ...item, media_type: 'movie' as const })) as Media[],
+    results: data.results.map((item: Media) => ({
+      ...item,
+      media_type: 'movie' as const,
+    })) as Media[],
     total_pages: data.total_pages as number,
     total_results: data.total_results as number,
     page: data.page as number,
@@ -205,7 +221,8 @@ export async function discoverTVShows(params: DiscoverParams = {}) {
   const queryParams = new URLSearchParams();
   queryParams.append('page', (params.page || 1).toString());
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
-  if (params['vote_average.gte']) queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
+  if (params['vote_average.gte'])
+    queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
   if (params.sort_by) queryParams.append('sort_by', params.sort_by);
 
   const data = await fetchTMDB(`/discover/tv?${queryParams.toString()}`);

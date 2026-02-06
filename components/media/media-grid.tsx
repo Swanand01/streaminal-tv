@@ -7,11 +7,15 @@ interface MediaGridProps {
   showMediaType?: boolean;
 }
 
-export function MediaGrid({ items, emptyMessage = 'No results found', showMediaType = true }: MediaGridProps) {
+export function MediaGrid({
+  items,
+  emptyMessage = 'No results found',
+  showMediaType = true,
+}: MediaGridProps) {
   if (!items || items.length === 0) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
-        <p className="text-lg text-muted-foreground">{emptyMessage}</p>
+        <p className="text-muted-foreground text-lg">{emptyMessage}</p>
       </div>
     );
   }

@@ -39,11 +39,11 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
       <div className="group/cast relative">
         <button
           onClick={() => scroll('left')}
-          className="absolute left-0 top-0 z-10 flex h-full items-center bg-gradient-to-r from-background via-background/80 to-background/0 px-2 opacity-0 transition-opacity group-hover/cast:opacity-100"
+          className="from-background via-background/80 to-background/0 absolute top-0 left-0 z-10 flex h-full items-center bg-gradient-to-r px-2 opacity-0 transition-opacity group-hover/cast:opacity-100"
           aria-label="Scroll left"
         >
-          <div className="rounded-full bg-background/80 p-1 backdrop-blur-sm transition-colors hover:bg-background">
-            <ChevronLeft className="h-5 w-5 text-foreground" />
+          <div className="bg-background/80 hover:bg-background rounded-full p-1 backdrop-blur-sm transition-colors">
+            <ChevronLeft className="text-foreground h-5 w-5" />
           </div>
         </button>
 
@@ -58,7 +58,7 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
               href={`/person/${actor.id}`}
               className="group flex flex-shrink-0 flex-col items-center gap-2"
             >
-              <div className="relative h-16 w-16 overflow-hidden rounded-full bg-muted ring-2 ring-transparent transition-all group-hover:ring-primary/50">
+              <div className="bg-muted group-hover:ring-primary/50 relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-transparent transition-all">
                 {actor.profile_path ? (
                   <Image
                     src={getImageUrl(actor.profile_path, 'w500')}
@@ -68,13 +68,13 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 ) : (
-                  <div className="flex h-full items-center justify-center text-muted-foreground">
+                  <div className="text-muted-foreground flex h-full items-center justify-center">
                     <User className="h-8 w-8" />
                   </div>
                 )}
               </div>
               <div className="w-20 text-center">
-                <p className="line-clamp-2 text-xs font-medium leading-tight group-hover:text-primary">
+                <p className="group-hover:text-primary line-clamp-2 text-xs leading-tight font-medium">
                   {actor.name}
                 </p>
               </div>
@@ -84,11 +84,11 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
 
         <button
           onClick={() => scroll('right')}
-          className="absolute right-0 top-0 z-10 flex h-full items-center bg-gradient-to-l from-background via-background/80 to-background/0 px-2 opacity-0 transition-opacity group-hover/cast:opacity-100"
+          className="from-background via-background/80 to-background/0 absolute top-0 right-0 z-10 flex h-full items-center bg-gradient-to-l px-2 opacity-0 transition-opacity group-hover/cast:opacity-100"
           aria-label="Scroll right"
         >
-          <div className="rounded-full bg-background/80 p-1 backdrop-blur-sm transition-colors hover:bg-background">
-            <ChevronRight className="h-5 w-5 text-foreground" />
+          <div className="bg-background/80 hover:bg-background rounded-full p-1 backdrop-blur-sm transition-colors">
+            <ChevronRight className="text-foreground h-5 w-5" />
           </div>
         </button>
       </div>

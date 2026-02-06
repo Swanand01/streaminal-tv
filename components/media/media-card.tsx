@@ -21,7 +21,7 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
   return (
     <div className={`group relative ${widthClass}`}>
       <Link href={href}>
-        <div className="relative aspect-2/3 overflow-hidden rounded-md bg-muted transition-transform duration-300 group-hover:scale-105">
+        <div className="bg-muted relative aspect-2/3 overflow-hidden rounded-md transition-transform duration-300 group-hover:scale-105">
           {media.poster_path ? (
             <Image
               src={getImageUrl(media.poster_path, 'w500')}
@@ -29,41 +29,40 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
               fill
               sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 250px"
               className="object-cover"
+              loading="lazy"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-muted-foreground">
+            <div className="text-muted-foreground flex h-full items-center justify-center">
               No Image
             </div>
           )}
 
           {showMediaType && (
-            <div className="absolute left-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
+            <div className="bg-background/90 absolute top-2 left-2 flex items-center gap-1 rounded-md px-2 py-1 backdrop-blur-sm">
               {mediaType === 'tv' ? (
-                <Tv className="h-3 w-3 text-foreground" />
+                <Tv className="text-foreground h-3 w-3" />
               ) : (
-                <Film className="h-3 w-3 text-foreground" />
+                <Film className="text-foreground h-3 w-3" />
               )}
-              <span className="text-xs font-semibold text-foreground">
+              <span className="text-foreground text-xs font-semibold">
                 {mediaType === 'tv' ? 'TV' : 'Movie'}
               </span>
             </div>
           )}
 
           {media.vote_average > 0 && (
-            <div className="absolute right-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
-              <Star className="h-3 w-3 fill-primary text-primary" />
-              <span className="text-xs font-semibold text-foreground">{rating}</span>
+            <div className="bg-background/90 absolute top-2 right-2 flex items-center gap-1 rounded-md px-2 py-1 backdrop-blur-sm">
+              <Star className="fill-primary text-primary h-3 w-3" />
+              <span className="text-foreground text-xs font-semibold">{rating}</span>
             </div>
           )}
         </div>
 
         <div className="mt-2 space-y-1">
-          <h3 className="line-clamp-1 text-sm font-medium leading-tight text-foreground">
+          <h3 className="text-foreground line-clamp-1 text-sm leading-tight font-medium">
             {title}
           </h3>
-          {year && (
-            <p className="text-xs text-muted-foreground">{year}</p>
-          )}
+          {year && <p className="text-muted-foreground text-xs">{year}</p>}
         </div>
       </Link>
     </div>

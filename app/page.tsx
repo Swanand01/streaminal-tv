@@ -1,29 +1,33 @@
 import { Suspense } from 'react';
 import { Navigation } from '@/components/navigation';
-import { HeroBannerSkeleton } from '@/components/hero-banner-skeleton';
-import { MediaCarouselSkeleton } from '@/components/media-carousel-skeleton';
+import { HeroBannerSkeleton } from '@/components/skeletons/hero-banner-skeleton';
+import { MediaCarouselSkeleton } from '@/components/skeletons/media-carousel-skeleton';
 import {
-  HeroSection,
-  TrendingSection,
+  HeroAndTrendingSection,
   PopularMoviesSection,
-  PopularTVShowsSection
+  PopularTVShowsSection,
 } from './home-sections';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <Navigation />
 
       <main>
-        <Suspense fallback={<HeroBannerSkeleton />}>
-          <HeroSection />
+        <Suspense
+          fallback={
+            <>
+              <HeroBannerSkeleton />
+              <div className="relative z-10 -mt-20">
+                <MediaCarouselSkeleton />
+              </div>
+            </>
+          }
+        >
+          <HeroAndTrendingSection />
         </Suspense>
 
-        <div className="relative z-10 -mt-20 space-y-12 pb-20">
-          <Suspense fallback={<MediaCarouselSkeleton />}>
-            <TrendingSection />
-          </Suspense>
-
+        <div className="relative z-10 space-y-12 pb-20">
           <Suspense fallback={<MediaCarouselSkeleton />}>
             <PopularMoviesSection />
           </Suspense>

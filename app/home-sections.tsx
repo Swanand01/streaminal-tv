@@ -1,44 +1,42 @@
 import { HeroBanner } from '@/components/hero-banner';
-import { MediaCarousel } from '@/components/media-carousel';
+import { MediaCarousel } from '@/components/media/media-carousel';
 import { getTrending, getPopularMovies, getPopularTVShows } from '@/lib/tmdb';
 
-export async function HeroSection() {
-    const trending = await getTrending('all', 'day').catch(() => []);
-    const featuredItem = trending?.[Math.floor(Math.random() * Math.min(5, trending.length))];
+export async function HeroAndTrendingSection() {
+  const trending = await getTrending('all', 'day').catch(() => []);
 
-    if (!featuredItem) {
-        return null;
-    }
+  if (!trending || trending.length === 0) {
+    return null;
+  }
 
-    return <HeroBanner media={featuredItem} />;
-}
+  const featuredItem = trending[1];
 
-export async function TrendingSection() {
-    const trending = await getTrending('all', 'day').catch(() => []);
-
-    if (!trending || trending.length === 0) {
-        return null;
-    }
-
-    return <MediaCarousel title="Trending Now" items={trending} />;
+  return (
+    <>
+      {featuredItem && <HeroBanner media={featuredItem} />}
+      <div className="relative z-10 -mt-20">
+        <MediaCarousel title="Trending Now" items={trending} />
+      </div>
+    </>
+  );
 }
 
 export async function PopularMoviesSection() {
-    const popularMovies = await getPopularMovies().catch(() => []);
+  const popularMovies = await getPopularMovies().catch(() => []);
 
-    if (!popularMovies || popularMovies.length === 0) {
-        return null;
-    }
+  if (!popularMovies || popularMovies.length === 0) {
+    return null;
+  }
 
-    return <MediaCarousel title="Popular Movies" items={popularMovies} showMediaType={false} />;
+  return <MediaCarousel title="Popular Movies" items={popularMovies} showMediaType={false} />;
 }
 
 export async function PopularTVShowsSection() {
-    const popularTVShows = await getPopularTVShows().catch(() => []);
+  const popularTVShows = await getPopularTVShows().catch(() => []);
 
-    if (!popularTVShows || popularTVShows.length === 0) {
-        return null;
-    }
+  if (!popularTVShows || popularTVShows.length === 0) {
+    return null;
+  }
 
-    return <MediaCarousel title="Popular TV Shows" items={popularTVShows} showMediaType={false} />;
+  return <MediaCarousel title="Popular TV Shows" items={popularTVShows} showMediaType={false} />;
 }
