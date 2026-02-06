@@ -14,7 +14,7 @@ export function MediaCard({ media, variant = 'carousel' }: MediaCardProps) {
   const year = getReleaseYear(media);
   const rating = media.vote_average.toFixed(1);
 
-  const widthClass = variant === 'grid' ? 'w-full' : 'w-[160px] flex-shrink-0 md:w-[200px]';
+  const widthClass = variant === 'grid' ? 'w-full max-w-[200px]' : 'w-[160px] flex-shrink-0 md:w-[200px]';
 
   return (
     <div className={`group relative ${widthClass}`}>
