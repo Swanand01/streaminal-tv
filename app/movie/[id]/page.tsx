@@ -6,8 +6,10 @@ import { useParams } from 'next/navigation';
 import { Navigation } from '@/components/navigation';
 import { CastList } from '@/components/cast-list';
 import { MediaCarousel } from '@/components/media-carousel';
-import { getMovieDetails, getSimilarMovies, getMovieVideos } from '@/lib/tmdb';
-import { Star, Calendar, Clock, Play } from 'lucide-react';
+import { getMovieDetails, getSimilarMovies, getMovieVideos, getMovieReviews } from '@/lib/tmdb';
+import { Star, Calendar, Clock, Play, User2 } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { useState } from 'react';
 
 export default function MoviePage() {
     const params = useParams();
@@ -45,6 +47,15 @@ export default function MoviePage() {
         queryFn: () => getMovieVideos(movieId),
         enabled: !!movie,
     });
+
+    // Fetch reviews
+    const { data: reviews } = useQuery({
+        queryKey: ['movie', movieId, 'reviews'],
+        queryFn: () => getMovieReviews(movieId),
+        enabled: !!movie,
+    });
+
+    const [expandedReviews, setExpandedReviews] = useState<Set<string>>(new Set());
 
     if (isLoading) {
         return (
@@ -150,7 +161,139 @@ export default function MoviePage() {
                             )}
                         </div>
 
-                        {movie.credits?.cast && <CastList cast={movie.credits.cast} limit={20} />}
+                        {/* Tabs Navigation */}
+                        <Tabs defaultValue="overview" className="mt-8">
+                            <TabsList className="w-full justify-start overflow-x-auto">
+                                <TabsTrigger value="overview">Overview</TabsTrigger>
+                                <TabsTrigger value="cast">Cast</TabsTrigger>
+                                {videos && videos.length > 0 && <TabsTrigger value="videos">Videos</TabsTrigger>}
+                                {reviews && reviews.length > 0 && <TabsTrigger value="reviews">Reviews</TabsTrigger>}
+                            </TabsList>
+
+                            {/* Overview Tab */}
+                            <TabsContent value="overview">
+                                {/* Content already shown above */}
+                                <p className="text-sm text-muted-foreground">
+                                    View cast, trailers, and reviews in the tabs above.
+                                </p>
+                            </TabsContent>
+
+                            {/* Cast Tab */}
+                            <TabsContent value="cast">
+                                {movie.credits?.cast && <CastList cast={movie.credits.cast} limit={20} />}
+                            </TabsContent>
+
+                            {/* Videos Tab */}
+                            <TabsContent value="videos">
+                                {videos && videos.length > 0 && (
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                        {videos.filter(video => video.site === 'YouTube').slice(0, 12).map((video) => (
+                                            <div
+                                                key={video.id}
+                                                className="overflow-hidden rounded-lg border border-border"
+                                            >
+                                                <div className="relative aspect-video overflow-hidden bg-muted">
+                                                    <iframe
+                                                        src={`https://www.youtube.com/embed/${video.key}`}
+                                                        title={video.name}
+                                                        className="h-full w-full"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowFullScreen
+                                                    />
+                                                    <div className="pointer-events-none absolute right-2 top-2 rounded-md bg-background/90 px-2 py-1 text-xs font-medium backdrop-blur-sm">
+                                                        {video.type}
+                                                    </div>
+                                                </div>
+                                                <div className="p-3">
+                                                    <p className="line-clamp-2 text-sm font-semibold leading-tight">
+                                                        {video.name}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </TabsContent>
+
+                            {/* Reviews Tab */}
+                            <TabsContent value="reviews">
+                                {reviews && reviews.length > 0 ? (
+                                    <div className="space-y-4">
+                                        {reviews.map((review) => {
+                                            const isExpanded = expandedReviews.has(review.id);
+                                            const shouldTruncate = review.content.length > 600;
+
+                                            return (
+                                                <div key={review.id} className="rounded-lg border border-border p-4">
+                                                    <div className="mb-3 flex items-start justify-between gap-4">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                                                                {review.author_details.avatar_path ? (
+                                                                    <img
+                                                                        src={
+                                                                            review.author_details.avatar_path.startsWith('/https')
+                                                                                ? review.author_details.avatar_path.slice(1)
+                                                                                : `https://image.tmdb.org/t/p/w200${review.author_details.avatar_path}`
+                                                                        }
+                                                                        alt={review.author}
+                                                                        className="h-full w-full rounded-full object-cover"
+                                                                    />
+                                                                ) : (
+                                                                    <User2 className="h-5 w-5 text-muted-foreground" />
+                                                                )}
+                                                            </div>
+                                                            <div>
+                                                                <p className="font-semibold">{review.author}</p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    {new Date(review.created_at).toLocaleDateString('en-US', {
+                                                                        year: 'numeric',
+                                                                        month: 'long',
+                                                                        day: 'numeric',
+                                                                    })}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        {review.author_details.rating && (
+                                                            <div className="flex items-center gap-1 rounded-md bg-muted px-2 py-1">
+                                                                <Star className="h-4 w-4 fill-primary text-primary" />
+                                                                <span className="text-sm font-semibold">
+                                                                    {review.author_details.rating}
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="text-sm leading-relaxed text-foreground/90">
+                                                        <p className={!isExpanded && shouldTruncate ? 'line-clamp-6' : ''}>
+                                                            {review.content}
+                                                        </p>
+                                                        {shouldTruncate && (
+                                                            <button
+                                                                onClick={() => {
+                                                                    setExpandedReviews((prev) => {
+                                                                        const next = new Set(prev);
+                                                                        if (isExpanded) {
+                                                                            next.delete(review.id);
+                                                                        } else {
+                                                                            next.add(review.id);
+                                                                        }
+                                                                        return next;
+                                                                    });
+                                                                }}
+                                                                className="mt-2 text-sm font-medium text-primary hover:underline"
+                                                            >
+                                                                {isExpanded ? 'Show less' : 'Read more'}
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                    <p className="text-center text-muted-foreground">No reviews available</p>
+                                )}
+                            </TabsContent>
+                        </Tabs>
 
                         {/* More Like This - Mobile */}
                         {similarMovies && similarMovies.length > 0 && (
@@ -190,39 +333,6 @@ export default function MoviePage() {
                                                 </p>
                                             </div>
                                         </a>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Videos Section */}
-                        {videos && videos.length > 0 && (
-                            <div className="mt-12 space-y-4">
-                                <h2 className="text-2xl font-bold">Trailers & Clips</h2>
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                                    {videos.filter(video => video.site === 'YouTube').slice(0, 6).map((video) => (
-                                        <div
-                                            key={video.id}
-                                            className="overflow-hidden rounded-lg border border-border"
-                                        >
-                                            <div className="relative aspect-video overflow-hidden bg-muted">
-                                                <iframe
-                                                    src={`https://www.youtube.com/embed/${video.key}`}
-                                                    title={video.name}
-                                                    className="h-full w-full"
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowFullScreen
-                                                />
-                                                <div className="pointer-events-none absolute right-2 top-2 rounded-md bg-background/90 px-2 py-1 text-xs font-medium backdrop-blur-sm">
-                                                    {video.type}
-                                                </div>
-                                            </div>
-                                            <div className="p-3">
-                                                <p className="line-clamp-2 text-sm font-semibold leading-tight">
-                                                    {video.name}
-                                                </p>
-                                            </div>
-                                        </div>
                                     ))}
                                 </div>
                             </div>

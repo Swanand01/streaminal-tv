@@ -244,3 +244,27 @@ export async function getTVVideos(id: number) {
   const data = await fetchTMDB(`/tv/${id}/videos`);
   return data.results as Video[];
 }
+
+export interface Review {
+  id: string;
+  author: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string | null;
+    rating: number | null;
+  };
+  content: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getMovieReviews(id: number) {
+  const data = await fetchTMDB(`/movie/${id}/reviews`);
+  return data.results as Review[];
+}
+
+export async function getTVReviews(id: number) {
+  const data = await fetchTMDB(`/tv/${id}/reviews`);
+  return data.results as Review[];
+}
