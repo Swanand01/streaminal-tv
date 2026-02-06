@@ -36,13 +36,19 @@ export default function TVShowPage() {
     );
     const [episodesShown, setEpisodesShown] = useState(24);
 
-    // Update URL when season or episode changes
+    // Update URL when season or episode changes (but not on initial mount if URL already has the right values)
     useEffect(() => {
-        const newParams = new URLSearchParams();
-        newParams.set('season', selectedSeason.toString());
-        newParams.set('episode', selectedEpisode.toString());
-        router.replace(`/tv/${tvId}?${newParams.toString()}`, { scroll: false });
-    }, [selectedSeason, selectedEpisode, tvId, router]);
+        const currentSeason = searchParams.get('season');
+        const currentEpisode = searchParams.get('episode');
+        
+        // Only update if values actually changed
+        if (currentSeason !== selectedSeason.toString() || currentEpisode !== selectedEpisode.toString()) {
+            const newParams = new URLSearchParams();
+            newParams.set('season', selectedSeason.toString());
+            newParams.set('episode', selectedEpisode.toString());
+            router.replace(`/tv/${tvId}?${newParams.toString()}`, { scroll: false });
+        }
+    }, [selectedSeason, selectedEpisode, tvId, router, searchParams]);
 
     // Check for invalid ID
     if (isNaN(tvId)) {
