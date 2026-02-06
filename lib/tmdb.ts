@@ -64,6 +64,7 @@ export interface Episode {
   still_path: string | null;
   air_date: string;
   runtime: number;
+  vote_average?: number;
 }
 
 export interface Season {
@@ -152,7 +153,7 @@ export function getImageUrl(path: string | null, size: 'w500' | 'w780' | 'origin
 }
 
 export function getTitle(media: Media) {
-  return media.title || media.name || 'Untitled';
+  return media?.title || media.name || 'Untitled';
 }
 
 export function getReleaseYear(media: Media) {
