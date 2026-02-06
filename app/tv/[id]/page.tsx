@@ -106,13 +106,15 @@ export default function TVShowPage() {
 
             {/* Video Player Section */}
             <div className="relative w-full bg-black pt-20">
-                <div className="relative aspect-video w-full">
-                    <iframe
-                        src={videoUrl}
-                        className="h-full w-full"
-                        allowFullScreen
-                        allow="autoplay; fullscreen"
-                    />
+                <div className="mx-auto max-w-[1920px]">
+                    <div className="relative aspect-video w-full">
+                        <iframe
+                            src={videoUrl}
+                            className="h-full w-full"
+                            allowFullScreen
+                            allow="autoplay; fullscreen"
+                        />
+                    </div>
                 </div>
             </div>
 
