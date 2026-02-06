@@ -24,7 +24,7 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
   return (
     <div className="space-y-3">
       <h2 className="text-2xl font-bold">Cast</h2>
-      <div className="relative -mx-4 px-4 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12">
+      <div className="relative">
         <div className="scrollbar-hide flex gap-4 overflow-x-auto pb-2">
           {displayedCast.map((actor) => (
             <Link
