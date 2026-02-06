@@ -275,7 +275,7 @@ export default function TVShowPage() {
                     {similarShows && similarShows.length > 0 && (
                         <aside className="w-full lg:w-80 xl:w-96">
                             <h2 className="mb-4 text-xl font-bold">More Like This</h2>
-                            <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
+                            <div className="grid grid-cols-2 gap-2">
                                 {similarShows.slice(0, 6).map((item) => (
                                     <a
                                         key={item.id}

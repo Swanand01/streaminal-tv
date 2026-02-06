@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
-import { User } from 'lucide-react';
+import { User, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getImageUrl } from '@/lib/tmdb';
+import { useRef } from 'react';
 
 interface CastMember {
   id: number;
@@ -15,6 +18,15 @@ interface CastListProps {
 }
 
 export function CastList({ cast, limit = 20 }: CastListProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -400 : 400;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
   if (!cast || cast.length === 0) {
     return null;
   }
@@ -24,8 +36,22 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
   return (
     <div className="space-y-3">
       <h2 className="text-2xl font-bold">Cast</h2>
-      <div className="relative">
-        <div className="scrollbar-hide flex gap-4 overflow-x-auto pb-2">
+      <div className="group/cast relative">
+        <button
+          onClick={() => scroll('left')}
+          className="absolute left-0 top-0 z-10 flex h-full items-center bg-gradient-to-r from-background via-background/80 to-background/0 px-2 opacity-0 transition-opacity group-hover/cast:opacity-100"
+          aria-label="Scroll left"
+        >
+          <div className="rounded-full bg-background/80 p-1 backdrop-blur-sm transition-colors hover:bg-background">
+            <ChevronLeft className="h-5 w-5 text-foreground" />
+          </div>
+        </button>
+
+        <div
+          ref={scrollRef}
+          className="scrollbar-hide flex gap-4 overflow-x-auto pb-2"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {displayedCast.map((actor) => (
             <Link
               key={actor.id}
@@ -53,6 +79,16 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
             </Link>
           ))}
         </div>
+
+        <button
+          onClick={() => scroll('right')}
+          className="absolute right-0 top-0 z-10 flex h-full items-center bg-gradient-to-l from-background via-background/80 to-background/0 px-2 opacity-0 transition-opacity group-hover/cast:opacity-100"
+          aria-label="Scroll right"
+        >
+          <div className="rounded-full bg-background/80 p-1 backdrop-blur-sm transition-colors hover:bg-background">
+            <ChevronRight className="h-5 w-5 text-foreground" />
+          </div>
+        </button>
       </div>
     </div>
   );
