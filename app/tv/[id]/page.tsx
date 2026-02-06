@@ -1,9 +1,9 @@
 'use client';
 // TV show detail page
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Navigation } from '@/components/navigation';
 import { CastList } from '@/components/cast-list';
 import { MediaCarousel } from '@/components/media-carousel';
@@ -20,10 +20,29 @@ import {
 
 export default function TVShowPage() {
     const params = useParams();
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const tvId = parseInt(params.id as string);
-    const [selectedSeason, setSelectedSeason] = useState(1);
-    const [selectedEpisode, setSelectedEpisode] = useState(1);
+    
+    // Initialize from URL params or defaults
+    const seasonParam = searchParams.get('season');
+    const episodeParam = searchParams.get('episode');
+    
+    const [selectedSeason, setSelectedSeason] = useState(
+        seasonParam ? parseInt(seasonParam) : 1
+    );
+    const [selectedEpisode, setSelectedEpisode] = useState(
+        episodeParam ? parseInt(episodeParam) : 1
+    );
     const [episodesShown, setEpisodesShown] = useState(24);
+
+    // Update URL when season or episode changes
+    useEffect(() => {
+        const newParams = new URLSearchParams(searchParams.toString());
+        newParams.set('season', selectedSeason.toString());
+        newParams.set('episode', selectedEpisode.toString());
+        router.replace(`/tv/${tvId}?${newParams.toString()}`, { scroll: false });
+    }, [selectedSeason, selectedEpisode, tvId, router, searchParams]);
 
     // Check for invalid ID
     if (isNaN(tvId)) {
