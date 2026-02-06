@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { User, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getImageUrl } from '@/lib/tmdb';
 import { useRef } from 'react';
@@ -35,7 +36,6 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
 
   return (
     <div className="space-y-3">
-      <h2 className="text-2xl font-bold">Cast</h2>
       <div className="group/cast relative">
         <button
           onClick={() => scroll('left')}
@@ -60,10 +60,12 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
             >
               <div className="relative h-16 w-16 overflow-hidden rounded-full bg-muted ring-2 ring-transparent transition-all group-hover:ring-primary/50">
                 {actor.profile_path ? (
-                  <img
+                  <Image
                     src={getImageUrl(actor.profile_path, 'w500')}
                     alt={actor.name}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    fill
+                    sizes="64px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-muted-foreground">

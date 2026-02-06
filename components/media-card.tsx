@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Media, getImageUrl, getTitle, getReleaseYear } from '@/lib/tmdb';
 import { Star, Film, Tv } from 'lucide-react';
 
@@ -15,24 +16,26 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
   const year = getReleaseYear(media);
   const rating = media.vote_average.toFixed(1);
 
-  const widthClass = variant === 'grid' ? 'w-full max-w-[200px]' : 'w-[160px] flex-shrink-0 md:w-[200px]';
+  const widthClass = variant === 'grid' ? 'w-full ' : 'w-[160px] flex-shrink-0 md:w-[200px]';
 
   return (
     <div className={`group relative ${widthClass}`}>
       <Link href={href}>
-        <div className="relative aspect-[2/3] overflow-hidden rounded-md bg-muted transition-transform duration-300 group-hover:scale-105">
+        <div className="relative aspect-2/3 overflow-hidden rounded-md bg-muted transition-transform duration-300 group-hover:scale-105">
           {media.poster_path ? (
-            <img
+            <Image
               src={getImageUrl(media.poster_path, 'w500')}
               alt={title}
-              className="h-full w-full object-cover"
+              fill
+              sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 250px"
+              className="object-cover"
             />
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground">
               No Image
             </div>
           )}
-          
+
           {showMediaType && (
             <div className="absolute left-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
               {mediaType === 'tv' ? (
@@ -45,7 +48,7 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
               </span>
             </div>
           )}
-          
+
           {media.vote_average > 0 && (
             <div className="absolute right-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
               <Star className="h-3 w-3 fill-primary text-primary" />
@@ -53,7 +56,7 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
             </div>
           )}
         </div>
-        
+
         <div className="mt-2 space-y-1">
           <h3 className="line-clamp-1 text-sm font-medium leading-tight text-foreground">
             {title}

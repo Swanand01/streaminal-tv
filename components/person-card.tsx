@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { getImageUrl, type Person } from '@/lib/tmdb';
 import { User } from 'lucide-react';
 
@@ -16,10 +17,12 @@ export function PersonCard({ person }: PersonCardProps) {
     >
       <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-muted">
         {person.profile_path ? (
-          <img
+          <Image
             src={getImageUrl(person.profile_path, 'w500')}
             alt={name}
-            className="h-full w-full object-cover"
+            fill
+            sizes="48px"
+            className="object-cover"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-muted-foreground">

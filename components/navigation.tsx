@@ -31,7 +31,7 @@ export function Navigation() {
 
   return (
     <nav className="fixed top-0 z-50 w-full bg-gradient-to-b from-background to-background/0 transition-colors duration-300">
-      <div className="mx-auto flex max-w-[1920px] items-center justify-between px-4 py-4 md:px-8 lg:px-12">
+      <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-8 lg:px-12">
         <div className="flex items-center gap-8">
           <Link href="/" className="text-2xl font-bold tracking-tight text-primary">
             STREAMINAL
@@ -43,7 +43,7 @@ export function Navigation() {
             <Link href="/movies" className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
               Movies
             </Link>
-            <Link href="/tv" className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+            <Link href="/tv-shows" className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
               TV Shows
             </Link>
           </div>
@@ -77,7 +77,7 @@ export function Navigation() {
               >
                 <Search className="h-5 w-5" />
               </button>
-              
+
               {/* Mobile Menu */}
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
@@ -95,22 +95,22 @@ export function Navigation() {
                     <SheetTitle>Menu</SheetTitle>
                   </SheetHeader>
                   <div className="mt-6 flex flex-col gap-4">
-                    <Link 
-                      href="/" 
+                    <Link
+                      href="/"
                       className="text-lg font-medium text-foreground/80 transition-colors hover:text-foreground"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Home
                     </Link>
-                    <Link 
-                      href="/movies" 
+                    <Link
+                      href="/movies"
                       className="text-lg font-medium text-foreground/80 transition-colors hover:text-foreground"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Movies
                     </Link>
-                    <Link 
-                      href="/tv" 
+                    <Link
+                      href="/tv"
                       className="text-lg font-medium text-foreground/80 transition-colors hover:text-foreground"
                       onClick={() => setMobileMenuOpen(false)}
                     >
