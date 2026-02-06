@@ -163,13 +163,11 @@ export default function MoviePage() {
 
                         {/* Tabs Navigation */}
                         <Tabs defaultValue="cast" className="mt-8">
-                            <div className="flex justify-center">
-                                <TabsList className="overflow-x-auto">
-                                    <TabsTrigger value="cast">Cast</TabsTrigger>
-                                    {videos && videos.length > 0 && <TabsTrigger value="videos">Videos</TabsTrigger>}
-                                    {reviews && reviews.length > 0 && <TabsTrigger value="reviews">Reviews</TabsTrigger>}
-                                </TabsList>
-                            </div>
+                            <TabsList className="overflow-x-auto">
+                                <TabsTrigger value="cast">Cast</TabsTrigger>
+                                {videos && videos.length > 0 && <TabsTrigger value="videos">Videos</TabsTrigger>}
+                                {reviews && reviews.length > 0 && <TabsTrigger value="reviews">Reviews</TabsTrigger>}
+                            </TabsList>
 
                             {/* Cast Tab */}
                             <TabsContent value="cast" className="mt-6">
