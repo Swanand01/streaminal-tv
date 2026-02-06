@@ -224,12 +224,14 @@ export default function TVShowPage() {
 
                         {/* Tabs Navigation */}
                         <Tabs defaultValue="episodes" className="mt-8">
-                            <TabsList className="w-full justify-start overflow-x-auto">
-                                <TabsTrigger value="episodes">Episodes</TabsTrigger>
-                                <TabsTrigger value="cast">Cast</TabsTrigger>
-                                {videos && videos.length > 0 && <TabsTrigger value="videos">Videos</TabsTrigger>}
-                                {reviews && reviews.length > 0 && <TabsTrigger value="reviews">Reviews</TabsTrigger>}
-                            </TabsList>
+                            <div className="flex justify-center">
+                                <TabsList className="overflow-x-auto">
+                                    <TabsTrigger value="episodes">Episodes</TabsTrigger>
+                                    <TabsTrigger value="cast">Cast</TabsTrigger>
+                                    {videos && videos.length > 0 && <TabsTrigger value="videos">Videos</TabsTrigger>}
+                                    {reviews && reviews.length > 0 && <TabsTrigger value="reviews">Reviews</TabsTrigger>}
+                                </TabsList>
+                            </div>
 
                             {/* Episodes Tab */}
                             <TabsContent value="episodes" className="mt-6">
