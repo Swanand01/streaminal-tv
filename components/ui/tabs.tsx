@@ -25,7 +25,13 @@ export interface TabsProps {
   className?: string;
 }
 
-export function Tabs({ value: controlledValue, defaultValue, onValueChange, children, className }: TabsProps) {
+export function Tabs({
+  value: controlledValue,
+  defaultValue,
+  onValueChange,
+  children,
+  className,
+}: TabsProps) {
   const [internalValue, setInternalValue] = React.useState(defaultValue || '');
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
@@ -50,11 +56,7 @@ export interface TabsListProps {
 
 export function TabsList({ children, className }: TabsListProps) {
   return (
-    <div
-      className={`inline-flex items-center gap-2 text-muted-foreground ${
-        className || ''
-      }`}
-    >
+    <div className={`text-muted-foreground inline-flex items-center gap-2 ${className || ''}`}>
       {children}
     </div>
   );
@@ -74,10 +76,10 @@ export function TabsTrigger({ value, children, className }: TabsTriggerProps) {
     <button
       type="button"
       onClick={() => onValueChange(value)}
-      className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-        isSelected 
-          ? 'border-2 border-primary text-primary' 
-          : 'border-2 border-transparent text-muted-foreground hover:border-border hover:bg-muted/50'
+      className={`focus-visible:ring-ring inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 ${
+        isSelected
+          ? 'border-primary text-primary border-2'
+          : 'text-muted-foreground hover:border-border hover:bg-muted/50 border-2 border-transparent'
       } ${className || ''}`}
     >
       {children}
@@ -99,7 +101,9 @@ export function TabsContent({ value, children, className }: TabsContentProps) {
   }
 
   return (
-    <div className={`mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${className || ''}`}>
+    <div
+      className={`ring-offset-background focus-visible:ring-ring mt-2 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${className || ''}`}
+    >
       {children}
     </div>
   );
