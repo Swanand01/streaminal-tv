@@ -5,7 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { Navigation } from '@/components/navigation';
 import { CastList } from '@/components/cast-list';
-import { getMovieDetails } from '@/lib/tmdb';
+import { MediaCarousel } from '@/components/media-carousel';
+import { getMovieDetails, getSimilarMovies } from '@/lib/tmdb';
 import { Star, Calendar, Clock } from 'lucide-react';
 
 export default function MoviePage() {
@@ -29,6 +30,13 @@ export default function MoviePage() {
     const { data: movie, isLoading, error } = useQuery({
         queryKey: ['movie', movieId],
         queryFn: () => getMovieDetails(movieId),
+    });
+
+    // Fetch similar movies
+    const { data: similarMovies } = useQuery({
+        queryKey: ['movie', movieId, 'similar'],
+        queryFn: () => getSimilarMovies(movieId),
+        enabled: !!movie,
     });
 
     if (isLoading) {
@@ -134,6 +142,11 @@ export default function MoviePage() {
 
                 {movie.credits?.cast && <CastList cast={movie.credits.cast} limit={20} />}
             </div>
+
+            {/* More Like This Section */}
+            {similarMovies && similarMovies.length > 0 && (
+                <MediaCarousel title="More Like This" items={similarMovies} />
+            )}
         </div>
     );
 }

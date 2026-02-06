@@ -6,7 +6,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { Navigation } from '@/components/navigation';
 import { CastList } from '@/components/cast-list';
-import { getTVDetails, getTVSeason, getImageUrl } from '@/lib/tmdb';
+import { MediaCarousel } from '@/components/media-carousel';
+import { getTVDetails, getTVSeason, getSimilarTVShows, getImageUrl } from '@/lib/tmdb';
 import { Star, Calendar, Tv } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -47,6 +48,13 @@ export default function TVShowPage() {
     const { data: seasonData, isLoading: seasonLoading } = useQuery({
         queryKey: ['tv', tvId, 'season', selectedSeason],
         queryFn: () => getTVSeason(tvId, selectedSeason),
+        enabled: !!show,
+    });
+
+    // Fetch similar TV shows
+    const { data: similarShows } = useQuery({
+        queryKey: ['tv', tvId, 'similar'],
+        queryFn: () => getSimilarTVShows(tvId),
         enabled: !!show,
     });
 
@@ -259,6 +267,11 @@ export default function TVShowPage() {
                     )}
                 </div>
             </div>
+
+            {/* More Like This Section */}
+            {similarShows && similarShows.length > 0 && (
+                <MediaCarousel title="More Like This" items={similarShows} />
+            )}
         </div>
     );
 }
