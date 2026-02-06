@@ -76,8 +76,8 @@ export function TabsTrigger({ value, children, className }: TabsTriggerProps) {
       onClick={() => onValueChange(value)}
       className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
         isSelected 
-          ? 'border-2 border-primary text-foreground' 
-          : 'border-2 border-transparent text-muted-foreground hover:text-foreground'
+          ? 'border-2 border-primary text-primary' 
+          : 'border-2 border-transparent text-muted-foreground hover:border-border hover:bg-muted/50'
       } ${className || ''}`}
     >
       {children}
