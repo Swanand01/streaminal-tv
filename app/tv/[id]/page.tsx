@@ -244,12 +244,12 @@ export default function TVShowPage() {
                                 </div>
                             ) : seasonData && seasonData.episodes ? (
                                 <>
-                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 items-start">
                                         {seasonData.episodes.slice(0, episodesShown).map((episode) => (
                                             <button
                                                 key={episode.id}
                                                 onClick={() => handleEpisodeClick(episode.episode_number)}
-                                                className={`group relative overflow-hidden rounded-lg border transition-all ${selectedEpisode === episode.episode_number
+                                                className={`group relative overflow-hidden rounded-lg border transition-all text-left ${selectedEpisode === episode.episode_number
                                                         ? 'border-primary ring-2 ring-primary'
                                                         : 'border-border hover:border-primary/50'
                                                     }`}
