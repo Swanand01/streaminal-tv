@@ -239,15 +239,13 @@ export default function TVShowPage() {
                                                     <p className="text-sm font-semibold">
                                                         {episode.episode_number}. {episode.name}
                                                     </p>
-                                                    {episode.air_date && (
-                                                        <p className="mt-1 text-xs text-muted-foreground">
-                                                            {new Date(episode.air_date).toLocaleDateString()}
-                                                        </p>
-                                                    )}
-                                                    {episode.overview && (
-                                                        <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
-                                                            {episode.overview}
-                                                        </p>
+                                                    {episode.vote_average > 0 && (
+                                                        <div className="mt-1 flex items-center gap-1">
+                                                            <Star className="h-3 w-3 fill-primary text-primary" />
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {episode.vote_average.toFixed(1)}
+                                                            </span>
+                                                        </div>
                                                     )}
                                                 </div>
                                             </button>
