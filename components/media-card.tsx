@@ -24,7 +24,7 @@ export function MediaCard({ media, variant = 'carousel' }: MediaCardProps) {
             <img
               src={getImageUrl(media.poster_path, 'w500')}
               alt={title}
-              className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-75"
+              className="h-full w-full object-cover"
             />
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground">
@@ -32,14 +32,12 @@ export function MediaCard({ media, variant = 'carousel' }: MediaCardProps) {
             </div>
           )}
           
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/0 to-background/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          
-          <div className="absolute bottom-0 left-0 right-0 translate-y-2 p-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-            <div className="flex items-center gap-1 text-xs text-foreground">
+          {media.vote_average > 0 && (
+            <div className="absolute right-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
               <Star className="h-3 w-3 fill-primary text-primary" />
-              <span className="font-medium">{rating}</span>
+              <span className="text-xs font-semibold text-foreground">{rating}</span>
             </div>
-          </div>
+          )}
         </div>
         
         <div className="mt-2 space-y-1">

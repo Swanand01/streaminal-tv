@@ -234,19 +234,19 @@ export default function TVShowPage() {
                                                             <Tv className="h-8 w-8" />
                                                         </div>
                                                     )}
+                                                    {episode.vote_average > 0 && (
+                                                        <div className="absolute right-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
+                                                            <Star className="h-3 w-3 fill-primary text-primary" />
+                                                            <span className="text-xs font-semibold text-foreground">
+                                                                {episode.vote_average.toFixed(1)}
+                                                            </span>
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="p-3">
                                                     <p className="text-sm font-semibold">
                                                         {episode.episode_number}. {episode.name}
                                                     </p>
-                                                    {episode.vote_average > 0 && (
-                                                        <div className="mt-1 flex items-center gap-1">
-                                                            <Star className="h-3 w-3 fill-primary text-primary" />
-                                                            <span className="text-xs text-muted-foreground">
-                                                                {episode.vote_average.toFixed(1)}
-                                                            </span>
-                                                        </div>
-                                                    )}
                                                 </div>
                                             </button>
                                         ))}
@@ -292,19 +292,19 @@ export default function TVShowPage() {
                                                     <span className="text-xs">No Image</span>
                                                 </div>
                                             )}
+                                            {item.vote_average > 0 && (
+                                                <div className="absolute right-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
+                                                    <Star className="h-3 w-3 fill-primary text-primary" />
+                                                    <span className="text-xs font-semibold text-foreground">
+                                                        {item.vote_average.toFixed(1)}
+                                                    </span>
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="p-3">
                                             <p className="line-clamp-2 text-sm font-semibold">
                                                 {item.title || item.name}
                                             </p>
-                                            {item.vote_average > 0 && (
-                                                <div className="mt-1 flex items-center gap-1">
-                                                    <Star className="h-3 w-3 fill-primary text-primary" />
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {item.vote_average.toFixed(1)}
-                                                    </span>
-                                                </div>
-                                            )}
                                         </div>
                                     </a>
                                 ))}
