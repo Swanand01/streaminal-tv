@@ -179,7 +179,7 @@ export default function MoviesPage() {
               </div>
             ) : (
               <>
-                <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" />
+                <MediaGrid items={movies} emptyMessage="No movies found with the selected filters" showMediaType={false} />
 
                 {totalPages > 1 && (
                   <div className="mt-12">

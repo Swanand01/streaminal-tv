@@ -209,7 +209,7 @@ export default function TVShowsPage() {
                             </div>
                         ) : (
                             <>
-                                <MediaGrid items={tvShows} emptyMessage="No TV shows found with the selected filters" />
+                                <MediaGrid items={tvShows} emptyMessage="No TV shows found with the selected filters" showMediaType={false} />
 
                                 {totalPages > 1 && (
                                     <div className="mt-12">

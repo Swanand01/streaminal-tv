@@ -93,12 +93,12 @@ export async function getTrending(mediaType: 'movie' | 'tv' | 'all' = 'all', tim
 
 export async function getPopularMovies() {
   const data = await fetchTMDB('/movie/popular');
-  return data.results as Media[];
+  return data.results.map((item: Media) => ({ ...item, media_type: 'movie' as const })) as Media[];
 }
 
 export async function getPopularTVShows() {
   const data = await fetchTMDB('/tv/popular');
-  return data.results as Media[];
+  return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
 export async function getMovieDetails(id: number) {
@@ -214,4 +214,57 @@ export async function discoverTVShows(params: DiscoverParams = {}) {
     total_results: data.total_results as number,
     page: data.page as number,
   };
+}
+
+export async function getSimilarMovies(id: number) {
+  const data = await fetchTMDB(`/movie/${id}/recommendations`);
+  return data.results.map((item: Media) => ({ ...item, media_type: 'movie' as const })) as Media[];
+}
+
+export async function getSimilarTVShows(id: number) {
+  const data = await fetchTMDB(`/tv/${id}/recommendations`);
+  return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
+}
+
+export interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+  official: boolean;
+}
+
+export async function getMovieVideos(id: number) {
+  const data = await fetchTMDB(`/movie/${id}/videos`);
+  return data.results as Video[];
+}
+
+export async function getTVVideos(id: number) {
+  const data = await fetchTMDB(`/tv/${id}/videos`);
+  return data.results as Video[];
+}
+
+export interface Review {
+  id: string;
+  author: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string | null;
+    rating: number | null;
+  };
+  content: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getMovieReviews(id: number) {
+  const data = await fetchTMDB(`/movie/${id}/reviews`);
+  return data.results as Review[];
+}
+
+export async function getTVReviews(id: number) {
+  const data = await fetchTMDB(`/tv/${id}/reviews`);
+  return data.results as Review[];
 }

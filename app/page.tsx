@@ -32,6 +32,7 @@ export default async function HomePage() {
             <MediaCarousel
               title="Popular Movies"
               items={popularMovies}
+              showMediaType={false}
             />
           )}
           
@@ -39,6 +40,7 @@ export default async function HomePage() {
             <MediaCarousel
               title="Popular TV Shows"
               items={popularTVShows}
+              showMediaType={false}
             />
           )}
         </div>

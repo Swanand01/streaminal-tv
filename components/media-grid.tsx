@@ -4,9 +4,10 @@ import { MediaCard } from './media-card';
 interface MediaGridProps {
   items: Media[];
   emptyMessage?: string;
+  showMediaType?: boolean;
 }
 
-export function MediaGrid({ items, emptyMessage = 'No results found' }: MediaGridProps) {
+export function MediaGrid({ items, emptyMessage = 'No results found', showMediaType = true }: MediaGridProps) {
   if (!items || items.length === 0) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
@@ -16,9 +17,9 @@ export function MediaGrid({ items, emptyMessage = 'No results found' }: MediaGri
   }
 
   return (
-    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:gap-8 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-3 lg:grid-cols-5 xl:grid-cols-6">
       {items.map((item) => (
-        <MediaCard key={item.id} media={item} variant="grid" />
+        <MediaCard key={item.id} media={item} variant="grid" showMediaType={showMediaType} />
       ))}
     </div>
   );
