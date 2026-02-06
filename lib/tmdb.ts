@@ -217,11 +217,11 @@ export async function discoverTVShows(params: DiscoverParams = {}) {
 }
 
 export async function getSimilarMovies(id: number) {
-  const data = await fetchTMDB(`/movie/${id}/similar`);
+  const data = await fetchTMDB(`/movie/${id}/recommendations`);
   return data.results.map((item: Media) => ({ ...item, media_type: 'movie' as const })) as Media[];
 }
 
 export async function getSimilarTVShows(id: number) {
-  const data = await fetchTMDB(`/tv/${id}/similar`);
+  const data = await fetchTMDB(`/tv/${id}/recommendations`);
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
