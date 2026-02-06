@@ -34,7 +34,7 @@ export default function TVShowPage() {
     const [selectedEpisode, setSelectedEpisode] = useState(
         episodeParam ? parseInt(episodeParam) : 1
     );
-    const [episodesShown, setEpisodesShown] = useState(24);
+    const [episodesShown, setEpisodesShown] = useState(12);
 
     // Update URL when season or episode changes (but not on initial mount if URL already has the right values)
     useEffect(() => {
@@ -98,7 +98,7 @@ export default function TVShowPage() {
         const season = parseInt(value);
         setSelectedSeason(season);
         setSelectedEpisode(1); // Reset to first episode when changing seasons
-        setEpisodesShown(24); // Reset pagination
+        setEpisodesShown(12); // Reset pagination
     };
 
     if (showLoading) {
@@ -288,7 +288,7 @@ export default function TVShowPage() {
                                         <div className="mt-6 flex justify-center">
                                             <Button
                                                 variant="outline"
-                                                onClick={() => setEpisodesShown(prev => prev + 24)}
+                                                onClick={() => setEpisodesShown(prev => prev + 12)}
                                             >
                                                 Load More Episodes ({seasonData.episodes.length - episodesShown} remaining)
                                             </Button>
