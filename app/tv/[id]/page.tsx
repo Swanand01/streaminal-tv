@@ -225,22 +225,14 @@ export default function TVShowPage() {
                         {/* Tabs Navigation */}
                         <Tabs defaultValue="episodes" className="mt-8">
                             <TabsList className="w-full justify-start overflow-x-auto">
-                                <TabsTrigger value="overview">Overview</TabsTrigger>
                                 <TabsTrigger value="episodes">Episodes</TabsTrigger>
                                 <TabsTrigger value="cast">Cast</TabsTrigger>
                                 {videos && videos.length > 0 && <TabsTrigger value="videos">Videos</TabsTrigger>}
                                 {reviews && reviews.length > 0 && <TabsTrigger value="reviews">Reviews</TabsTrigger>}
                             </TabsList>
 
-                            {/* Overview Tab */}
-                            <TabsContent value="overview">
-                                <p className="text-sm text-muted-foreground">
-                                    View episodes, cast, trailers, and reviews in the tabs above.
-                                </p>
-                            </TabsContent>
-
                             {/* Episodes Tab */}
-                            <TabsContent value="episodes">
+                            <TabsContent value="episodes" className="mt-6">
                                 <div className="space-y-6">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-2xl font-bold">Episodes</h2>
@@ -322,12 +314,12 @@ export default function TVShowPage() {
                             </TabsContent>
 
                             {/* Cast Tab */}
-                            <TabsContent value="cast">
+                            <TabsContent value="cast" className="mt-6">
                                 {show.credits?.cast && <CastList cast={show.credits.cast} limit={20} />}
                             </TabsContent>
 
                             {/* Videos Tab */}
-                            <TabsContent value="videos">
+                            <TabsContent value="videos" className="mt-6">
                                 {videos && videos.length > 0 && (
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                         {videos.filter(video => video.site === 'YouTube').slice(0, 12).map((video) => (
@@ -359,7 +351,7 @@ export default function TVShowPage() {
                             </TabsContent>
 
                             {/* Reviews Tab */}
-                            <TabsContent value="reviews">
+                            <TabsContent value="reviews" className="mt-6">
                                 {reviews && reviews.length > 0 ? (
                                     <div className="space-y-4">
                                         {reviews.map((review) => {

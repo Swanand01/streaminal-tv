@@ -162,29 +162,20 @@ export default function MoviePage() {
                         </div>
 
                         {/* Tabs Navigation */}
-                        <Tabs defaultValue="overview" className="mt-8">
+                        <Tabs defaultValue="cast" className="mt-8">
                             <TabsList className="w-full justify-start overflow-x-auto">
-                                <TabsTrigger value="overview">Overview</TabsTrigger>
                                 <TabsTrigger value="cast">Cast</TabsTrigger>
                                 {videos && videos.length > 0 && <TabsTrigger value="videos">Videos</TabsTrigger>}
                                 {reviews && reviews.length > 0 && <TabsTrigger value="reviews">Reviews</TabsTrigger>}
                             </TabsList>
 
-                            {/* Overview Tab */}
-                            <TabsContent value="overview">
-                                {/* Content already shown above */}
-                                <p className="text-sm text-muted-foreground">
-                                    View cast, trailers, and reviews in the tabs above.
-                                </p>
-                            </TabsContent>
-
                             {/* Cast Tab */}
-                            <TabsContent value="cast">
+                            <TabsContent value="cast" className="mt-6">
                                 {movie.credits?.cast && <CastList cast={movie.credits.cast} limit={20} />}
                             </TabsContent>
 
                             {/* Videos Tab */}
-                            <TabsContent value="videos">
+                            <TabsContent value="videos" className="mt-6">
                                 {videos && videos.length > 0 && (
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                         {videos.filter(video => video.site === 'YouTube').slice(0, 12).map((video) => (
@@ -216,7 +207,7 @@ export default function MoviePage() {
                             </TabsContent>
 
                             {/* Reviews Tab */}
-                            <TabsContent value="reviews">
+                            <TabsContent value="reviews" className="mt-6">
                                 {reviews && reviews.length > 0 ? (
                                     <div className="space-y-4">
                                         {reviews.map((review) => {
