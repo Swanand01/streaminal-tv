@@ -225,3 +225,22 @@ export async function getSimilarTVShows(id: number) {
   const data = await fetchTMDB(`/tv/${id}/recommendations`);
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
+
+export interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+  official: boolean;
+}
+
+export async function getMovieVideos(id: number) {
+  const data = await fetchTMDB(`/movie/${id}/videos`);
+  return data.results as Video[];
+}
+
+export async function getTVVideos(id: number) {
+  const data = await fetchTMDB(`/tv/${id}/videos`);
+  return data.results as Video[];
+}

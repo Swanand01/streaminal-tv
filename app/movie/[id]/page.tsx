@@ -6,8 +6,8 @@ import { useParams } from 'next/navigation';
 import { Navigation } from '@/components/navigation';
 import { CastList } from '@/components/cast-list';
 import { MediaCarousel } from '@/components/media-carousel';
-import { getMovieDetails, getSimilarMovies } from '@/lib/tmdb';
-import { Star, Calendar, Clock } from 'lucide-react';
+import { getMovieDetails, getSimilarMovies, getMovieVideos } from '@/lib/tmdb';
+import { Star, Calendar, Clock, Play } from 'lucide-react';
 
 export default function MoviePage() {
     const params = useParams();
@@ -36,6 +36,13 @@ export default function MoviePage() {
     const { data: similarMovies } = useQuery({
         queryKey: ['movie', movieId, 'similar'],
         queryFn: () => getSimilarMovies(movieId),
+        enabled: !!movie,
+    });
+
+    // Fetch videos (trailers, teasers, clips)
+    const { data: videos } = useQuery({
+        queryKey: ['movie', movieId, 'videos'],
+        queryFn: () => getMovieVideos(movieId),
         enabled: !!movie,
     });
 
@@ -144,6 +151,45 @@ export default function MoviePage() {
                         </div>
 
                         {movie.credits?.cast && <CastList cast={movie.credits.cast} limit={20} />}
+
+                        {/* Videos Section */}
+                        {videos && videos.length > 0 && (
+                            <div className="mt-12 space-y-4">
+                                <h2 className="text-2xl font-bold">Trailers & Clips</h2>
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                    {videos.filter(video => video.site === 'YouTube').slice(0, 6).map((video) => (
+                                        <a
+                                            key={video.id}
+                                            href={`https://www.youtube.com/watch?v=${video.key}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group relative overflow-hidden rounded-lg border border-border transition-all hover:border-primary/50 hover:shadow-lg"
+                                        >
+                                            <div className="relative aspect-video overflow-hidden bg-muted">
+                                                <img
+                                                    src={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
+                                                    alt={video.name}
+                                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                />
+                                                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/90 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+                                                        <Play className="h-6 w-6 fill-primary-foreground text-primary-foreground" />
+                                                    </div>
+                                                </div>
+                                                <div className="absolute right-2 top-2 rounded-md bg-background/90 px-2 py-1 text-xs font-medium backdrop-blur-sm">
+                                                    {video.type}
+                                                </div>
+                                            </div>
+                                            <div className="p-3">
+                                                <p className="line-clamp-2 text-sm font-semibold leading-tight">
+                                                    {video.name}
+                                                </p>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Recommendations Sidebar */}
