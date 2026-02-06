@@ -158,25 +158,19 @@ export default function MoviePage() {
                                 <h2 className="text-2xl font-bold">Trailers & Clips</h2>
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                     {videos.filter(video => video.site === 'YouTube').slice(0, 6).map((video) => (
-                                        <a
+                                        <div
                                             key={video.id}
-                                            href={`https://www.youtube.com/watch?v=${video.key}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="group relative overflow-hidden rounded-lg border border-border transition-all hover:border-primary/50 hover:shadow-lg"
+                                            className="overflow-hidden rounded-lg border border-border"
                                         >
                                             <div className="relative aspect-video overflow-hidden bg-muted">
-                                                <img
-                                                    src={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
-                                                    alt={video.name}
-                                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                <iframe
+                                                    src={`https://www.youtube.com/embed/${video.key}`}
+                                                    title={video.name}
+                                                    className="h-full w-full"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowFullScreen
                                                 />
-                                                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/90 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                                                        <Play className="h-6 w-6 fill-primary-foreground text-primary-foreground" />
-                                                    </div>
-                                                </div>
-                                                <div className="absolute right-2 top-2 rounded-md bg-background/90 px-2 py-1 text-xs font-medium backdrop-blur-sm">
+                                                <div className="pointer-events-none absolute right-2 top-2 rounded-md bg-background/90 px-2 py-1 text-xs font-medium backdrop-blur-sm">
                                                     {video.type}
                                                 </div>
                                             </div>
@@ -185,7 +179,7 @@ export default function MoviePage() {
                                                     {video.name}
                                                 </p>
                                             </div>
-                                        </a>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
@@ -196,7 +190,7 @@ export default function MoviePage() {
                     {similarMovies && similarMovies.length > 0 && (
                         <aside className="w-full lg:w-80 xl:w-96">
                             <h2 className="mb-4 text-xl font-bold">More Like This</h2>
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                                 {similarMovies.slice(0, 6).map((item) => (
                                     <a
                                         key={item.id}
