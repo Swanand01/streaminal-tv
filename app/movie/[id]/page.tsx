@@ -95,58 +95,101 @@ export default function MoviePage() {
                 </div>
             </div>
 
-            {/* Movie Info */}
+            {/* Movie Info with Sidebar Layout */}
             <div className="container mx-auto px-4 py-8 md:px-8 lg:px-12">
-                <div className="mb-8">
-                    <h1 className="mb-2 text-3xl font-bold text-balance md:text-4xl">{title}</h1>
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                        {year && (
-                            <div className="flex items-center gap-1">
-                                <Calendar className="h-4 w-4" />
-                                <span>{year}</span>
+                <div className="flex flex-col gap-8 lg:flex-row">
+                    {/* Main Content */}
+                    <div className="flex-1">
+                        <div className="mb-8">
+                            <h1 className="mb-2 text-3xl font-bold text-balance md:text-4xl">{title}</h1>
+                            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                                {year && (
+                                    <div className="flex items-center gap-1">
+                                        <Calendar className="h-4 w-4" />
+                                        <span>{year}</span>
+                                    </div>
+                                )}
+                                {movie.vote_average > 0 && (
+                                    <div className="flex items-center gap-1">
+                                        <Star className="h-4 w-4 fill-primary text-primary" />
+                                        <span className="font-medium text-foreground">{movie.vote_average.toFixed(1)}</span>
+                                    </div>
+                                )}
+                                {movie.runtime && (
+                                    <div className="flex items-center gap-1">
+                                        <Clock className="h-4 w-4" />
+                                        <span>{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m</span>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                        {movie.vote_average > 0 && (
-                            <div className="flex items-center gap-1">
-                                <Star className="h-4 w-4 fill-primary text-primary" />
-                                <span className="font-medium text-foreground">{movie.vote_average.toFixed(1)}</span>
-                            </div>
-                        )}
-                        {movie.runtime && (
-                            <div className="flex items-center gap-1">
-                                <Clock className="h-4 w-4" />
-                                <span>{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m</span>
-                            </div>
-                        )}
+
+                            {movie.genres && movie.genres.length > 0 && (
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                    {movie.genres.map((genre) => (
+                                        <span
+                                            key={genre.id}
+                                            className="rounded-full bg-muted px-3 py-1 text-xs font-medium"
+                                        >
+                                            {genre.name}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+
+                            {movie.overview && (
+                                <p className="mt-4 text-pretty leading-relaxed text-foreground/90">
+                                    {movie.overview}
+                                </p>
+                            )}
+                        </div>
+
+                        {movie.credits?.cast && <CastList cast={movie.credits.cast} limit={20} />}
                     </div>
 
-                    {movie.genres && movie.genres.length > 0 && (
-                        <div className="mt-3 flex flex-wrap gap-2">
-                            {movie.genres.map((genre) => (
-                                <span
-                                    key={genre.id}
-                                    className="rounded-full bg-muted px-3 py-1 text-xs font-medium"
-                                >
-                                    {genre.name}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-
-                    {movie.overview && (
-                        <p className="mt-4 max-w-4xl text-pretty leading-relaxed text-foreground/90">
-                            {movie.overview}
-                        </p>
+                    {/* Recommendations Sidebar */}
+                    {similarMovies && similarMovies.length > 0 && (
+                        <aside className="w-full lg:w-80 xl:w-96">
+                            <h2 className="mb-4 text-xl font-bold">More Like This</h2>
+                            <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
+                                {similarMovies.slice(0, 6).map((item) => (
+                                    <a
+                                        key={item.id}
+                                        href={`/movie/${item.id}`}
+                                        className="group relative overflow-hidden rounded-lg border border-border transition-colors hover:border-primary/50"
+                                    >
+                                        <div className="relative aspect-video overflow-hidden bg-muted">
+                                            {item.backdrop_path ? (
+                                                <img
+                                                    src={`https://image.tmdb.org/t/p/w500${item.backdrop_path}`}
+                                                    alt={item.title || item.name || ''}
+                                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                />
+                                            ) : (
+                                                <div className="flex h-full items-center justify-center text-muted-foreground">
+                                                    <span className="text-xs">No Image</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="p-3">
+                                            <p className="line-clamp-2 text-sm font-semibold">
+                                                {item.title || item.name}
+                                            </p>
+                                            {item.vote_average > 0 && (
+                                                <div className="mt-1 flex items-center gap-1">
+                                                    <Star className="h-3 w-3 fill-primary text-primary" />
+                                                    <span className="text-xs text-muted-foreground">
+                                                        {item.vote_average.toFixed(1)}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        </aside>
                     )}
                 </div>
-
-                {movie.credits?.cast && <CastList cast={movie.credits.cast} limit={20} />}
             </div>
-
-            {/* More Like This Section */}
-            {similarMovies && similarMovies.length > 0 && (
-                <MediaCarousel title="More Like This" items={similarMovies} />
-            )}
         </div>
     );
 }
