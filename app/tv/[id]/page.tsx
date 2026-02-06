@@ -300,6 +300,49 @@ export default function TVShowPage() {
                             )}
                         </div>
 
+                        {/* More Like This - Mobile */}
+                        {similarShows && similarShows.length > 0 && (
+                            <div className="mt-12 space-y-4 lg:hidden">
+                                <h2 className="text-2xl font-bold">More Like This</h2>
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                                    {similarShows.slice(0, 6).map((item) => (
+                                        <a
+                                            key={item.id}
+                                            href={`/tv/${item.id}`}
+                                            className="group relative overflow-hidden rounded-lg border border-border transition-colors hover:border-primary/50"
+                                        >
+                                            <div className="relative aspect-video overflow-hidden bg-muted">
+                                                {item.backdrop_path ? (
+                                                    <img
+                                                        src={`https://image.tmdb.org/t/p/w500${item.backdrop_path}`}
+                                                        alt={item.title || item.name || ''}
+                                                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                    />
+                                                ) : (
+                                                    <div className="flex h-full items-center justify-center text-muted-foreground">
+                                                        <span className="text-xs">No Image</span>
+                                                    </div>
+                                                )}
+                                                {item.vote_average > 0 && (
+                                                    <div className="absolute right-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
+                                                        <Star className="h-3 w-3 fill-primary text-primary" />
+                                                        <span className="text-xs font-semibold text-foreground">
+                                                            {item.vote_average.toFixed(1)}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="p-3">
+                                                <p className="line-clamp-2 text-sm font-semibold">
+                                                    {item.title || item.name}
+                                                </p>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                         {/* Videos Section */}
                         {videos && videos.length > 0 && (
                             <div className="mt-12 space-y-4">
@@ -334,11 +377,11 @@ export default function TVShowPage() {
                         )}
                     </div>
 
-                    {/* Recommendations Sidebar */}
+                    {/* Recommendations Sidebar - Desktop */}
                     {similarShows && similarShows.length > 0 && (
-                        <aside className="w-full lg:w-80 xl:w-96">
+                        <aside className="hidden w-full lg:block lg:w-80 xl:w-96">
                             <h2 className="mb-4 text-xl font-bold">More Like This</h2>
-                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 {similarShows.slice(0, 6).map((item) => (
                                     <a
                                         key={item.id}
