@@ -8,9 +8,10 @@ import { useRef } from 'react';
 interface MediaCarouselProps {
   title: string;
   items: Media[];
+  showMediaType?: boolean;
 }
 
-export function MediaCarousel({ title, items }: MediaCarouselProps) {
+export function MediaCarousel({ title, items, showMediaType = true }: MediaCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -48,7 +49,7 @@ export function MediaCarousel({ title, items }: MediaCarouselProps) {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {items.map((item) => (
-              <MediaCard key={item.id} media={item} />
+              <MediaCard key={item.id} media={item} showMediaType={showMediaType} />
             ))}
           </div>
 

@@ -5,9 +5,10 @@ import { Star, Film, Tv } from 'lucide-react';
 interface MediaCardProps {
   media: Media;
   variant?: 'grid' | 'carousel';
+  showMediaType?: boolean;
 }
 
-export function MediaCard({ media, variant = 'carousel' }: MediaCardProps) {
+export function MediaCard({ media, variant = 'carousel', showMediaType = true }: MediaCardProps) {
   const mediaType = media.media_type || 'movie';
   const href = `/${mediaType}/${media.id}`;
   const title = getTitle(media);
@@ -32,16 +33,18 @@ export function MediaCard({ media, variant = 'carousel' }: MediaCardProps) {
             </div>
           )}
           
-          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
-            {mediaType === 'tv' ? (
-              <Tv className="h-3 w-3 text-foreground" />
-            ) : (
-              <Film className="h-3 w-3 text-foreground" />
-            )}
-            <span className="text-xs font-semibold text-foreground">
-              {mediaType === 'tv' ? 'TV' : 'Movie'}
-            </span>
-          </div>
+          {showMediaType && (
+            <div className="absolute left-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
+              {mediaType === 'tv' ? (
+                <Tv className="h-3 w-3 text-foreground" />
+              ) : (
+                <Film className="h-3 w-3 text-foreground" />
+              )}
+              <span className="text-xs font-semibold text-foreground">
+                {mediaType === 'tv' ? 'TV' : 'Movie'}
+              </span>
+            </div>
+          )}
           
           {media.vote_average > 0 && (
             <div className="absolute right-2 top-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 backdrop-blur-sm">
