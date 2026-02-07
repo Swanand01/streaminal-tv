@@ -17,8 +17,43 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Streaminal TV - Watch Movies & TV Shows',
-  description: 'Stream trending movies and TV shows in high quality',
+  ...(process.env.NEXT_PUBLIC_BASE_URL && {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
+  }),
+  title: {
+    default: 'Streaminal TV - Watch Movies & TV Shows Online Free',
+    template: '%s',
+  },
+  description: 'Watch thousands of movies and TV shows online free in HD. Stream trending content, browse by genre, and discover your next favorite show on Streaminal TV - no subscription required.',
+  keywords: ['watch movies online free', 'free tv shows', 'streaming free', 'watch online', 'hd movies', 'free streaming site', 'movies', 'tv shows'],
+  authors: [{ name: 'Streaminal TV' }],
+  creator: 'Streaminal TV',
+  publisher: 'Streaminal TV',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://streaminal.tv',
+    siteName: 'Streaminal TV',
+    title: 'Streaminal TV - Watch Movies & TV Shows Online Free',
+    description: 'Watch thousands of movies and TV shows online free in HD. Stream trending content without subscription.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Streaminal TV - Watch Movies & TV Shows Online Free',
+    description: 'Watch thousands of movies and TV shows online free in HD.',
+    creator: '@streaminal',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({

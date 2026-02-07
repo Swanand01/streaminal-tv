@@ -1,10 +1,17 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { Navigation } from '@/components/navigation';
 import { PersonDetailsSkeleton } from '@/components/skeletons/person-details-skeleton';
 import { PersonContent } from './person-content';
+import { generatePersonMetadata } from '@/lib/seo';
 
 interface PersonPageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PersonPageProps): Promise<Metadata> {
+  const { id } = await params;
+  return generatePersonMetadata(parseInt(id));
 }
 
 export default async function PersonPage({ params }: PersonPageProps) {

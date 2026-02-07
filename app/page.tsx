@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { Navigation } from '@/components/navigation';
 import { HeroBannerSkeleton } from '@/components/skeletons/hero-banner-skeleton';
 import { MediaCarouselSkeleton } from '@/components/skeletons/media-carousel-skeleton';
@@ -7,6 +8,22 @@ import {
   PopularMoviesSection,
   PopularTVShowsSection,
 } from './home-sections';
+
+export const metadata: Metadata = {
+  title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+  description: 'Stream thousands of movies and TV shows online free in HD. Watch trending content, popular films, and TV series without subscription on Streaminal TV.',
+  openGraph: {
+    title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+    description: 'Stream thousands of movies and TV shows online free in HD. Watch trending content without subscription.',
+    type: 'website',
+    siteName: 'Streaminal TV',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+    description: 'Stream thousands of movies and TV shows online free in HD.',
+  },
+};
 
 export default function HomePage() {
   return (

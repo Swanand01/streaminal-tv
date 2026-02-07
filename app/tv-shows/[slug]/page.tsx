@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { Navigation } from '@/components/navigation';
 import { TVShowDetailsSkeleton } from '@/components/skeletons/tv-show-details-skeleton';
 import {
@@ -9,10 +10,24 @@ import {
   getTVReviews,
 } from '@/lib/tmdb';
 import { TVShowContent } from './tv-show-content';
+import { generateTVShowMetadata } from '@/lib/seo';
+import { extractIdFromSlug } from '@/lib/utils';
 
 interface TVShowPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
   searchParams: Promise<{ season?: string; episode?: string }>;
+}
+
+export async function generateMetadata({ params }: TVShowPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const tvId = extractIdFromSlug(slug);
+  if (!tvId) {
+    return {
+      title: 'TV Show Not Found | Streaminal TV',
+      description: 'The requested TV show could not be found.',
+    };
+  }
+  return generateTVShowMetadata(tvId);
 }
 
 async function TVShowData({
@@ -40,6 +55,10 @@ async function TVShowData({
     );
   }
 
+  // Clamp episode to valid range
+  const maxEpisode = seasonData.episodes?.length || 1;
+  const validEpisode = Math.min(Math.max(1, episode), maxEpisode);
+
   return (
     <TVShowContent
       tvId={tvId}
@@ -49,24 +68,24 @@ async function TVShowData({
       videos={videos}
       reviews={reviews}
       initialSeason={season}
-      initialEpisode={episode}
+      initialEpisode={validEpisode}
     />
   );
 }
 
 export default async function TVShowPage({ params, searchParams }: TVShowPageProps) {
-  const { id } = await params;
+  const { slug } = await params;
   const search = await searchParams;
-  const tvId = parseInt(id);
-  const season = search.season ? parseInt(search.season) : 1;
-  const episode = search.episode ? parseInt(search.episode) : 1;
+  const tvId = extractIdFromSlug(slug);
+  const season = Math.max(1, parseInt(search.season || '1') || 1);
+  const episode = Math.max(1, parseInt(search.episode || '1') || 1);
 
-  if (isNaN(tvId)) {
+  if (!tvId) {
     return (
       <div className="bg-background min-h-screen">
         <Navigation />
         <div className="flex min-h-[80vh] flex-col items-center justify-center gap-4">
-          <p className="text-muted-foreground text-xl">Invalid TV show ID</p>
+          <p className="text-muted-foreground text-xl">TV show not found</p>
           <p className="text-muted-foreground text-sm">Please check the URL and try again</p>
         </div>
       </div>

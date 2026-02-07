@@ -3,14 +3,14 @@
 import { CastList } from '@/components/cast-list';
 import { VideosList } from '@/components/videos-list';
 import { ReviewsList } from '@/components/reviews-list';
-import { EpisodesList } from '@/app/tv-shows/[id]/episodes-list';
+import { EpisodesList } from '@/app/tv-shows/[slug]/episodes-list';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import type { MediaDetails, Season, Video, Review } from '@/lib/tmdb';
 
 interface TVShowTabsProps {
   show: MediaDetails;
-  initialSeason: number;
-  initialEpisode: number;
+  selectedSeason: number;
+  selectedEpisode: number;
   seasonData: Season;
   videos?: Video[];
   reviews?: Review[];
@@ -20,8 +20,8 @@ interface TVShowTabsProps {
 
 export function TVShowTabs({
   show,
-  initialSeason,
-  initialEpisode,
+  selectedSeason,
+  selectedEpisode,
   seasonData,
   videos,
   reviews,
@@ -41,8 +41,8 @@ export function TVShowTabs({
       <TabsContent value="episodes" className="mt-6">
         <EpisodesList
           show={show}
-          initialSeason={initialSeason}
-          initialEpisode={initialEpisode}
+          selectedSeason={selectedSeason}
+          selectedEpisode={selectedEpisode}
           seasonData={seasonData}
           onSeasonChange={onSeasonChange}
           onEpisodeChange={onEpisodeChange}

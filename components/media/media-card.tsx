@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Media, getImageUrl, getTitle, getReleaseYear } from '@/lib/tmdb';
+import { generateSlug } from '@/lib/utils';
 import { Star, Film, Tv } from 'lucide-react';
 
 interface MediaCardProps {
@@ -12,8 +13,8 @@ interface MediaCardProps {
 export function MediaCard({ media, variant = 'carousel', showMediaType = true }: MediaCardProps) {
   const mediaType = media.media_type || 'movie';
   const route = mediaType === 'tv' ? 'tv-shows' : 'movies';
-  const href = `/${route}/${media.id}`;
   const title = getTitle(media);
+  const href = `/${route}/${generateSlug(title, media.id)}`;
   const year = getReleaseYear(media);
   const rating = media.vote_average.toFixed(1);
 

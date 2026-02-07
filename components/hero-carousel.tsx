@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Media, getImageUrl, getTitle, getReleaseYear } from '@/lib/tmdb';
+import { generateSlug } from '@/lib/utils';
 import { Play, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -144,7 +145,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
             </p>
 
             <Button asChild size="lg" className="gap-2 font-semibold">
-              <Link href={`/${route}/${currentMedia.id}`}>
+              <Link href={`/${route}/${generateSlug(title, currentMedia.id)}`}>
                 <Play className="h-5 w-5 fill-current" />
                 Play Now
               </Link>

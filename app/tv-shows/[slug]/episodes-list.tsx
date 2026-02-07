@@ -16,8 +16,8 @@ import type { MediaDetails, Season } from '@/lib/tmdb';
 
 interface EpisodesListProps {
   show: MediaDetails;
-  initialSeason: number;
-  initialEpisode: number;
+  selectedSeason: number;
+  selectedEpisode: number;
   seasonData: Season;
   onSeasonChange: (season: number) => void;
   onEpisodeChange: (episode: number) => void;
@@ -25,27 +25,18 @@ interface EpisodesListProps {
 
 export function EpisodesList({
   show,
-  initialSeason,
-  initialEpisode,
+  selectedSeason,
+  selectedEpisode,
   seasonData,
   onSeasonChange,
   onEpisodeChange,
 }: EpisodesListProps) {
   const [episodesShown, setEpisodesShown] = useState(12);
-  const [selectedSeason, setSelectedSeason] = useState(initialSeason);
-  const [selectedEpisode, setSelectedEpisode] = useState(initialEpisode);
 
   const handleSeasonChange = (value: string) => {
     const season = parseInt(value);
-    setSelectedSeason(season);
-    setSelectedEpisode(1);
     setEpisodesShown(12);
     onSeasonChange(season);
-  };
-
-  const handleEpisodeClick = (episodeNumber: number) => {
-    setSelectedEpisode(episodeNumber);
-    onEpisodeChange(episodeNumber);
   };
 
   return (
@@ -71,7 +62,7 @@ export function EpisodesList({
             {seasonData.episodes.slice(0, episodesShown).map((episode) => (
               <button
                 key={episode.id}
-                onClick={() => handleEpisodeClick(episode.episode_number)}
+                onClick={() => onEpisodeChange(episode.episode_number)}
                 className={`group relative overflow-hidden rounded-lg border text-left transition-all ${
                   selectedEpisode === episode.episode_number
                     ? 'border-primary ring-primary ring-2'

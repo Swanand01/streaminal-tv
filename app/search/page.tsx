@@ -1,10 +1,17 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { Navigation } from '@/components/navigation';
 import { SearchResultsSkeleton } from '@/components/skeletons/search-results-skeleton';
 import { SearchResults } from './search-results';
+import { generateSearchMetadata } from '@/lib/seo';
 
 interface SearchPageProps {
   searchParams: Promise<{ q?: string }>;
+}
+
+export async function generateMetadata({ searchParams }: SearchPageProps): Promise<Metadata> {
+  const params = await searchParams;
+  return generateSearchMetadata(params.q || '');
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {

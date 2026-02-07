@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { TVShowHeader } from './tv-show-header';
 import { TVShowTabs } from './tv-show-tabs';
 import { SimilarTVShowsSection } from './similar-tv-shows-section';
+import { getTitle } from '@/lib/tmdb';
+import { generateSlug } from '@/lib/utils';
 import type { MediaDetails, Season, Media, Video, Review } from '@/lib/tmdb';
 
 interface TVShowContentProps {
@@ -29,21 +31,21 @@ export function TVShowContent({
   initialEpisode,
 }: TVShowContentProps) {
   const router = useRouter();
-  const [selectedSeason, setSelectedSeason] = useState(initialSeason);
+  const slug = generateSlug(getTitle(initialShow), tvId);
   const [selectedEpisode, setSelectedEpisode] = useState(initialEpisode);
 
   const handleSeasonChange = (season: number) => {
-    setSelectedSeason(season);
     setSelectedEpisode(1);
-    router.push(`/tv-shows/${tvId}?season=${season}&episode=1`);
+    router.push(`/tv-shows/${slug}?season=${season}&episode=1`);
   };
 
   const handleEpisodeChange = (episode: number) => {
     setSelectedEpisode(episode);
-    router.push(`/tv-shows/${tvId}?season=${selectedSeason}&episode=${episode}`);
+    const url = `/tv-shows/${slug}?season=${initialSeason}&episode=${episode}`;
+    window.history.replaceState(null, '', url);
   };
 
-  const videoUrl = `https://vidsrc-embed.ru/embed/tv?tmdb=${tvId}&season=${selectedSeason}&episode=${selectedEpisode}`;
+  const videoUrl = `https://vidsrc-embed.ru/embed/tv?tmdb=${tvId}&season=${initialSeason}&episode=${selectedEpisode}`;
   const episodeOverview = initialSeasonData?.episodes.find(
     (ep) => ep.episode_number === selectedEpisode
   )?.overview;
@@ -55,7 +57,7 @@ export function TVShowContent({
         <div className="container mx-auto px-4 md:px-8 lg:px-12">
           <div className="relative aspect-video w-full">
             <iframe
-              key={`${selectedSeason}-${selectedEpisode}`}
+              key={`${initialSeason}-${selectedEpisode}`}
               src={videoUrl}
               className="h-full w-full"
               allowFullScreen
@@ -73,8 +75,8 @@ export function TVShowContent({
             <TVShowHeader show={initialShow} episodeOverview={episodeOverview} />
             <TVShowTabs
               show={initialShow}
-              initialSeason={selectedSeason}
-              initialEpisode={selectedEpisode}
+              selectedSeason={initialSeason}
+              selectedEpisode={selectedEpisode}
               seasonData={initialSeasonData}
               videos={videos}
               reviews={reviews}
