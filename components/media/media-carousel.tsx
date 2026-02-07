@@ -48,8 +48,8 @@ export function MediaCarousel({ title, items, showMediaType = true }: MediaCarou
             className="scrollbar-hide flex gap-3 overflow-x-auto overflow-y-hidden py-2 md:gap-4"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {items.map((item) => (
-              <MediaCard key={item.id} media={item} showMediaType={showMediaType} />
+            {items.map((item, index) => (
+              <MediaCard key={`${item.id}-${index}`} media={item} showMediaType={showMediaType} />
             ))}
           </div>
 

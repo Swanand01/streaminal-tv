@@ -1,6 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton';
+import { SimilarMediaSkeleton } from './similar-media-skeleton';
 
-export function TVShowSkeleton() {
+export function TVShowDetailsSkeleton() {
   return (
     <div>
       {/* Video Player Section */}
@@ -56,14 +57,13 @@ export function TVShowSkeleton() {
               {/* Episodes Grid */}
               <div className="mt-6 space-y-6">
                 <div className="flex items-center justify-between">
-                  <Skeleton className="h-8 w-32" />
-                  <Skeleton className="h-10 w-[180px]" />
+                  <Skeleton className="h-10 w-45" />
                 </div>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                <div className="grid grid-cols-2 gap-2 sm:gap-4 xl:grid-cols-3">
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div key={i} className="space-y-2">
                       <Skeleton className="aspect-video w-full rounded-lg" />
-                      <Skeleton className="h-4 w-3/4" />
+                      <Skeleton className="h-3 w-3/4 sm:h-4" />
                     </div>
                   ))}
                 </div>
@@ -72,16 +72,7 @@ export function TVShowSkeleton() {
           </div>
 
           {/* Recommendations Sidebar */}
-          <aside className="w-full lg:block lg:w-80 xl:w-96">
-            <Skeleton className="mb-4 h-7 w-40" />
-            <div className="grid grid-cols-2 gap-2">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="space-y-2">
-                  <Skeleton className="aspect-video w-full rounded-lg" />
-                </div>
-              ))}
-            </div>
-          </aside>
+          <SimilarMediaSkeleton />
         </div>
       </div>
     </div>

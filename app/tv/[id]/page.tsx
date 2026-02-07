@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Navigation } from '@/components/navigation';
-import { TVShowSkeleton } from '@/components/skeletons/tv-show-skeleton';
+import { TVShowDetailsSkeleton } from '@/components/skeletons/tv-show-details-skeleton';
 import {
   getTVDetails,
   getTVSeason,
@@ -76,7 +76,7 @@ export default async function TVShowPage({ params, searchParams }: TVShowPagePro
   return (
     <div className="bg-background min-h-screen">
       <Navigation />
-      <Suspense fallback={<TVShowSkeleton />}>
+      <Suspense fallback={<TVShowDetailsSkeleton />}>
         <TVShowData tvId={tvId} season={season} episode={episode} />
       </Suspense>
     </div>

@@ -1,4 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton';
+import { SimilarMediaSkeleton } from './similar-media-skeleton';
 
 export function MovieDetailsSkeleton() {
   return (
@@ -66,16 +67,7 @@ export function MovieDetailsSkeleton() {
           </div>
 
           {/* Recommendations Sidebar */}
-          <aside className="w-full lg:block lg:w-80 xl:w-96">
-            <Skeleton className="mb-4 h-7 w-40" />
-            <div className="grid grid-cols-2 gap-2">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="space-y-2">
-                  <Skeleton className="aspect-video w-full rounded-lg" />
-                </div>
-              ))}
-            </div>
-          </aside>
+          <SimilarMediaSkeleton />
         </div>
       </div>
     </div>

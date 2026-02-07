@@ -1,5 +1,5 @@
 import { discoverMovies, getMovieGenres } from '@/lib/tmdb';
-import { MoviesContent } from './movies-content';
+import { BrowseContent } from '@/components/browse-content';
 
 export async function Movies() {
   const today = new Date().toISOString().split('T')[0];
@@ -13,5 +13,12 @@ export async function Movies() {
     }).catch(() => ({ results: [], total_pages: 0, total_results: 0 })),
   ]);
 
-  return <MoviesContent initialGenres={genres} initialMovies={initialMoviesData} />;
+  return (
+    <BrowseContent
+      mediaType="movie"
+      title="Movies"
+      initialGenres={genres}
+      initialData={initialMoviesData}
+    />
+  );
 }

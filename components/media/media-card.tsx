@@ -38,7 +38,7 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
           )}
 
           {showMediaType && (
-            <div className="bg-background/90 absolute top-2 left-2 flex items-center gap-1 rounded-md px-2 py-1 backdrop-blur-sm">
+            <div className="bg-background/90 absolute top-2 left-2 flex items-center justify-center gap-1 rounded-md px-2 py-1 backdrop-blur-sm">
               {mediaType === 'tv' ? (
                 <Tv className="text-foreground h-3 w-3" />
               ) : (
