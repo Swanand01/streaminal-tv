@@ -26,9 +26,7 @@ export function Footer() {
             <Github className="h-4 w-4" />
           </a>
         </p>
-        <p className="text-muted-foreground text-xs">
-          We do not host any media files.
-        </p>
+        <p className="text-muted-foreground text-xs">We do not host any media files.</p>
       </div>
     </footer>
   );
