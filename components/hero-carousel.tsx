@@ -55,7 +55,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
@@ -86,7 +86,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
 
   return (
     <section
-      className="group/hero relative h-[70vh] min-h-150 w-full md:h-[80vh] max-h-200"
+      className="group/hero relative h-[70vh] max-h-200 min-h-150 w-full md:h-[80vh]"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onTouchStart={handleTouchStart}
@@ -123,7 +123,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
         <div className="container mx-auto px-4 md:px-8 lg:px-12">
           <div
             key={currentIndex}
-            className="max-w-2xl space-y-4 md:space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700"
+            className="animate-in fade-in slide-in-from-bottom-4 max-w-2xl space-y-4 duration-700 md:space-y-6"
           >
             <div className="text-muted-foreground flex items-center gap-3 text-sm md:text-base">
               <div className="flex items-center gap-1">
@@ -158,7 +158,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
       {items.length > 1 && canGoBack && (
         <button
           onClick={goToPrevious}
-          className="from-background via-background/80 to-background/0 absolute top-0 left-0 z-10 flex h-full items-center bg-linear-to-r px-4 opacity-0 transition-opacity group-hover/hero:opacity-100 md:px-8 pointer-events-none md:pointer-events-auto"
+          className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 left-0 z-10 flex h-full items-center bg-linear-to-r px-4 opacity-0 transition-opacity group-hover/hero:opacity-100 md:pointer-events-auto md:px-8"
           aria-label="Previous slide"
         >
           <div className="bg-background/80 hover:bg-background rounded-full p-2 backdrop-blur-sm transition-colors">
@@ -170,7 +170,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
       {items.length > 1 && canGoForward && (
         <button
           onClick={goToNext}
-          className="from-background via-background/80 to-background/0 absolute top-0 right-0 z-10 flex h-full items-center bg-linear-to-l px-4 opacity-0 transition-opacity group-hover/hero:opacity-100 md:px-8 pointer-events-none md:pointer-events-auto"
+          className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 right-0 z-10 flex h-full items-center bg-linear-to-l px-4 opacity-0 transition-opacity group-hover/hero:opacity-100 md:pointer-events-auto md:px-8"
           aria-label="Next slide"
         >
           <div className="bg-background/80 hover:bg-background rounded-full p-2 backdrop-blur-sm transition-colors">

@@ -6,10 +6,15 @@ import { TVShows } from './tv-shows';
 
 export const metadata: Metadata = {
   title: 'Watch TV Shows Online Free - Browse HD Series | Streaminal TV',
-  description: 'Watch popular TV shows and series online free in HD. Browse by genre and rating. Stream all episodes without subscription on Streaminal TV.',
+  description:
+    'Watch popular TV shows and series online free in HD. Browse by genre and rating. Stream all episodes without subscription on Streaminal TV.',
+  alternates: {
+    canonical: '/tv-shows',
+  },
   openGraph: {
     title: 'Watch TV Shows Online Free - Browse HD Series | Streaminal TV',
-    description: 'Watch popular TV shows and series online free in HD. Browse by genre and rating without subscription.',
+    description:
+      'Watch popular TV shows and series online free in HD. Browse by genre and rating without subscription.',
     type: 'website',
     siteName: 'Streaminal TV',
   },

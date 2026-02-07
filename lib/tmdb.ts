@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
@@ -76,6 +78,42 @@ export interface Season {
   episodes: Episode[];
 }
 
+export interface Review {
+  id: string;
+  author: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string | null;
+    rating: number | null;
+  };
+  content: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface DiscoverParams {
+  page?: number;
+  with_genres?: string;
+  'vote_average.gte'?: number;
+  'release_date.lte'?: string;
+  sort_by?: string;
+}
+
+export interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+  official: boolean;
+}
+
 async function fetchTMDB(endpoint: string) {
   const url = `${TMDB_BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
   const response = await fetch(url, { next: { revalidate: 3600 } });
@@ -105,15 +143,15 @@ export async function getPopularTVShows() {
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
-export async function getMovieDetails(id: number) {
+export const getMovieDetails = cache(async (id: number) => {
   const data = await fetchTMDB(`/movie/${id}?append_to_response=credits`);
   return data as MediaDetails;
-}
+});
 
-export async function getTVDetails(id: number) {
+export const getTVDetails = cache(async (id: number) => {
   const data = await fetchTMDB(`/tv/${id}?append_to_response=credits`);
   return data as MediaDetails;
-}
+});
 
 export async function getTVSeason(tvId: number, seasonNumber: number) {
   const data = await fetchTMDB(`/tv/${tvId}/season/${seasonNumber}`);
@@ -143,10 +181,10 @@ export async function searchPeople(query: string) {
   return data.results as Person[];
 }
 
-export async function getPersonDetails(id: number) {
+export const getPersonDetails = cache(async (id: number) => {
   const data = await fetchTMDB(`/person/${id}?append_to_response=movie_credits,tv_credits`);
   return data as PersonDetails;
-}
+});
 
 export async function getPersonMovieCredits(id: number) {
   const data = await fetchTMDB(`/person/${id}/movie_credits`);
@@ -172,11 +210,6 @@ export function getReleaseYear(media: Media) {
   return date ? new Date(date).getFullYear() : null;
 }
 
-export interface Genre {
-  id: number;
-  name: string;
-}
-
 export async function getMovieGenres() {
   const data = await fetchTMDB('/genre/movie/list');
   return data.genres as Genre[];
@@ -185,14 +218,6 @@ export async function getMovieGenres() {
 export async function getTVGenres() {
   const data = await fetchTMDB('/genre/tv/list');
   return data.genres as Genre[];
-}
-
-export interface DiscoverParams {
-  page?: number;
-  with_genres?: string;
-  'vote_average.gte'?: number;
-  'release_date.lte'?: string;
-  sort_by?: string;
 }
 
 export async function discoverMovies(params: DiscoverParams = {}) {
@@ -244,15 +269,6 @@ export async function getSimilarTVShows(id: number) {
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
-export interface Video {
-  id: string;
-  key: string;
-  name: string;
-  site: string;
-  type: string;
-  official: boolean;
-}
-
 export async function getMovieVideos(id: number) {
   const data = await fetchTMDB(`/movie/${id}/videos`);
   return data.results as Video[];
@@ -261,20 +277,6 @@ export async function getMovieVideos(id: number) {
 export async function getTVVideos(id: number) {
   const data = await fetchTMDB(`/tv/${id}/videos`);
   return data.results as Video[];
-}
-
-export interface Review {
-  id: string;
-  author: string;
-  author_details: {
-    name: string;
-    username: string;
-    avatar_path: string | null;
-    rating: number | null;
-  };
-  content: string;
-  created_at: string;
-  updated_at: string;
 }
 
 export async function getMovieReviews(id: number) {

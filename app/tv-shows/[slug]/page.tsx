@@ -10,7 +10,8 @@ import {
   getTVReviews,
 } from '@/lib/tmdb';
 import { TVShowContent } from './tv-show-content';
-import { generateTVShowMetadata } from '@/lib/seo';
+import { generateTVShowMetadata, generateTVSeriesJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/jsonld';
 import { extractIdFromSlug } from '@/lib/utils';
 
 interface TVShowPageProps {
@@ -55,7 +56,6 @@ async function TVShowData({
     );
   }
 
-  // Clamp episode to valid range
   const maxEpisode = seasonData.episodes?.length || 1;
   const validEpisode = Math.min(Math.max(1, episode), maxEpisode);
 
@@ -92,8 +92,11 @@ export default async function TVShowPage({ params, searchParams }: TVShowPagePro
     );
   }
 
+  const show = await getTVDetails(tvId).catch(() => null);
+
   return (
     <div className="bg-background min-h-screen">
+      {show && <JsonLd data={generateTVSeriesJsonLd(show)} />}
       <Navigation />
       <Suspense fallback={<TVShowDetailsSkeleton />}>
         <TVShowData tvId={tvId} season={season} episode={episode} />

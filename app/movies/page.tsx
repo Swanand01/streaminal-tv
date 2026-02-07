@@ -6,10 +6,15 @@ import { Movies } from './movies';
 
 export const metadata: Metadata = {
   title: 'Watch Movies Online Free - Browse HD Movies | Streaminal TV',
-  description: 'Watch thousands of movies online free in HD. Browse by genre, rating, and year. Stream popular and trending movies without subscription on Streaminal TV.',
+  description:
+    'Watch thousands of movies online free in HD. Browse by genre, rating, and year. Stream popular and trending movies without subscription on Streaminal TV.',
+  alternates: {
+    canonical: '/movies',
+  },
   openGraph: {
     title: 'Watch Movies Online Free - Browse HD Movies | Streaminal TV',
-    description: 'Watch thousands of movies online free in HD. Browse by genre, rating, and year without subscription.',
+    description:
+      'Watch thousands of movies online free in HD. Browse by genre, rating, and year without subscription.',
     type: 'website',
     siteName: 'Streaminal TV',
   },

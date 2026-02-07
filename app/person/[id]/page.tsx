@@ -3,7 +3,9 @@ import type { Metadata } from 'next';
 import { Navigation } from '@/components/navigation';
 import { PersonDetailsSkeleton } from '@/components/skeletons/person-details-skeleton';
 import { PersonContent } from './person-content';
-import { generatePersonMetadata } from '@/lib/seo';
+import { generatePersonMetadata, generatePersonJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/jsonld';
+import { getPersonDetails } from '@/lib/tmdb';
 
 interface PersonPageProps {
   params: Promise<{ id: string }>;
@@ -31,8 +33,11 @@ export default async function PersonPage({ params }: PersonPageProps) {
     );
   }
 
+  const person = await getPersonDetails(personId).catch(() => null);
+
   return (
     <div className="bg-background min-h-screen">
+      {person && <JsonLd data={generatePersonJsonLd(person)} />}
       <Navigation />
 
       <Suspense fallback={<PersonDetailsSkeleton />}>

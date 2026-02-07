@@ -6,7 +6,10 @@ import {
   getImageUrl,
   getTitle,
   getReleaseYear,
+  type MediaDetails,
+  type PersonDetails,
 } from '@/lib/tmdb';
+import { generateSlug } from '@/lib/utils';
 
 export async function generateMovieMetadata(movieId: number): Promise<Metadata> {
   if (isNaN(movieId)) {
@@ -31,9 +34,14 @@ export async function generateMovieMetadata(movieId: number): Promise<Metadata> 
         : movie.overview
       : `Watch ${title}${year ? ` (${year})` : ''} online free in HD. ${genres}${runtime ? ` • ${runtime}` : ''}${rating ? ` • ⭐ ${rating}/10` : ''}. Stream now on Streaminal TV.`;
 
+    const slug = generateSlug(title, movieId);
+
     return {
       title: pageTitle,
       description,
+      alternates: {
+        canonical: `/movies/${slug}`,
+      },
       openGraph: {
         title: pageTitle,
         description,
@@ -50,7 +58,7 @@ export async function generateMovieMetadata(movieId: number): Promise<Metadata> 
         images: movie.backdrop_path ? [getImageUrl(movie.backdrop_path, 'w780')] : [],
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: 'Movie Not Found | Streaminal TV',
       description: 'The requested movie could not be found.',
@@ -83,9 +91,14 @@ export async function generateTVShowMetadata(tvId: number): Promise<Metadata> {
         : show.overview
       : `Watch ${title}${year ? ` (${year})` : ''} online free in HD. ${genres}${seasons ? ` • ${seasons}` : ''}${rating ? ` • ⭐ ${rating}/10` : ''}. Stream all episodes on Streaminal TV.`;
 
+    const slug = generateSlug(title, tvId);
+
     return {
       title: pageTitle,
       description,
+      alternates: {
+        canonical: `/tv-shows/${slug}`,
+      },
       openGraph: {
         title: pageTitle,
         description,
@@ -102,7 +115,7 @@ export async function generateTVShowMetadata(tvId: number): Promise<Metadata> {
         images: show.backdrop_path ? [getImageUrl(show.backdrop_path, 'w780')] : [],
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: 'TV Show Not Found | Streaminal TV',
       description: 'The requested TV show could not be found.',
@@ -133,6 +146,9 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
     return {
       title: pageTitle,
       description,
+      alternates: {
+        canonical: `/person/${personId}`,
+      },
       openGraph: {
         title: pageTitle,
         description,
@@ -149,7 +165,7 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
         images: person.profile_path ? [getImageUrl(person.profile_path, 'w500')] : [],
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: 'Person Not Found | Streaminal TV',
       description: 'The requested person could not be found.',
@@ -171,6 +187,95 @@ export function generateSearchMetadata(query: string): Metadata {
     robots: {
       index: false,
       follow: true,
+    },
+  };
+}
+
+export function generateMovieJsonLd(movie: MediaDetails) {
+  const title = getTitle(movie);
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Movie',
+    name: title,
+    description: movie.overview || undefined,
+    image: movie.poster_path ? getImageUrl(movie.poster_path, 'w500') : undefined,
+    datePublished: movie.release_date || undefined,
+    genre: movie.genres?.map((g) => g.name) || undefined,
+    duration: movie.runtime ? `PT${movie.runtime}M` : undefined,
+    aggregateRating: movie.vote_average
+      ? {
+          '@type': 'AggregateRating',
+          ratingValue: movie.vote_average.toFixed(1),
+          bestRating: '10',
+          worstRating: '0',
+        }
+      : undefined,
+    actor: movie.credits?.cast?.slice(0, 5).map((actor) => ({
+      '@type': 'Person',
+      name: actor.name,
+    })),
+  };
+}
+
+export function generateTVSeriesJsonLd(show: MediaDetails) {
+  const title = getTitle(show);
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TVSeries',
+    name: title,
+    description: show.overview || undefined,
+    image: show.poster_path ? getImageUrl(show.poster_path, 'w500') : undefined,
+    datePublished: show.first_air_date || undefined,
+    genre: show.genres?.map((g) => g.name) || undefined,
+    numberOfSeasons: show.number_of_seasons || undefined,
+    numberOfEpisodes: show.number_of_episodes || undefined,
+    aggregateRating: show.vote_average
+      ? {
+          '@type': 'AggregateRating',
+          ratingValue: show.vote_average.toFixed(1),
+          bestRating: '10',
+          worstRating: '0',
+        }
+      : undefined,
+    actor: show.credits?.cast?.slice(0, 5).map((actor) => ({
+      '@type': 'Person',
+      name: actor.name,
+    })),
+  };
+}
+
+export function generatePersonJsonLd(person: PersonDetails) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: person.name,
+    image: person.profile_path ? getImageUrl(person.profile_path, 'w500') : undefined,
+    description: person.biography || undefined,
+    birthDate: person.birthday || undefined,
+    birthPlace: person.place_of_birth || undefined,
+    jobTitle: person.known_for_department || undefined,
+  };
+}
+
+export function generateWebSiteJsonLd() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  if (!baseUrl) return null;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Streaminal TV',
+    url: baseUrl,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${baseUrl}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
     },
   };
 }

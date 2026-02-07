@@ -24,18 +24,32 @@ export const metadata: Metadata = {
     default: 'Streaminal TV - Watch Movies & TV Shows Online Free',
     template: '%s',
   },
-  description: 'Watch thousands of movies and TV shows online free in HD. Stream trending content, browse by genre, and discover your next favorite show on Streaminal TV - no subscription required.',
-  keywords: ['watch movies online free', 'free tv shows', 'streaming free', 'watch online', 'hd movies', 'free streaming site', 'movies', 'tv shows'],
+  description:
+    'Watch thousands of movies and TV shows online free in HD. Stream trending content, browse by genre, and discover your next favorite show on Streaminal TV - no subscription required.',
+  keywords: [
+    'watch movies online free',
+    'free tv shows',
+    'streaming free',
+    'watch online',
+    'hd movies',
+    'free streaming site',
+    'movies',
+    'tv shows',
+  ],
   authors: [{ name: 'Streaminal TV' }],
   creator: 'Streaminal TV',
   publisher: 'Streaminal TV',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://streaminal.tv',
     siteName: 'Streaminal TV',
     title: 'Streaminal TV - Watch Movies & TV Shows Online Free',
-    description: 'Watch thousands of movies and TV shows online free in HD. Stream trending content without subscription.',
+    description:
+      'Watch thousands of movies and TV shows online free in HD. Stream trending content without subscription.',
   },
   twitter: {
     card: 'summary_large_image',
