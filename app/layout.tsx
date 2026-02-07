@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Figtree } from 'next/font/google';
 import './globals.css';
 import { QueryProvider } from '@/components/providers/query-provider';
+import NextTopLoader from 'nextjs-toploader';
+
 
 const figtree = Figtree({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -28,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${figtree.variable}`}>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+        <NextTopLoader color='#f49f1e' showSpinner={false} />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
