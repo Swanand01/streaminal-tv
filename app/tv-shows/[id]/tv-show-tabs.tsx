@@ -3,7 +3,7 @@
 import { CastList } from '@/components/cast-list';
 import { VideosList } from '@/components/videos-list';
 import { ReviewsList } from '@/components/reviews-list';
-import { EpisodesList } from '@/app/tv/[id]/episodes-list';
+import { EpisodesList } from '@/app/tv-shows/[id]/episodes-list';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import type { MediaDetails, Season, Video, Review } from '@/lib/tmdb';
 

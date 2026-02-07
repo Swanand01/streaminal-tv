@@ -1,4 +1,4 @@
-import { HeroBanner } from '@/components/hero-banner';
+import { HeroCarousel } from '@/components/hero-carousel';
 import { MediaCarousel } from '@/components/media/media-carousel';
 import { getTrending, getPopularMovies, getPopularTVShows } from '@/lib/tmdb';
 
@@ -9,11 +9,11 @@ export async function HeroAndTrendingSection() {
     return null;
   }
 
-  const featuredItem = trending[1];
+  const featuredItems = trending.slice(0, 5);
 
   return (
     <>
-      {featuredItem && <HeroBanner media={featuredItem} />}
+      <HeroCarousel items={featuredItems} />
       <div className="relative z-10 -mt-20">
         <MediaCarousel title="Trending Now" items={trending} />
       </div>

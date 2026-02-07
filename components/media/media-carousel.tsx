@@ -2,7 +2,7 @@
 
 import { Media } from '@/lib/tmdb';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { MediaCard } from './media-card';
 
 interface MediaCarouselProps {
@@ -13,6 +13,29 @@ interface MediaCarouselProps {
 
 export function MediaCarousel({ title, items, showMediaType = true }: MediaCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScrollability = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10); // 10px threshold
+    }
+  };
+
+  useEffect(() => {
+    checkScrollability();
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener('scroll', checkScrollability);
+      window.addEventListener('resize', checkScrollability);
+      return () => {
+        scrollElement.removeEventListener('scroll', checkScrollability);
+        window.removeEventListener('resize', checkScrollability);
+      };
+    }
+  }, [items]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -33,15 +56,17 @@ export function MediaCarousel({ title, items, showMediaType = true }: MediaCarou
         </h2>
 
         <div className="relative px-4 md:px-8 lg:px-12">
-          <button
-            onClick={() => scroll('left')}
-            className="from-background via-background/80 to-background/0 absolute top-0 left-4 z-10 flex h-full items-center bg-gradient-to-r px-2 opacity-0 transition-opacity group-hover/carousel:opacity-100 md:left-8 md:px-4 lg:left-12"
-            aria-label="Scroll left"
-          >
-            <div className="bg-background/80 hover:bg-background rounded-full p-1 backdrop-blur-sm transition-colors">
-              <ChevronLeft className="text-foreground h-6 w-6 md:h-8 md:w-8" />
-            </div>
-          </button>
+          {canScrollLeft && (
+            <button
+              onClick={() => scroll('left')}
+              className="from-background via-background/80 to-background/0 absolute top-0 left-4 z-10 flex h-full items-center bg-linear-to-r px-2 opacity-0 transition-opacity group-hover/carousel:opacity-100 md:left-8 md:px-4 lg:left-12 pointer-events-none md:pointer-events-auto"
+              aria-label="Scroll left"
+            >
+              <div className="bg-background/80 hover:bg-background rounded-full p-1 backdrop-blur-sm transition-colors">
+                <ChevronLeft className="text-foreground h-6 w-6 md:h-8 md:w-8" />
+              </div>
+            </button>
+          )}
 
           <div
             ref={scrollRef}
@@ -53,15 +78,17 @@ export function MediaCarousel({ title, items, showMediaType = true }: MediaCarou
             ))}
           </div>
 
-          <button
-            onClick={() => scroll('right')}
-            className="from-background via-background/80 to-background/0 absolute top-0 right-4 z-10 flex h-full items-center bg-gradient-to-l px-2 opacity-0 transition-opacity group-hover/carousel:opacity-100 md:right-8 md:px-4 lg:right-12"
-            aria-label="Scroll right"
-          >
-            <div className="bg-background/80 hover:bg-background rounded-full p-1 backdrop-blur-sm transition-colors">
-              <ChevronRight className="text-foreground h-6 w-6 md:h-8 md:w-8" />
-            </div>
-          </button>
+          {canScrollRight && (
+            <button
+              onClick={() => scroll('right')}
+              className="from-background via-background/80 to-background/0 absolute top-0 right-4 z-10 flex h-full items-center bg-linear-to-l px-2 opacity-0 transition-opacity group-hover/carousel:opacity-100 md:right-8 md:px-4 lg:right-12 pointer-events-none md:pointer-events-auto"
+              aria-label="Scroll right"
+            >
+              <div className="bg-background/80 hover:bg-background rounded-full p-1 backdrop-blur-sm transition-colors">
+                <ChevronRight className="text-foreground h-6 w-6 md:h-8 md:w-8" />
+              </div>
+            </button>
+          )}
         </div>
       </div>
     </section>

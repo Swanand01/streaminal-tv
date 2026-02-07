@@ -37,12 +37,12 @@ export function MoviesContentSkeleton() {
 
         {/* Main Content Skeleton */}
         <main className="min-w-0 flex-1">
-          <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="mb-6 flex justify-between gap-4">
             <div>
               <Skeleton className="mb-2 h-9 w-32" />
               <Skeleton className="h-5 w-40" />
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex gap-3">
               <Skeleton className="h-10 w-35" />
               <Skeleton className="h-10 w-24 lg:hidden" />
             </div>

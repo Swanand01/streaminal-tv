@@ -24,11 +24,11 @@ export function Navigation() {
   };
 
   return (
-    <nav className="from-background to-background/0 fixed top-0 z-50 w-full bg-gradient-to-b transition-colors duration-300">
+    <nav className="from-background to-background/0 fixed top-0 z-50 w-full bg-linear-to-b transition-colors duration-300">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-8 lg:px-12">
         <div className="flex items-center gap-8">
           <Link href="/" className="text-primary text-2xl font-bold tracking-tight">
-            STREAMINAL
+            STREAMINAL TV
           </Link>
           <div className="hidden items-center gap-6 md:flex">
             <Link
@@ -60,13 +60,13 @@ export function Navigation() {
                 placeholder="Search movies, TV shows..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-[200px] md:w-[400px]"
+                className="w-50 md:w-75"
                 autoFocus
               />
               <button
                 type="button"
                 onClick={() => setShowSearch(false)}
-                className="text-muted-foreground hover:text-foreground flex-shrink-0 text-sm"
+                className="text-muted-foreground hover:text-foreground shrink-0 text-sm"
               >
                 Cancel
               </button>

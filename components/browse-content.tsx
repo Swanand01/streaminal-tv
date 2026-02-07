@@ -136,7 +136,7 @@ export function BrowseContent({
 
         {/* Main Content */}
         <main className="min-w-0 flex-1">
-          <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="mb-6 flex justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-balance">{title}</h1>
               {!isLoading && (
@@ -146,7 +146,7 @@ export function BrowseContent({
               )}
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex gap-3">
               {/* Sort Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

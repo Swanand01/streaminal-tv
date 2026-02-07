@@ -35,12 +35,12 @@ export function TVShowContent({
   const handleSeasonChange = (season: number) => {
     setSelectedSeason(season);
     setSelectedEpisode(1);
-    router.push(`/tv/${tvId}?season=${season}&episode=1`);
+    router.push(`/tv-shows/${tvId}?season=${season}&episode=1`);
   };
 
   const handleEpisodeChange = (episode: number) => {
     setSelectedEpisode(episode);
-    router.push(`/tv/${tvId}?season=${selectedSeason}&episode=${episode}`);
+    router.push(`/tv-shows/${tvId}?season=${selectedSeason}&episode=${episode}`);
   };
 
   const videoUrl = `https://vidsrc-embed.ru/embed/tv?tmdb=${tvId}&season=${selectedSeason}&episode=${selectedEpisode}`;

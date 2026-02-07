@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Streaminal - Watch Movies & TV Shows',
+  title: 'Streaminal TV - Watch Movies & TV Shows',
   description: 'Stream trending movies and TV shows in high quality',
 };
 

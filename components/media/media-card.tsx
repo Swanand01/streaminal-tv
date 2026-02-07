@@ -11,7 +11,8 @@ interface MediaCardProps {
 
 export function MediaCard({ media, variant = 'carousel', showMediaType = true }: MediaCardProps) {
   const mediaType = media.media_type || 'movie';
-  const href = `/${mediaType}/${media.id}`;
+  const route = mediaType === 'tv' ? 'tv-shows' : 'movies';
+  const href = `/${route}/${media.id}`;
   const title = getTitle(media);
   const year = getReleaseYear(media);
   const rating = media.vote_average.toFixed(1);

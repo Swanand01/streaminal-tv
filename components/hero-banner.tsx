@@ -10,6 +10,7 @@ interface HeroBannerProps {
 
 export function HeroBanner({ media }: HeroBannerProps) {
   const mediaType = media?.media_type || 'movie';
+  const route = mediaType === 'tv' ? 'tv-shows' : 'movies';
   const title = getTitle(media);
   const year = getReleaseYear(media);
   const rating = media.vote_average.toFixed(1);
@@ -54,7 +55,7 @@ export function HeroBanner({ media }: HeroBannerProps) {
             </p>
 
             <Button asChild size="lg" className="gap-2 font-semibold">
-              <Link href={`/${mediaType}/${media.id}`}>
+              <Link href={`/${route}/${media.id}`}>
                 <Play className="h-5 w-5 fill-current" />
                 Play Now
               </Link>
