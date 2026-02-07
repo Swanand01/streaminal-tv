@@ -26,7 +26,12 @@ interface BrowseContentProps {
   };
 }
 
-export function BrowseContent({ mediaType, title, initialGenres, initialData }: BrowseContentProps) {
+export function BrowseContent({
+  mediaType,
+  title,
+  initialGenres,
+  initialData,
+}: BrowseContentProps) {
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState('popularity.desc');

@@ -24,9 +24,19 @@ export function MediaGrid({
   }
 
   return (
-    <div className={cn("grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:grid-cols-5", className)}>
+    <div
+      className={cn(
+        'grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:grid-cols-5',
+        className
+      )}
+    >
       {items.map((item, index) => (
-        <MediaCard key={`${item.id}-${index}`} media={item} variant="grid" showMediaType={showMediaType} />
+        <MediaCard
+          key={`${item.id}-${index}`}
+          media={item}
+          variant="grid"
+          showMediaType={showMediaType}
+        />
       ))}
     </div>
   );

@@ -61,7 +61,7 @@ export function PersonFilmography({ person }: PersonFilmographyProps) {
 
       {activeCredits.length > 0 ? (
         <>
-          <MediaGrid items={displayedCredits as Media[]} className='xl:grid-cols-6'/>
+          <MediaGrid items={displayedCredits as Media[]} className="xl:grid-cols-6" />
 
           {activeCredits.length > itemsShown && (
             <div className="mt-8 flex justify-center">

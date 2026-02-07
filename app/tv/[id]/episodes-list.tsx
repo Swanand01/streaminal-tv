@@ -56,13 +56,11 @@ export function EpisodesList({
             <SelectValue placeholder="Select season" />
           </SelectTrigger>
           <SelectContent>
-            {Array.from({ length: show.number_of_seasons || 1 }, (_, i) => i + 1).map(
-              (season) => (
-                <SelectItem key={season} value={season.toString()}>
-                  Season {season}
-                </SelectItem>
-              )
-            )}
+            {Array.from({ length: show.number_of_seasons || 1 }, (_, i) => i + 1).map((season) => (
+              <SelectItem key={season} value={season.toString()}>
+                Season {season}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
