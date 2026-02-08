@@ -17,7 +17,7 @@ export function VideosList({ videos, limit = 12 }: VideosListProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
       {displayedVideos.map((video) => (
         <div key={video.id} className="border-border overflow-hidden rounded-lg border">
           <div className="bg-muted relative aspect-video overflow-hidden">
