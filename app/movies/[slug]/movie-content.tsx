@@ -1,4 +1,5 @@
 import { getMovieDetails, getSimilarMovies, getMovieVideos, getMovieReviews } from '@/lib/tmdb';
+import { MoviePlayer } from '@/components/movie-player';
 import { MovieHeader } from './movie-header';
 import { MovieTabs } from './movie-tabs';
 import { SimilarMoviesSection } from './similar-movies-section';
@@ -24,21 +25,12 @@ export async function MovieContent({ movieId }: MovieContentProps) {
     );
   }
 
-  const videoUrl = `https://vidsrc-embed.ru/embed/movie?tmdb=${movieId}`;
-
   return (
     <>
       {/* Video Player Section */}
       <div className="relative w-full pt-20">
         <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <div className="relative aspect-video w-full">
-            <iframe
-              src={videoUrl}
-              className="h-full w-full"
-              allowFullScreen
-              allow="autoplay; fullscreen"
-            />
-          </div>
+          <MoviePlayer movieId={movieId} />
         </div>
       </div>
 
