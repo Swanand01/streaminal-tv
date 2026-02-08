@@ -158,7 +158,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
       {items.length > 1 && canGoBack && (
         <button
           onClick={goToPrevious}
-          className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 left-0 z-10 flex h-full items-center bg-linear-to-r px-4 opacity-0 transition-opacity group-hover/hero:opacity-100 md:pointer-events-auto md:px-8"
+          className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 left-0 z-10 flex h-full items-center bg-linear-to-r px-4 opacity-0 transition-opacity group-hover/hero:opacity-100 [@media(hover:hover)]:pointer-events-auto md:px-8"
           aria-label="Previous slide"
         >
           <div className="bg-background/80 hover:bg-background rounded-full p-2 backdrop-blur-sm transition-colors">
@@ -170,7 +170,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
       {items.length > 1 && canGoForward && (
         <button
           onClick={goToNext}
-          className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 right-0 z-10 flex h-full items-center bg-linear-to-l px-4 opacity-0 transition-opacity group-hover/hero:opacity-100 md:pointer-events-auto md:px-8"
+          className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 right-0 z-10 flex h-full items-center bg-linear-to-l px-4 opacity-0 transition-opacity group-hover/hero:opacity-100 [@media(hover:hover)]:pointer-events-auto md:px-8"
           aria-label="Next slide"
         >
           <div className="bg-background/80 hover:bg-background rounded-full p-2 backdrop-blur-sm transition-colors">

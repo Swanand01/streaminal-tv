@@ -59,7 +59,7 @@ export function MediaCarousel({ title, items, showMediaType = true }: MediaCarou
           {canScrollLeft && (
             <button
               onClick={() => scroll('left')}
-              className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 left-4 z-10 flex h-full items-center bg-linear-to-r px-2 opacity-0 transition-opacity group-hover/carousel:opacity-100 md:pointer-events-auto md:left-8 md:px-4 lg:left-12"
+              className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 left-4 z-10 flex h-full items-center bg-linear-to-r px-2 opacity-0 transition-opacity group-hover/carousel:opacity-100 [@media(hover:hover)]:pointer-events-auto md:left-8 md:px-4 lg:left-12"
               aria-label="Scroll left"
             >
               <div className="bg-background/80 hover:bg-background rounded-full p-1 backdrop-blur-sm transition-colors">
@@ -81,7 +81,7 @@ export function MediaCarousel({ title, items, showMediaType = true }: MediaCarou
           {canScrollRight && (
             <button
               onClick={() => scroll('right')}
-              className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 right-4 z-10 flex h-full items-center bg-linear-to-l px-2 opacity-0 transition-opacity group-hover/carousel:opacity-100 md:pointer-events-auto md:right-8 md:px-4 lg:right-12"
+              className="from-background via-background/80 to-background/0 pointer-events-none absolute top-0 right-4 z-10 flex h-full items-center bg-linear-to-l px-2 opacity-0 transition-opacity group-hover/carousel:opacity-100 [@media(hover:hover)]:pointer-events-auto md:right-8 md:px-4 lg:right-12"
               aria-label="Scroll right"
             >
               <div className="bg-background/80 hover:bg-background rounded-full p-1 backdrop-blur-sm transition-colors">
