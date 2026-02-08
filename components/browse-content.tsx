@@ -7,13 +7,14 @@ import { MediaGrid } from '@/components/media/media-grid';
 import { Pagination } from '@/components/pagination';
 import { discoverMovies, discoverTVShows, DiscoverParams, Genre, Media } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
-import { SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface BrowseContentProps {
   mediaType: 'movie' | 'tv';
@@ -136,8 +137,8 @@ export function BrowseContent({
 
         {/* Main Content */}
         <main className="min-w-0 flex-1">
-          <div className="mb-6 flex justify-between gap-4">
-            <div>
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div className="w-full sm:w-auto sm:flex-1">
               <h1 className="text-3xl font-bold text-balance">{title}</h1>
               {!isLoading && (
                 <p className="text-muted-foreground mt-1 text-sm">
@@ -146,38 +147,24 @@ export function BrowseContent({
               )}
             </div>
 
-            <div className="flex gap-3">
-              {/* Sort Dropdown */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="secondary" size="default" className="min-w-35">
-                    {sortBy === 'popularity.desc' && 'Popular'}
-                    {sortBy === 'vote_average.desc' && 'Top Rated'}
-                    {sortBy === `${releaseDateField}.desc` && 'Latest'}
-                    {sortBy === `${releaseDateField}.asc` && 'Oldest'}
-                    <ChevronDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-35">
-                  <DropdownMenuItem onClick={() => handleSortChange('popularity.desc')}>
-                    Popular
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleSortChange('vote_average.desc')}>
-                    Top Rated
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleSortChange(`${releaseDateField}.desc`)}>
-                    Latest
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleSortChange(`${releaseDateField}.asc`)}>
-                    Oldest
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+            <div className="flex shrink-0 gap-3">
+              {/* Sort Select */}
+              <Select value={sortBy} onValueChange={handleSortChange}>
+                <SelectTrigger size="lg" className="min-w-35">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="popularity.desc">Popular</SelectItem>
+                  <SelectItem value="vote_average.desc">Top Rated</SelectItem>
+                  <SelectItem value={`${releaseDateField}.desc`}>Latest</SelectItem>
+                  <SelectItem value={`${releaseDateField}.asc`}>Oldest</SelectItem>
+                </SelectContent>
+              </Select>
 
               {/* Mobile Filters Button */}
               <Button
                 variant="outline"
-                size="default"
+                size="lg"
                 onClick={() => setShowMobileFilters(true)}
                 className="lg:hidden"
               >

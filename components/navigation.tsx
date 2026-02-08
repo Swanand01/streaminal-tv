@@ -107,7 +107,7 @@ export function Navigation() {
                     Movies
                   </Link>
                   <Link
-                    href="/tv"
+                    href="/tv-shows"
                     className="text-foreground/80 hover:text-foreground text-lg font-medium transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >

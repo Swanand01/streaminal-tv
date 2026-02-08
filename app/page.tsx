@@ -51,7 +51,7 @@ export default function HomePage() {
           <HeroAndTrendingSection />
         </Suspense>
 
-        <div className="relative z-10 space-y-12 pb-20">
+        <div className="relative z-10 space-y-12 pb-10">
           <Suspense fallback={<MediaCarouselSkeleton />}>
             <PopularMoviesSection />
           </Suspense>

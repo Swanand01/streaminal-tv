@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import sources from "@/config/sources.json";
+import { useState } from 'react';
+import sources from '@/config/sources.json';
 
 interface MoviePlayerProps {
   movieId: number;
@@ -10,10 +10,7 @@ interface MoviePlayerProps {
 export function MoviePlayer({ movieId }: MoviePlayerProps) {
   const [sourceIndex, setSourceIndex] = useState(0);
 
-  const currentUrl = sources.movie[sourceIndex].url.replace(
-    "{id}",
-    String(movieId)
-  );
+  const currentUrl = sources.movie[sourceIndex].url.replace('{id}', String(movieId));
 
   return (
     <div className="flex flex-col gap-3">
@@ -36,8 +33,8 @@ export function MoviePlayer({ movieId }: MoviePlayerProps) {
             onClick={() => setSourceIndex(index)}
             className={`rounded-md px-3 py-1 text-xs transition-colors ${
               index === sourceIndex
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80'
             }`}
           >
             {source.name}

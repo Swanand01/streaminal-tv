@@ -11,7 +11,7 @@ export function SimilarMoviesSection({ movies }: SimilarMoviesSectionProps) {
   return (
     <aside className="w-full lg:block lg:w-80 xl:w-96">
       <h2 className="mb-4 text-xl font-bold">More Like This</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
         {movies.slice(0, 6).map((item) => (
           <MediaCard key={item.id} media={item} variant="grid" showMediaType={false} />
         ))}

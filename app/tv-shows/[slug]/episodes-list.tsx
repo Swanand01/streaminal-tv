@@ -43,7 +43,7 @@ export function EpisodesList({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <Select value={selectedSeason.toString()} onValueChange={handleSeasonChange}>
-          <SelectTrigger className="w-45">
+          <SelectTrigger className="w-45" size="lg">
             <SelectValue placeholder="Select season" />
           </SelectTrigger>
           <SelectContent>
