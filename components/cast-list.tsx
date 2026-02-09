@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { User, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getImageUrl } from '@/lib/tmdb';
+import { generateSlug } from '@/lib/utils';
 import { useRef } from 'react';
 
 interface CastMember {
@@ -55,7 +56,7 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
           {displayedCast.map((actor) => (
             <Link
               key={actor.id}
-              href={`/person/${actor.id}`}
+              href={`/person/${generateSlug(actor.name, actor.id)}`}
               className="group flex flex-shrink-0 flex-col items-center gap-2"
             >
               <div className="bg-muted group-hover:ring-primary/50 relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-transparent transition-all">

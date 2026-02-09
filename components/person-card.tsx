@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getImageUrl, type Person } from '@/lib/tmdb';
+import { generateSlug } from '@/lib/utils';
 import { User } from 'lucide-react';
 
 interface PersonCardProps {
@@ -12,10 +13,10 @@ export function PersonCard({ person }: PersonCardProps) {
 
   return (
     <Link
-      href={`/person/${person.id}`}
+      href={`/person/${generateSlug(person.name, person.id)}`}
       className="group border-border hover:border-primary/50 hover:bg-muted/50 flex items-center gap-3 rounded-lg border p-2 transition-all"
     >
-      <div className="bg-muted relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full">
+      <div className="bg-muted relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
         {person.profile_path ? (
           <Image
             src={getImageUrl(person.profile_path, 'w500')}
