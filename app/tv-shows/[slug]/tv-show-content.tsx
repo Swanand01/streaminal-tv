@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { MediaPlayer } from '@/components/media-player';
 import { MediaOverview } from '@/components/media-overview';
 import { TVShowTabs } from './tv-show-tabs';
-import { SimilarTVShowsSection } from './similar-tv-shows-section';
+import { SimilarMediaSection } from '@/components/similar-media-section';
 import { getTitle } from '@/lib/tmdb';
 import { generateSlug } from '@/lib/utils';
 import type { MediaDetails, Season, Media, Video, Review } from '@/lib/tmdb';
@@ -78,7 +78,7 @@ export function TVShowContent({
           </div>
 
           {/* Recommendations Sidebar */}
-          <SimilarTVShowsSection shows={similarShows} />
+          <SimilarMediaSection items={similarShows} />
         </div>
       </div>
     </>

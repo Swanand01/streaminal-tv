@@ -2,7 +2,7 @@ import { getMovieDetails, getSimilarMovies, getMovieVideos, getMovieReviews } fr
 import { MediaPlayer } from '@/components/media-player';
 import { MediaOverview } from '@/components/media-overview';
 import { MovieTabs } from './movie-tabs';
-import { SimilarMoviesSection } from './similar-movies-section';
+import { SimilarMediaSection } from '@/components/similar-media-section';
 
 interface MovieContentProps {
   movieId: number;
@@ -44,7 +44,7 @@ export async function MovieContent({ movieId }: MovieContentProps) {
           </div>
 
           {/* Recommendations Sidebar */}
-          <SimilarMoviesSection movies={similarMovies} />
+          <SimilarMediaSection items={similarMovies} />
         </div>
       </div>
     </>
