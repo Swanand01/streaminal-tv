@@ -114,9 +114,12 @@ export interface Video {
   official: boolean;
 }
 
-async function fetchTMDB(endpoint: string) {
+async function fetchTMDB(endpoint: string, options?: { revalidate?: number; noStore?: boolean }) {
   const url = `${TMDB_BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
-  const response = await fetch(url, { next: { revalidate: 3600 } });
+  const fetchOptions: RequestInit = options?.noStore
+    ? { cache: 'no-store' }
+    : { next: { revalidate: options?.revalidate ?? 3600 } };
+  const response = await fetch(url, fetchOptions);
 
   if (!response.ok) {
     throw new Error(`TMDB API error: ${response.statusText}`);
@@ -160,7 +163,8 @@ export async function getTVSeason(tvId: number, seasonNumber: number) {
 
 export async function searchMedia(query: string) {
   const data = await fetchTMDB(
-    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`
+    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`,
+    { noStore: true }
   );
   return data.results.filter(
     (item: Media) => item.media_type === 'movie' || item.media_type === 'tv'
@@ -169,14 +173,16 @@ export async function searchMedia(query: string) {
 
 export async function searchAll(query: string) {
   const data = await fetchTMDB(
-    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`
+    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`,
+    { noStore: true }
   );
   return data.results as (Media | Person)[];
 }
 
 export async function searchPeople(query: string) {
   const data = await fetchTMDB(
-    `/search/person?query=${encodeURIComponent(query)}&include_adult=false`
+    `/search/person?query=${encodeURIComponent(query)}&include_adult=false`,
+    { noStore: true }
   );
   return data.results as Person[];
 }

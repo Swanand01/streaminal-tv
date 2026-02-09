@@ -3,25 +3,13 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Search, Menu } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { SearchBar } from '@/components/search-bar';
 
 export function Navigation() {
-  const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const router = useRouter();
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery('');
-      setShowSearch(false);
-    }
-  };
 
   return (
     <nav className="from-background to-background/0 fixed top-0 z-50 w-full bg-linear-to-b transition-colors duration-300">
@@ -53,23 +41,7 @@ export function Navigation() {
         </div>
 
         {showSearch ? (
-          <form onSubmit={handleSearch} className="flex flex-1 items-center gap-2 md:flex-none">
-            <Input
-              type="text"
-              placeholder="Search movies, TV shows..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full md:w-75"
-              autoFocus
-            />
-            <button
-              type="button"
-              onClick={() => setShowSearch(false)}
-              className="text-muted-foreground hover:text-foreground shrink-0 text-sm"
-            >
-              Cancel
-            </button>
-          </form>
+          <SearchBar onClose={() => setShowSearch(false)} />
         ) : (
           <div className="flex items-center gap-4">
             <button

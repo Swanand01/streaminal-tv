@@ -23,7 +23,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       <Navigation />
 
       <main className="container mx-auto px-4 pt-24 pb-20 md:px-8 lg:px-12">
-        <Suspense fallback={<SearchResultsSkeleton />}>
+        <Suspense key={query} fallback={<SearchResultsSkeleton />}>
           <SearchResults query={query} />
         </Suspense>
       </main>

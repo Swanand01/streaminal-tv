@@ -17,7 +17,21 @@ export async function SearchResults({ query }: SearchResultsProps) {
     );
   }
 
-  const results = await searchAll(query);
+  let results: (Media | Person)[];
+  try {
+    results = await searchAll(query);
+  } catch {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight text-balance">
+            Search Results for &quot;{query}&quot;
+          </h1>
+          <p className="text-muted-foreground">Something went wrong. Please try refreshing the page.</p>
+        </div>
+      </div>
+    );
+  }
 
   // Separate results by type
   const media = results.filter(
