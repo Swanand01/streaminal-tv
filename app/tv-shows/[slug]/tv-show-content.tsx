@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TVShowPlayer } from '@/components/tv-show-player';
-import { TVShowHeader } from './tv-show-header';
+import { MediaPlayer } from '@/components/media-player';
+import { MediaOverview } from '@/components/media-overview';
 import { TVShowTabs } from './tv-show-tabs';
 import { SimilarTVShowsSection } from './similar-tv-shows-section';
 import { getTitle } from '@/lib/tmdb';
@@ -55,7 +55,7 @@ export function TVShowContent({
       {/* Video Player Section */}
       <div className="relative w-full pt-20">
         <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <TVShowPlayer tvId={tvId} season={initialSeason} episode={selectedEpisode} />
+          <MediaPlayer type="tv" mediaId={tvId} season={initialSeason} episode={selectedEpisode} />
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export function TVShowContent({
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Main Content */}
           <div className="min-w-0 flex-1">
-            <TVShowHeader show={initialShow} episodeOverview={episodeOverview} />
+            <MediaOverview media={initialShow} overviewText={episodeOverview} />
             <TVShowTabs
               show={initialShow}
               selectedSeason={initialSeason}

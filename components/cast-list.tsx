@@ -75,7 +75,7 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
                 )}
               </div>
               <div className="w-20 text-center">
-                <p className="group-hover:text-primary line-clamp-2 text-xs leading-tight font-medium">
+                <p className="group-hover:text-primary line-clamp-2 text-sm leading-tight font-medium">
                   {actor.name}
                 </p>
               </div>

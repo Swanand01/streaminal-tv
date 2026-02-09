@@ -1,6 +1,6 @@
 import { getMovieDetails, getSimilarMovies, getMovieVideos, getMovieReviews } from '@/lib/tmdb';
-import { MoviePlayer } from '@/components/movie-player';
-import { MovieHeader } from './movie-header';
+import { MediaPlayer } from '@/components/media-player';
+import { MediaOverview } from '@/components/media-overview';
 import { MovieTabs } from './movie-tabs';
 import { SimilarMoviesSection } from './similar-movies-section';
 
@@ -30,7 +30,7 @@ export async function MovieContent({ movieId }: MovieContentProps) {
       {/* Video Player Section */}
       <div className="relative w-full pt-20">
         <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <MoviePlayer movieId={movieId} />
+          <MediaPlayer type="movie" mediaId={movieId} />
         </div>
       </div>
 
@@ -39,7 +39,7 @@ export async function MovieContent({ movieId }: MovieContentProps) {
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Main Content */}
           <div className="min-w-0 flex-1">
-            <MovieHeader movie={movie} />
+            <MediaOverview media={movie} />
             <MovieTabs movie={movie} videos={videos} reviews={reviews} />
           </div>
 

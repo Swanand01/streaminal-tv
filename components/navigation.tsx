@@ -21,19 +21,19 @@ export function Navigation() {
           <div className="hidden items-center gap-6 md:flex">
             <Link
               href="/"
-              className="text-foreground/80 hover:text-foreground text-sm font-medium transition-colors"
+              className="text-foreground/80 hover:text-foreground text-md font-medium transition-colors"
             >
               Home
             </Link>
             <Link
               href="/movies"
-              className="text-foreground/80 hover:text-foreground text-sm font-medium transition-colors"
+              className="text-foreground/80 hover:text-foreground text-md font-medium transition-colors"
             >
               Movies
             </Link>
             <Link
               href="/tv-shows"
-              className="text-foreground/80 hover:text-foreground text-sm font-medium transition-colors"
+              className="text-foreground/80 hover:text-foreground text-md font-medium transition-colors"
             >
               TV Shows
             </Link>

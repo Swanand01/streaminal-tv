@@ -76,7 +76,7 @@ export function TabsTrigger({ value, children, className }: TabsTriggerProps) {
     <button
       type="button"
       onClick={() => onValueChange(value)}
-      className={`focus-visible:ring-ring inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 ${
+      className={`focus-visible:ring-ring text-md inline-flex items-center justify-center rounded-md px-4 py-2 font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 ${
         isSelected
           ? 'border-primary text-primary border-2'
           : 'text-muted-foreground hover:border-border hover:bg-muted/50 border-2 border-transparent'

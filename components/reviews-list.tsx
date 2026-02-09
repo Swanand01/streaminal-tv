@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Star, User2 } from 'lucide-react';
 import type { Review } from '@/lib/tmdb';
+import { Badge } from '@/components/ui/badge';
 
 interface ReviewsListProps {
   reviews?: Review[];
@@ -45,7 +46,7 @@ export function ReviewsList({ reviews }: ReviewsListProps) {
                 </div>
                 <div>
                   <p className="font-semibold">{review.author}</p>
-                  <p className="text-muted-foreground text-xs">
+                  <p className="text-muted-foreground text-sm">
                     {new Date(review.created_at).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -55,13 +56,13 @@ export function ReviewsList({ reviews }: ReviewsListProps) {
                 </div>
               </div>
               {review.author_details.rating && (
-                <div className="bg-muted flex items-center gap-1 rounded-md px-2 py-1">
-                  <Star className="fill-primary text-primary h-4 w-4" />
-                  <span className="text-sm font-semibold">{review.author_details.rating}</span>
-                </div>
+                <Badge variant="secondary">
+                  <Star className="fill-primary text-primary h-3 w-3" />
+                  {review.author_details.rating}
+                </Badge>
               )}
             </div>
-            <div className="text-foreground/90 text-sm leading-relaxed">
+            <div className="text-foreground/90 text-md leading-relaxed">
               <p className={!isExpanded && shouldTruncate ? 'line-clamp-6' : ''}>
                 {review.content}
               </p>

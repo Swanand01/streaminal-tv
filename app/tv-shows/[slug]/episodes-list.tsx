@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Star, Tv } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { getImageUrl } from '@/lib/tmdb';
 import type { MediaDetails, Season } from '@/lib/tmdb';
 
@@ -84,16 +85,17 @@ export function EpisodesList({
                     </div>
                   )}
                   {episode.vote_average && episode.vote_average > 0 && (
-                    <div className="bg-background/90 absolute top-1 right-1 flex items-center gap-1 rounded-md px-1.5 py-0.5 backdrop-blur-sm sm:top-2 sm:right-2 sm:px-2 sm:py-1">
-                      <Star className="fill-primary text-primary h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                      <span className="text-foreground text-[10px] font-semibold sm:text-xs">
-                        {episode.vote_average.toFixed(1)}
-                      </span>
-                    </div>
+                    <Badge
+                      variant="secondary"
+                      className="absolute top-1 right-1 backdrop-blur-sm sm:top-2 sm:right-2"
+                    >
+                      <Star className="fill-primary text-primary h-3 w-3" />
+                      {episode.vote_average.toFixed(1)}
+                    </Badge>
                   )}
                 </div>
                 <div className="p-2 sm:p-3">
-                  <p className="line-clamp-2 text-xs font-semibold sm:text-sm">
+                  <p className="sm:text-md line-clamp-2 text-sm font-semibold">
                     {episode.episode_number}. {episode.name}
                   </p>
                 </div>

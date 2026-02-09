@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Media, getImageUrl, getTitle, getReleaseYear } from '@/lib/tmdb';
 import { generateSlug } from '@/lib/utils';
 import { Star, Film, Tv } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface MediaCardProps {
   media: Media;
@@ -40,31 +41,25 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
           )}
 
           {showMediaType && (
-            <div className="bg-background/90 absolute top-2 left-2 flex items-center justify-center gap-1 rounded-md px-2 py-1 backdrop-blur-sm">
-              {mediaType === 'tv' ? (
-                <Tv className="text-foreground h-3 w-3" />
-              ) : (
-                <Film className="text-foreground h-3 w-3" />
-              )}
-              <span className="text-foreground text-xs font-semibold">
-                {mediaType === 'tv' ? 'TV' : 'Movie'}
-              </span>
-            </div>
+            <Badge variant="secondary" className="absolute top-2 left-2 backdrop-blur-sm">
+              {mediaType === 'tv' ? <Tv className="h-3 w-3" /> : <Film className="h-3 w-3" />}
+              {mediaType === 'tv' ? 'TV' : 'Movie'}
+            </Badge>
           )}
 
           {media.vote_average > 0 && (
-            <div className="bg-background/90 absolute top-2 right-2 flex items-center gap-1 rounded-md px-2 py-1 backdrop-blur-sm">
+            <Badge variant="secondary" className="absolute top-2 right-2 backdrop-blur-sm">
               <Star className="fill-primary text-primary h-3 w-3" />
-              <span className="text-foreground text-xs font-semibold">{rating}</span>
-            </div>
+              {rating}
+            </Badge>
           )}
         </div>
 
         <div className="mt-2 space-y-1">
-          <h3 className="text-foreground line-clamp-1 text-sm leading-tight font-medium">
+          <h3 className="text-foreground text-md line-clamp-1 leading-tight font-medium">
             {title}
           </h3>
-          {year && <p className="text-muted-foreground text-xs">{year}</p>}
+          {year && <p className="text-muted-foreground text-sm">{year}</p>}
         </div>
       </Link>
     </div>

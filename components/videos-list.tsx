@@ -1,4 +1,5 @@
 import type { Video } from '@/lib/tmdb';
+import { Badge } from '@/components/ui/badge';
 
 interface VideosListProps {
   videos?: Video[];
@@ -28,12 +29,15 @@ export function VideosList({ videos, limit = 12 }: VideosListProps) {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
-            <div className="bg-background/90 pointer-events-none absolute top-2 right-2 rounded-md px-2 py-1 text-xs font-medium backdrop-blur-sm">
+            <Badge
+              variant="secondary"
+              className="pointer-events-none absolute top-2 right-2 backdrop-blur-sm"
+            >
               {video.type}
-            </div>
+            </Badge>
           </div>
           <div className="p-3">
-            <p className="line-clamp-2 text-sm leading-tight font-semibold">{video.name}</p>
+            <p className="text-md line-clamp-2 leading-tight font-semibold">{video.name}</p>
           </div>
         </div>
       ))}
