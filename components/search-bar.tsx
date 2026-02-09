@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { SearchSuggestions } from '@/components/search-suggestions';
 import { useSearchSuggestions } from '@/hooks/use-search-suggestions';
 import { generateSlug } from '@/lib/utils';
@@ -122,13 +123,9 @@ export function SearchBar({ onClose }: SearchBarProps) {
         className="w-full md:w-75"
         autoFocus
       />
-      <button
-        type="button"
-        onClick={onClose}
-        className="text-muted-foreground hover:text-foreground shrink-0 text-sm"
-      >
+      <Button variant="ghost" size="lg" onClick={onClose}>
         Cancel
-      </button>
+      </Button>
       {showSuggestions && (
         <SearchSuggestions
           results={suggestions}

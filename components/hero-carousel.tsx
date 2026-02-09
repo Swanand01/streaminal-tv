@@ -131,9 +131,6 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
                 <span className="text-foreground font-semibold">{rating}</span>
               </div>
               {year && <span>{year}</span>}
-              <span className="bg-muted text-foreground rounded px-2 py-0.5 text-xs font-medium uppercase">
-                {mediaType}
-              </span>
             </div>
 
             <h1 className="text-foreground text-4xl leading-tight font-bold md:text-6xl lg:text-7xl">

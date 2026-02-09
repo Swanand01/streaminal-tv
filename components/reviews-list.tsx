@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Star, User2 } from 'lucide-react';
 import type { Review } from '@/lib/tmdb';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 interface ReviewsListProps {
   reviews?: Review[];
@@ -67,7 +68,9 @@ export function ReviewsList({ reviews }: ReviewsListProps) {
                 {review.content}
               </p>
               {shouldTruncate && (
-                <button
+                <Button
+                  variant="link"
+                  size="default"
                   onClick={() => {
                     setExpandedReviews((prev) => {
                       const next = new Set(prev);
@@ -79,10 +82,10 @@ export function ReviewsList({ reviews }: ReviewsListProps) {
                       return next;
                     });
                   }}
-                  className="text-primary mt-2 text-sm font-medium hover:underline"
+                  className="mt-2 px-0"
                 >
                   {isExpanded ? 'Show less' : 'Read more'}
-                </button>
+                </Button>
               )}
             </div>
           </div>

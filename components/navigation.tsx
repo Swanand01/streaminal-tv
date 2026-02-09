@@ -15,7 +15,7 @@ export function Navigation() {
     <nav className="from-background to-background/0 fixed top-0 z-50 w-full bg-linear-to-b transition-colors duration-300">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-8 lg:px-12">
         <div className={`flex items-center gap-8 ${showSearch ? 'hidden md:flex' : ''}`}>
-          <Link href="/" className="text-primary text-2xl font-bold tracking-tight">
+          <Link href="/" className="text-primary text-3xl font-bold tracking-tight">
             STREAMINAL TV
           </Link>
           <div className="hidden items-center gap-6 md:flex">
@@ -44,19 +44,20 @@ export function Navigation() {
           <SearchBar onClose={() => setShowSearch(false)} />
         ) : (
           <div className="flex items-center gap-4">
-            <button
+            <Button
+              variant="ghost"
+              size="icon-lg"
               onClick={() => setShowSearch(true)}
-              className="text-foreground/80 hover:text-foreground flex items-center gap-2 transition-colors"
               aria-label="Search"
             >
-              <Search className="h-5 w-5" />
-            </button>
+              <Search className="h-6 w-6" />
+            </Button>
 
             {/* Mobile Menu */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden" aria-label="Menu">
-                  <Menu className="h-5 w-5" />
+                <Button variant="ghost" size="icon-lg" className="md:hidden" aria-label="Menu">
+                  <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">

@@ -47,7 +47,7 @@ export function FiltersSidebar({
 
       {/* Genre Filter */}
       <div className="space-y-3">
-        <Label className="text-sm font-semibold">Genres</Label>
+        <Label className="text-md font-semibold">Genres</Label>
         <div className="scrollbar-hide max-h-64 space-y-2 overflow-y-auto">
           {genres.map((genre) => (
             <label
@@ -70,18 +70,18 @@ export function FiltersSidebar({
 
       {/* Rating Filter */}
       <div className="space-y-3">
-        <Label className="text-sm font-semibold">Minimum Rating</Label>
+        <Label className="text-md font-semibold">Minimum Rating</Label>
         <div className="space-y-2">
           {RATING_OPTIONS.map((option) => (
-            <button
+            <Button
               key={option.value}
+              variant={minRating === option.value ? 'default' : 'ghost'}
+              size="xl"
               onClick={() => onRatingChange(option.value)}
-              className={`block w-full rounded-md px-3 py-2 text-left text-sm transition-colors ${
-                minRating === option.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-              }`}
+              className="w-full justify-start"
             >
               {option.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

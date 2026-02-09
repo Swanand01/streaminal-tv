@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import sources from '@/config/sources.json';
+import { Button } from '@/components/ui/button';
 
 type MediaPlayerProps =
   | { type: 'movie'; mediaId: number }
@@ -38,17 +39,14 @@ export function MediaPlayer(props: MediaPlayerProps) {
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-muted-foreground text-sm">Source:</span>
         {sourceList.map((source, index) => (
-          <button
+          <Button
             key={source.name}
+            variant={index === sourceIndex ? 'default' : 'secondary'}
+            size="lg"
             onClick={() => setSourceIndex(index)}
-            className={`rounded-md px-3 py-1 text-sm transition-colors ${
-              index === sourceIndex
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted text-muted-foreground hover:bg-muted/80'
-            }`}
           >
             {source.name}
-          </button>
+          </Button>
         ))}
       </div>
     </div>
