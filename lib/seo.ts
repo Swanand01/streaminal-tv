@@ -147,7 +147,7 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
       title: pageTitle,
       description,
       alternates: {
-        canonical: `/person/${personId}`,
+        canonical: `/person/${generateSlug(person.name, personId)}`,
       },
       openGraph: {
         title: pageTitle,

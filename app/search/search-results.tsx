@@ -27,7 +27,9 @@ export async function SearchResults({ query }: SearchResultsProps) {
           <h1 className="text-3xl font-bold tracking-tight text-balance">
             Search Results for &quot;{query}&quot;
           </h1>
-          <p className="text-muted-foreground">Something went wrong. Please try refreshing the page.</p>
+          <p className="text-muted-foreground">
+            Something went wrong. Please try refreshing the page.
+          </p>
         </div>
       </div>
     );

@@ -47,18 +47,12 @@ export function SearchSuggestions({
               <li key={`${item.media_type}-${item.id}`}>
                 <button
                   className={`flex w-full items-center gap-3 rounded-md p-2 text-left transition-colors ${
-                    index === selectedIndex
-                      ? 'bg-muted'
-                      : 'hover:bg-muted/50'
+                    index === selectedIndex ? 'bg-muted' : 'hover:bg-muted/50'
                   }`}
                   onClick={() => onSelect(item)}
                   onMouseDown={(e) => e.preventDefault()}
                 >
-                  {isPerson(item) ? (
-                    <PersonRow item={item} />
-                  ) : (
-                    <MediaRow item={item} />
-                  )}
+                  {isPerson(item) ? <PersonRow item={item} /> : <MediaRow item={item} />}
                 </button>
               </li>
             ))}
@@ -74,9 +68,7 @@ export function SearchSuggestions({
           </button>
         </div>
       ) : (
-        <div className="text-muted-foreground p-4 text-center text-sm">
-          No results found
-        </div>
+        <div className="text-muted-foreground p-4 text-center text-sm">No results found</div>
       )}
     </div>
   );
@@ -100,11 +92,7 @@ function MediaRow({ item }: { item: Media }) {
           />
         ) : (
           <div className="text-muted-foreground flex h-full items-center justify-center">
-            {mediaType === 'tv' ? (
-              <Tv className="h-3 w-3" />
-            ) : (
-              <Film className="h-3 w-3" />
-            )}
+            {mediaType === 'tv' ? <Tv className="h-3 w-3" /> : <Film className="h-3 w-3" />}
           </div>
         )}
       </div>

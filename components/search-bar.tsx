@@ -104,18 +104,6 @@ export function SearchBar({ onClose }: SearchBarProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Reset selection when suggestions change
-  useEffect(() => {
-    setSelectedIndex(-1);
-  }, [suggestions]);
-
-  // Re-show suggestions when query changes
-  useEffect(() => {
-    if (query.trim().length >= 2) {
-      setShowSuggestions(true);
-    }
-  }, [query]);
-
   return (
     <div ref={containerRef} className="relative flex flex-1 items-center gap-2 md:flex-none">
       <Input
@@ -123,7 +111,13 @@ export function SearchBar({ onClose }: SearchBarProps) {
         type="text"
         placeholder="Search movies, TV shows..."
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setSelectedIndex(-1);
+          if (e.target.value.trim().length >= 2) {
+            setShowSuggestions(true);
+          }
+        }}
         onKeyDown={handleKeyDown}
         className="w-full md:w-75"
         autoFocus
