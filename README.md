@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Streaminal TV
+
+A modern streaming platform built with Next.js that aggregates content from The Movie Database (TMDB) and multiple video sources.
+
+## Screenshots
+
+### Home
+![Home](docs/images/home.png)
+
+### Movies
+![Movies](docs/images/movies.png)
+
+### TV Show
+![TV Show](docs/images/tv-show.png)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- TMDB API key ([get one here](https://www.themoviedb.org/settings/api))
+
+### Installation
+
+```bash
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file:
+
+```bash
+NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
+
+### Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Configuration
 
-To learn more about Next.js, take a look at the following resources:
+### Video Sources
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Edit `config/sources.json` to update streaming sources when URLs change:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```json
+{
+  "movie": [{ "name": "Server 1", "url": "https://..." }],
+  "tv": [{ "name": "Server 1", "url": "https://..." }]
+}
+```
 
-## Deploy on Vercel
+Use `{id}`, `{season}`, `{episode}` placeholders in URLs.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/                    # Next.js pages (App Router)
+  ├── movies/          # Movie browse & detail pages
+  ├── tv-shows/        # TV show browse & detail pages
+  ├── search/          # Search results
+  └── people/          # Actor/crew profiles
+
+components/            # React components
+  ├── ui/             # shadcn components
+  ├── media/          # Media cards & carousels
+  └── ...
+
+lib/                   # Utilities & API client
+  ├── tmdb.ts         # TMDB API functions
+  └── utils.ts        # Helpers
+
+config/                # Configuration files
+  └── sources.json    # Video source URLs
+```
+
+## Tech Stack
+
+- **Next.js 16** (App Router)
+- **TanStack React Query** for data fetching
+- **shadcn/ui** components
+- **TMDB API** for movie/TV metadata
+
+## License
+
+MIT
