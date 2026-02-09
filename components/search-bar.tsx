@@ -31,7 +31,7 @@ export function SearchBar({ onClose }: SearchBarProps) {
   const navigateToItem = useCallback(
     (item: Media | Person) => {
       if (isPerson(item)) {
-        router.push(`/person/${generateSlug(item.name, item.id)}`);
+        router.push(`/people/${generateSlug(item.name, item.id)}`);
       } else {
         const mediaType = item.media_type || 'movie';
         const route = mediaType === 'tv' ? 'tv-shows' : 'movies';

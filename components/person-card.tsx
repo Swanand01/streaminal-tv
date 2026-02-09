@@ -13,7 +13,7 @@ export function PersonCard({ person }: PersonCardProps) {
 
   return (
     <Link
-      href={`/person/${generateSlug(person.name, person.id)}`}
+      href={`/people/${generateSlug(person.name, person.id)}`}
       className="group border-border hover:border-primary/50 hover:bg-muted/50 flex items-center gap-3 rounded-lg border p-2 transition-all"
     >
       <div className="bg-muted relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
