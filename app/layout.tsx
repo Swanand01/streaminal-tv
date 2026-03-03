@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Figtree } from 'next/font/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
 import { QueryProvider } from '@/components/providers/query-provider';
+import './globals.css';
 import { Footer } from '@/components/footer';
 import NextTopLoader from 'nextjs-toploader';
 
@@ -85,6 +87,7 @@ export default function RootLayout({
           <Footer />
         </QueryProvider>
       </body>
+      <GoogleAnalytics gaId="G-CLEV0WYTBK" />
     </html>
   );
 }
