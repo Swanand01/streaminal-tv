@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
@@ -64,6 +66,7 @@ export interface Episode {
   still_path: string | null;
   air_date: string;
   runtime: number;
+  vote_average?: number;
 }
 
 export interface Season {
@@ -75,9 +78,48 @@ export interface Season {
   episodes: Episode[];
 }
 
-async function fetchTMDB(endpoint: string) {
+export interface Review {
+  id: string;
+  author: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string | null;
+    rating: number | null;
+  };
+  content: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface DiscoverParams {
+  page?: number;
+  with_genres?: string;
+  'vote_average.gte'?: number;
+  'release_date.lte'?: string;
+  sort_by?: string;
+}
+
+export interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+  official: boolean;
+}
+
+async function fetchTMDB(endpoint: string, options?: { revalidate?: number; noStore?: boolean }) {
   const url = `${TMDB_BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
-  const response = await fetch(url, { next: { revalidate: 3600 } });
+  const fetchOptions: RequestInit = options?.noStore
+    ? { cache: 'no-store' }
+    : { next: { revalidate: options?.revalidate ?? 3600 } };
+  const response = await fetch(url, fetchOptions);
 
   if (!response.ok) {
     throw new Error(`TMDB API error: ${response.statusText}`);
@@ -86,7 +128,10 @@ async function fetchTMDB(endpoint: string) {
   return response.json();
 }
 
-export async function getTrending(mediaType: 'movie' | 'tv' | 'all' = 'all', timeWindow: 'day' | 'week' = 'week') {
+export async function getTrending(
+  mediaType: 'movie' | 'tv' | 'all' = 'all',
+  timeWindow: 'day' | 'week' = 'week'
+) {
   const data = await fetchTMDB(`/trending/${mediaType}/${timeWindow}`);
   return data.results as Media[];
 }
@@ -101,15 +146,15 @@ export async function getPopularTVShows() {
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
-export async function getMovieDetails(id: number) {
+export const getMovieDetails = cache(async (id: number) => {
   const data = await fetchTMDB(`/movie/${id}?append_to_response=credits`);
   return data as MediaDetails;
-}
+});
 
-export async function getTVDetails(id: number) {
+export const getTVDetails = cache(async (id: number) => {
   const data = await fetchTMDB(`/tv/${id}?append_to_response=credits`);
   return data as MediaDetails;
-}
+});
 
 export async function getTVSeason(tvId: number, seasonNumber: number) {
   const data = await fetchTMDB(`/tv/${tvId}/season/${seasonNumber}`);
@@ -117,24 +162,35 @@ export async function getTVSeason(tvId: number, seasonNumber: number) {
 }
 
 export async function searchMedia(query: string) {
-  const data = await fetchTMDB(`/search/multi?query=${encodeURIComponent(query)}&include_adult=false`);
-  return data.results.filter((item: Media) => item.media_type === 'movie' || item.media_type === 'tv') as Media[];
+  const data = await fetchTMDB(
+    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`,
+    { noStore: true }
+  );
+  return data.results.filter(
+    (item: Media) => item.media_type === 'movie' || item.media_type === 'tv'
+  ) as Media[];
 }
 
 export async function searchAll(query: string) {
-  const data = await fetchTMDB(`/search/multi?query=${encodeURIComponent(query)}&include_adult=false`);
+  const data = await fetchTMDB(
+    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`,
+    { noStore: true }
+  );
   return data.results as (Media | Person)[];
 }
 
 export async function searchPeople(query: string) {
-  const data = await fetchTMDB(`/search/person?query=${encodeURIComponent(query)}&include_adult=false`);
+  const data = await fetchTMDB(
+    `/search/person?query=${encodeURIComponent(query)}&include_adult=false`,
+    { noStore: true }
+  );
   return data.results as Person[];
 }
 
-export async function getPersonDetails(id: number) {
+export const getPersonDetails = cache(async (id: number) => {
   const data = await fetchTMDB(`/person/${id}?append_to_response=movie_credits,tv_credits`);
   return data as PersonDetails;
-}
+});
 
 export async function getPersonMovieCredits(id: number) {
   const data = await fetchTMDB(`/person/${id}/movie_credits`);
@@ -152,17 +208,12 @@ export function getImageUrl(path: string | null, size: 'w500' | 'w780' | 'origin
 }
 
 export function getTitle(media: Media) {
-  return media.title || media.name || 'Untitled';
+  return media?.title || media?.name || 'Untitled';
 }
 
 export function getReleaseYear(media: Media) {
   const date = media.release_date || media.first_air_date;
   return date ? new Date(date).getFullYear() : null;
-}
-
-export interface Genre {
-  id: number;
-  name: string;
 }
 
 export async function getMovieGenres() {
@@ -175,25 +226,22 @@ export async function getTVGenres() {
   return data.genres as Genre[];
 }
 
-export interface DiscoverParams {
-  page?: number;
-  with_genres?: string;
-  'vote_average.gte'?: number;
-  'release_date.lte'?: string;
-  sort_by?: string;
-}
-
 export async function discoverMovies(params: DiscoverParams = {}) {
   const queryParams = new URLSearchParams();
   queryParams.append('page', (params.page || 1).toString());
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
-  if (params['vote_average.gte']) queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
-  if (params['release_date.lte']) queryParams.append('release_date.lte', params['release_date.lte']);
+  if (params['vote_average.gte'])
+    queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
+  if (params['release_date.lte'])
+    queryParams.append('release_date.lte', params['release_date.lte']);
   if (params.sort_by) queryParams.append('sort_by', params.sort_by);
 
   const data = await fetchTMDB(`/discover/movie?${queryParams.toString()}`);
   return {
-    results: data.results.map((item: Media) => ({ ...item, media_type: 'movie' as const })) as Media[],
+    results: data.results.map((item: Media) => ({
+      ...item,
+      media_type: 'movie' as const,
+    })) as Media[],
     total_pages: data.total_pages as number,
     total_results: data.total_results as number,
     page: data.page as number,
@@ -204,7 +252,8 @@ export async function discoverTVShows(params: DiscoverParams = {}) {
   const queryParams = new URLSearchParams();
   queryParams.append('page', (params.page || 1).toString());
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
-  if (params['vote_average.gte']) queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
+  if (params['vote_average.gte'])
+    queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
   if (params.sort_by) queryParams.append('sort_by', params.sort_by);
 
   const data = await fetchTMDB(`/discover/tv?${queryParams.toString()}`);
@@ -226,15 +275,6 @@ export async function getSimilarTVShows(id: number) {
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
-export interface Video {
-  id: string;
-  key: string;
-  name: string;
-  site: string;
-  type: string;
-  official: boolean;
-}
-
 export async function getMovieVideos(id: number) {
   const data = await fetchTMDB(`/movie/${id}/videos`);
   return data.results as Video[];
@@ -243,20 +283,6 @@ export async function getMovieVideos(id: number) {
 export async function getTVVideos(id: number) {
   const data = await fetchTMDB(`/tv/${id}/videos`);
   return data.results as Video[];
-}
-
-export interface Review {
-  id: string;
-  author: string;
-  author_details: {
-    name: string;
-    username: string;
-    avatar_path: string | null;
-    rating: number | null;
-  };
-  content: string;
-  created_at: string;
-  updated_at: string;
 }
 
 export async function getMovieReviews(id: number) {

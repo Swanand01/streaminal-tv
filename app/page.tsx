@@ -1,48 +1,64 @@
+import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { Navigation } from '@/components/navigation';
-import { HeroBanner } from '@/components/hero-banner';
-import { MediaCarousel } from '@/components/media-carousel';
-import { getTrending, getPopularMovies, getPopularTVShows } from '@/lib/tmdb';
+import { HeroBannerSkeleton } from '@/components/skeletons/hero-banner-skeleton';
+import { MediaCarouselSkeleton } from '@/components/skeletons/media-carousel-skeleton';
+import { JsonLd } from '@/components/jsonld';
+import { generateWebSiteJsonLd } from '@/lib/seo';
+import {
+  HeroAndTrendingSection,
+  PopularMoviesSection,
+  PopularTVShowsSection,
+} from './home-sections';
 
-export default async function HomePage() {
-  const [trendingAll, popularMovies, popularTVShows] = await Promise.all([
-    getTrending('all', 'day').catch(() => []),
-    getPopularMovies().catch(() => []),
-    getPopularTVShows().catch(() => []),
-  ]);
+export const metadata: Metadata = {
+  title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+  description:
+    'Stream thousands of movies and TV shows online free in HD. Watch trending content, popular films, and TV series without subscription on Streaminal TV.',
+  openGraph: {
+    title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+    description:
+      'Stream thousands of movies and TV shows online free in HD. Watch trending content without subscription.',
+    type: 'website',
+    siteName: 'Streaminal TV',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+    description: 'Stream thousands of movies and TV shows online free in HD.',
+  },
+};
 
-  // Get a random featured item from trending for the hero
-  const featuredItem = trendingAll?.[Math.floor(Math.random() * Math.min(5, trendingAll.length))];
+export default function HomePage() {
+  const websiteJsonLd = generateWebSiteJsonLd();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
+      {websiteJsonLd && <JsonLd data={websiteJsonLd} />}
       <Navigation />
-      
+
       <main>
-        <HeroBanner media={featuredItem} />
-        
-        <div className="relative z-10 -mt-32 space-y-12 pb-20">
-          {trendingAll && trendingAll.length > 0 && (
-            <MediaCarousel
-              title="Trending Now"
-              items={trendingAll}
-            />
-          )}
-          
-          {popularMovies && popularMovies.length > 0 && (
-            <MediaCarousel
-              title="Popular Movies"
-              items={popularMovies}
-              showMediaType={false}
-            />
-          )}
-          
-          {popularTVShows && popularTVShows.length > 0 && (
-            <MediaCarousel
-              title="Popular TV Shows"
-              items={popularTVShows}
-              showMediaType={false}
-            />
-          )}
+        <Suspense
+          fallback={
+            <>
+              <HeroBannerSkeleton />
+              <div className="relative z-10 -mt-20">
+                <MediaCarouselSkeleton />
+              </div>
+            </>
+          }
+        >
+          <HeroAndTrendingSection />
+        </Suspense>
+
+        <div className="relative z-10 space-y-12 pb-10">
+          <Suspense fallback={<MediaCarouselSkeleton />}>
+            <PopularMoviesSection />
+          </Suspense>
+
+          <Suspense fallback={<MediaCarouselSkeleton />}>
+            <PopularTVShowsSection />
+          </Suspense>
         </div>
       </main>
     </div>

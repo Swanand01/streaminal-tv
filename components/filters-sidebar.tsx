@@ -16,13 +16,6 @@ interface FiltersSidebarProps {
   showCloseButton?: boolean;
 }
 
-const SORT_OPTIONS = [
-  { value: 'popularity.desc', label: 'Popular' },
-  { value: 'vote_average.desc', label: 'Top Rated' },
-  { value: 'primary_release_date.desc', label: 'Latest' },
-  { value: 'primary_release_date.asc', label: 'Oldest' },
-];
-
 const RATING_OPTIONS = [
   { value: 0, label: 'All' },
   { value: 5, label: '5+' },
@@ -54,18 +47,18 @@ export function FiltersSidebar({
 
       {/* Genre Filter */}
       <div className="space-y-3">
-        <Label className="text-sm font-semibold">Genres</Label>
+        <Label className="text-md font-semibold">Genres</Label>
         <div className="scrollbar-hide max-h-64 space-y-2 overflow-y-auto">
           {genres.map((genre) => (
             <label
               key={genre.id}
-              className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted"
+              className="hover:bg-muted flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors"
             >
               <input
                 type="checkbox"
                 checked={selectedGenres.includes(genre.id)}
                 onChange={() => onGenreToggle(genre.id)}
-                className="h-4 w-4 rounded border-border bg-background accent-primary"
+                className="border-border bg-background accent-primary h-4 w-4 rounded"
               />
               <span>{genre.name}</span>
             </label>
@@ -77,20 +70,18 @@ export function FiltersSidebar({
 
       {/* Rating Filter */}
       <div className="space-y-3">
-        <Label className="text-sm font-semibold">Minimum Rating</Label>
+        <Label className="text-md font-semibold">Minimum Rating</Label>
         <div className="space-y-2">
           {RATING_OPTIONS.map((option) => (
-            <button
+            <Button
               key={option.value}
+              variant={minRating === option.value ? 'default' : 'ghost'}
+              size="xl"
               onClick={() => onRatingChange(option.value)}
-              className={`block w-full rounded-md px-3 py-2 text-left text-sm transition-colors ${
-                minRating === option.value
-                  ? 'bg-primary text-primary-foreground'
-                  : 'hover:bg-muted'
-              }`}
+              className="w-full justify-start"
             >
               {option.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

@@ -1,0 +1,38 @@
+{
+  "movie": [
+    {
+      "name": "Server 1",
+      "url": "https://vidsrc-embed.ru/embed/movie?tmdb={id}"
+    },
+    {
+      "name": "Server 2",
+      "url": "https://www.2embed.cc/embed/{id}"
+    },
+    {
+      "name": "Server 3",
+      "url": "https://111movies.com/movie/{id}"
+    },
+    {
+      "name": "Server 4",
+      "url": "https://vidlink.pro/movie/{id}"
+    }
+  ],
+  "tv": [
+    {
+      "name": "Server 1",
+      "url": "https://vidsrc-embed.ru/embed/tv?tmdb={id}&season={season}&episode={episode}"
+    },
+    {
+      "name": "Server 2",
+      "url": "https://www.2embed.cc/embedtv/{id}&s={season}&e={episode}"
+    },
+    {
+      "name": "Server 3",
+      "url": "https://111movies.com/tv/{id}/{season}/{episode}"
+    },
+    {
+      "name": "Server 4",
+      "url": "https://vidlink.pro/tv/{id}/{season}/{episode}"
+    }
+  ]
+}
