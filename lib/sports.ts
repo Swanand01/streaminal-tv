@@ -1,6 +1,6 @@
 import { cache } from 'react';
 
-const SPORTS_BASE_URL = process.env.NEXT_PUBLIC_SPORTS_API_URL!;
+const SPORTS_BASE_URL = process.env.NEXT_PUBLIC_SPORTS_API_URL!.replace(/\/+$/, '');
 
 export interface MatchTeam {
   name: string;

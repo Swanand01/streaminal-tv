@@ -48,7 +48,7 @@ export function generateMatchSlug(title: string, id: string): string {
 export function extractMatchIdFromSlug(slug: string): string | null {
   if (!slug || typeof slug !== 'string') return null;
   const separatorIndex = slug.indexOf('--');
-  return separatorIndex !== -1 ? slug.slice(separatorIndex + 2) : slug;
+  return separatorIndex !== -1 ? slug.slice(separatorIndex + 2) : null;
 }
 
 /**

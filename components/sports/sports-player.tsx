@@ -80,7 +80,7 @@ export function SportsPlayer({ sources }: SportsPlayerProps) {
           <span className="text-muted-foreground text-sm">Stream:</span>
           {streams.map((stream, index) => (
             <Button
-              key={index}
+              key={`${stream.source}-${stream.streamNo}-${stream.language}`}
               variant={index === streamIndex ? 'default' : 'secondary'}
               size="lg"
               onClick={() => setStreamIndex(index)}
