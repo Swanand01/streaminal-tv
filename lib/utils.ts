@@ -26,6 +26,32 @@ export function generateSlug(title: string, id: number): string {
 }
 
 /**
+ * Generate a URL-friendly slug for a sports match.
+ * Format: "{title-slug}--{match.id}"
+ * Double hyphen separator because title slugs only use single hyphens.
+ */
+export function generateMatchSlug(title: string, id: string): string {
+  const slugifiedTitle = title
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+
+  return slugifiedTitle ? `${slugifiedTitle}--${id}` : id;
+}
+
+/**
+ * Extract the match ID from a sports slug.
+ */
+export function extractMatchIdFromSlug(slug: string): string | null {
+  if (!slug || typeof slug !== 'string') return null;
+  const separatorIndex = slug.indexOf('--');
+  return separatorIndex !== -1 ? slug.slice(separatorIndex + 2) : slug;
+}
+
+/**
  * Extract the TMDB ID from a slug. Never fails - always returns a valid ID or null.
  */
 export function extractIdFromSlug(slug: string): number | null {
