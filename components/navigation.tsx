@@ -37,6 +37,12 @@ export function Navigation() {
             >
               TV Shows
             </Link>
+            <Link
+              href="/sports"
+              className="text-foreground/80 hover:text-foreground text-md font-medium transition-colors"
+            >
+              Sports
+            </Link>
           </div>
         </div>
 
@@ -85,6 +91,13 @@ export function Navigation() {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     TV Shows
+                  </Link>
+                  <Link
+                    href="/sports"
+                    className="text-foreground/80 hover:text-foreground text-lg font-medium transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Sports
                   </Link>
                 </div>
               </SheetContent>
