@@ -37,11 +37,13 @@ export function TVShowContent({
 
   const handleSeasonChange = (season: number) => {
     setSelectedEpisode(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     router.push(`/tv-shows/${slug}?season=${season}&episode=1`);
   };
 
   const handleEpisodeChange = (episode: number) => {
     setSelectedEpisode(episode);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     const url = `/tv-shows/${slug}?season=${initialSeason}&episode=${episode}`;
     window.history.replaceState(null, '', url);
   };
