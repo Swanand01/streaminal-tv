@@ -132,17 +132,17 @@ export async function getTrending(
   mediaType: 'movie' | 'tv' | 'all' = 'all',
   timeWindow: 'day' | 'week' = 'week'
 ) {
-  const data = await fetchTMDB(`/trending/${mediaType}/${timeWindow}`);
+  const data = await fetchTMDB(`/trending/${mediaType}/${timeWindow}`, { revalidate: 43200 });
   return data.results as Media[];
 }
 
 export async function getPopularMovies() {
-  const data = await fetchTMDB('/movie/popular');
+  const data = await fetchTMDB('/movie/popular', { revalidate: 43200 });
   return data.results.map((item: Media) => ({ ...item, media_type: 'movie' as const })) as Media[];
 }
 
 export async function getPopularTVShows() {
-  const data = await fetchTMDB('/tv/popular');
+  const data = await fetchTMDB('/tv/popular', { revalidate: 43200 });
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
