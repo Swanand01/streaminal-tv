@@ -108,6 +108,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
                 alt={getTitle(item)}
                 fill
                 priority={index === 0}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
                 sizes="100vw"
                 className="object-cover"
               />

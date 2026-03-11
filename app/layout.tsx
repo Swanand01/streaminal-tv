@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Figtree } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
 import { QueryProvider } from '@/components/providers/query-provider';
-import './globals.css';
 import { Footer } from '@/components/footer';
 import NextTopLoader from 'nextjs-toploader';
 
