@@ -17,9 +17,6 @@
       "service": "next-app"
     }
   ],
-  "images": {
-    "binding": "IMAGES"
-  },
   "observability": {
     "enabled": true
   }
