@@ -27,10 +27,10 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
         <div className="bg-muted relative aspect-2/3 overflow-hidden rounded-md transition-transform duration-300 group-hover:scale-105">
           {media.poster_path ? (
             <Image
-              src={getImageUrl(media.poster_path, 'w500')}
+              src={getImageUrl(media.poster_path, 'w342')}
               alt={title}
               fill
-              sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 250px"
+              sizes={variant === 'grid' ? '(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw' : '(max-width: 768px) 160px, 200px'}
               className="object-cover"
               loading="lazy"
             />
