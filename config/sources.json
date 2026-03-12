@@ -2,7 +2,7 @@
   "movie": [
     {
       "name": "Server 1",
-      "url": "https://vidsrc-embed.ru/embed/movie?tmdb={id}"
+      "url": "https://player.videasy.net/movie/{id}"
     },
     {
       "name": "Server 2",
@@ -20,7 +20,7 @@
   "tv": [
     {
       "name": "Server 1",
-      "url": "https://vidsrc-embed.ru/embed/tv?tmdb={id}&season={season}&episode={episode}"
+      "url": "https://player.videasy.net/tv/{id}/{season}/{episode}"
     },
     {
       "name": "Server 2",
