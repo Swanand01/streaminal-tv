@@ -62,7 +62,7 @@ export function CastList({ cast, limit = 20 }: CastListProps) {
               <div className="bg-muted group-hover:ring-primary/50 relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-transparent transition-all">
                 {actor.profile_path ? (
                   <Image
-                    src={getImageUrl(actor.profile_path, 'w500')}
+                    src={getImageUrl(actor.profile_path, 'w185')}
                     alt={actor.name}
                     fill
                     sizes="64px"

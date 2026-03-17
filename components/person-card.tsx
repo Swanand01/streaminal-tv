@@ -19,7 +19,7 @@ export function PersonCard({ person }: PersonCardProps) {
       <div className="bg-muted relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
         {person.profile_path ? (
           <Image
-            src={getImageUrl(person.profile_path, 'w500')}
+            src={getImageUrl(person.profile_path, 'w185')}
             alt={name}
             fill
             sizes="48px"

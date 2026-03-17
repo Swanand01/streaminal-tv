@@ -154,7 +154,7 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
         description,
         type: 'profile',
         images: person.profile_path
-          ? [{ url: getImageUrl(person.profile_path, 'w500'), width: 500, height: 750 }]
+          ? [{ url: getImageUrl(person.profile_path, 'original'), width: 500, height: 750 }]
           : [],
         siteName: 'Streaminal TV',
       },
@@ -162,7 +162,7 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
         card: 'summary_large_image',
         title: pageTitle,
         description,
-        images: person.profile_path ? [getImageUrl(person.profile_path, 'w500')] : [],
+        images: person.profile_path ? [getImageUrl(person.profile_path, 'original')] : [],
       },
     };
   } catch {
@@ -251,7 +251,7 @@ export function generatePersonJsonLd(person: PersonDetails) {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: person.name,
-    image: person.profile_path ? getImageUrl(person.profile_path, 'w500') : undefined,
+    image: person.profile_path ? getImageUrl(person.profile_path, 'original') : undefined,
     description: person.biography || undefined,
     birthDate: person.birthday || undefined,
     birthPlace: person.place_of_birth || undefined,

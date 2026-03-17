@@ -115,7 +115,7 @@ function PersonRow({ item }: { item: Person }) {
       <div className="bg-muted relative h-10 w-7 shrink-0 overflow-hidden rounded">
         {item.profile_path ? (
           <Image
-            src={getImageUrl(item.profile_path, 'w500')}
+            src={getImageUrl(item.profile_path, 'w185')}
             alt={item.name}
             fill
             sizes="28px"

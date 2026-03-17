@@ -19,7 +19,7 @@ export function PersonHeader({ person }: PersonHeaderProps) {
         <div className="bg-muted relative h-80 w-64 overflow-hidden rounded-lg md:h-96 md:w-72">
           {person.profile_path ? (
             <Image
-              src={getImageUrl(person.profile_path, 'w500')}
+              src={getImageUrl(person.profile_path, 'w185')}
               alt={person.name}
               fill
               sizes="(max-width: 768px) 256px, 288px"
