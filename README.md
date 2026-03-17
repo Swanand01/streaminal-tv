@@ -33,6 +33,7 @@ Create a `.env` file:
 ```bash
 NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_SPORTS_API_URL=your_sports_api_url
 ```
 
 ### Run Development Server
@@ -72,6 +73,7 @@ app/                    # Next.js pages (App Router)
   ├── movies/          # Movie browse & detail pages
   ├── tv-shows/        # TV show browse & detail pages
   ├── search/          # Search results
+  ├── sports/          # Live sports matches & streams
   └── people/          # Actor/crew profiles
 
 components/            # React components
@@ -81,6 +83,7 @@ components/            # React components
 
 lib/                   # Utilities & API client
   ├── tmdb.ts         # TMDB API functions
+  ├── sports.ts       # Sports API functions
   └── utils.ts        # Helpers
 
 config/                # Configuration files
@@ -93,6 +96,7 @@ config/                # Configuration files
 - **TanStack React Query** for data fetching
 - **shadcn/ui** components
 - **TMDB API** for movie/TV metadata
+- **Sports API** for live match data and streams
 
 ## License
 
