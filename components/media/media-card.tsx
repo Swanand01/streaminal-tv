@@ -17,7 +17,7 @@ export function MediaCard({ media, variant = 'carousel', showMediaType = true }:
   const title = getTitle(media);
   const href = `/${route}/${generateSlug(title, media.id)}`;
   const year = getReleaseYear(media);
-  const rating = media.vote_average.toFixed(1);
+  const rating = media.vote_average?.toFixed(1);
 
   const widthClass = variant === 'grid' ? 'w-full ' : 'w-[160px] flex-shrink-0 md:w-[200px]';
 
