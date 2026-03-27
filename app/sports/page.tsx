@@ -13,14 +13,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Watch Live Sports Online Free | Streaminal TV',
-    description: 'Watch live sports online free. Stream football, basketball, tennis, MMA, boxing and more.',
+    description:
+      'Watch live sports online free. Stream football, basketball, tennis, MMA, boxing and more.',
     type: 'website',
     siteName: 'Streaminal TV',
   },
   twitter: {
     card: 'summary',
     title: 'Watch Live Sports Online Free | Streaminal TV',
-    description: 'Watch live sports online free. Stream football, basketball, tennis, MMA, boxing and more.',
+    description:
+      'Watch live sports online free. Stream football, basketball, tennis, MMA, boxing and more.',
   },
 };
 

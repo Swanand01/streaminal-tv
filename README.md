@@ -5,12 +5,15 @@ A modern streaming platform built with Next.js that aggregates content from The 
 ## Screenshots
 
 ### Home
+
 ![Home](docs/images/home.png)
 
 ### Movies
+
 ![Movies](docs/images/movies.png)
 
 ### TV Show
+
 ![TV Show](docs/images/tv-show.png)
 
 ## Getting Started

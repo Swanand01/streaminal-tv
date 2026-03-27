@@ -82,7 +82,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
   const route = mediaType === 'tv' ? 'tv-shows' : 'movies';
   const title = getTitle(currentMedia);
   const year = getReleaseYear(currentMedia);
-  const rating = currentMedia.vote_average.toFixed(1);
+  const rating = currentMedia.vote_average?.toFixed(1);
 
   return (
     <section

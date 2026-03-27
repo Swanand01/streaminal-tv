@@ -5,8 +5,20 @@ import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 
 type SportsSidebarProps =
-  | { sports: string[]; selectedSports: string[]; onSportToggle: (sport: string) => void; showCloseButton?: false; onClose?: never }
-  | { sports: string[]; selectedSports: string[]; onSportToggle: (sport: string) => void; showCloseButton: true; onClose: () => void };
+  | {
+      sports: string[];
+      selectedSports: string[];
+      onSportToggle: (sport: string) => void;
+      showCloseButton?: false;
+      onClose?: never;
+    }
+  | {
+      sports: string[];
+      selectedSports: string[];
+      onSportToggle: (sport: string) => void;
+      showCloseButton: true;
+      onClose: () => void;
+    };
 
 export function SportsSidebar({
   sports,
