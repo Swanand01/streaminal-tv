@@ -14,7 +14,7 @@ export interface Media {
   vote_average: number;
   release_date?: string;
   first_air_date?: string;
-  media_type?: 'movie' | 'tv';
+  media_type?: 'movie' | 'tv' | 'person';
   genre_ids: number[];
 }
 
@@ -202,7 +202,10 @@ export async function getPersonTVCredits(id: number) {
   return data.cast as (Media & { character: string })[];
 }
 
-export function getImageUrl(path: string | null, size: 'w185' | 'w300' | 'w342' | 'w500' | 'w780' | 'original' = 'w500') {
+export function getImageUrl(
+  path: string | null,
+  size: 'w185' | 'w300' | 'w342' | 'w500' | 'w780' | 'original' = 'w500'
+) {
   if (!path) return '/placeholder.jpg';
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`;
 }

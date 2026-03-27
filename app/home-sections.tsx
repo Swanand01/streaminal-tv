@@ -3,7 +3,9 @@ import { MediaCarousel } from '@/components/media/media-carousel';
 import { getTrending, getPopularMovies, getPopularTVShows } from '@/lib/tmdb';
 
 export async function HeroAndTrendingSection() {
-  const trending = await getTrending('all', 'day').catch(() => []);
+  const trending = (await getTrending('all', 'day').catch(() => [])).filter(
+    (item) => item.media_type !== 'person'
+  );
 
   if (!trending || trending.length === 0) {
     return null;
