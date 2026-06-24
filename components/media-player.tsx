@@ -31,7 +31,7 @@ export function MediaPlayer(props: MediaPlayerProps) {
           src={currentUrl}
           className="h-full w-full rounded-lg"
           allowFullScreen
-          allow="autoplay; fullscreen"
+          allow="encrypted-media"
         />
       </div>
 

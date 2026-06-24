@@ -309,11 +309,12 @@ export async function getSimilarMovies(id: number) {
 
 export async function getSimilarTVShows(id: number) {
   const data = await fetchTMDB(`/tv/${id}/recommendations`);
-  const results = data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
+  const results = data.results.map((item: Media) => ({
+    ...item,
+    media_type: 'tv' as const,
+  })) as Media[];
 
-  const suspects = results.filter(
-    (r) => r.genre_ids?.includes(16) && r.original_language === 'ja'
-  );
+  const suspects = results.filter((r) => r.genre_ids?.includes(16) && r.original_language === 'ja');
   if (suspects.length === 0) return results;
 
   const keywordSets = await Promise.all(
@@ -324,7 +325,9 @@ export async function getSimilarTVShows(id: number) {
     )
   );
   const blocked = new Set(
-    keywordSets.filter((k) => k.keywords.some((kw) => ADULT_ANIME_KEYWORD_IDS.includes(kw))).map((k) => k.id)
+    keywordSets
+      .filter((k) => k.keywords.some((kw) => ADULT_ANIME_KEYWORD_IDS.includes(kw)))
+      .map((k) => k.id)
   );
   return results.filter((r) => !blocked.has(r.id));
 }
