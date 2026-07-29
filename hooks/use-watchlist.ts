@@ -1,39 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 import {
   WatchlistItem,
   WATCHLIST_KEY,
   WATCHLIST_MAX,
   readStorage,
   writeStorage,
+  subscribeStorage,
 } from '@/lib/storage';
 
-export function useWatchlist() {
-  const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
+const EMPTY: WatchlistItem[] = [];
 
-  useEffect(() => {
-    setWatchlist(readStorage<WatchlistItem>(WATCHLIST_KEY));
-  }, []);
+export function useWatchlist() {
+  const watchlist = useSyncExternalStore(
+    (onStoreChange) => subscribeStorage(WATCHLIST_KEY, onStoreChange),
+    () => readStorage<WatchlistItem>(WATCHLIST_KEY),
+    () => EMPTY
+  );
 
   const add = (item: Omit<WatchlistItem, 'added_at'>) => {
-    setWatchlist((prev) => {
-      if (prev.some((w) => w.id === item.id && w.media_type === item.media_type)) return prev;
-      const newItem: WatchlistItem = { ...item, added_at: Date.now() };
-      const updated = [newItem, ...prev];
-      const trimmed =
-        updated.length > WATCHLIST_MAX
-          ? updated.sort((a, b) => b.added_at - a.added_at).slice(0, WATCHLIST_MAX)
-          : updated;
-      writeStorage(WATCHLIST_KEY, trimmed);
-      return trimmed;
-    });
+    const current = readStorage<WatchlistItem>(WATCHLIST_KEY);
+    if (current.some((w) => w.id === item.id && w.media_type === item.media_type)) return;
+    const newItem: WatchlistItem = { ...item, added_at: Date.now() };
+    const updated = [newItem, ...current];
+    const trimmed =
+      updated.length > WATCHLIST_MAX
+        ? updated.sort((a, b) => b.added_at - a.added_at).slice(0, WATCHLIST_MAX)
+        : updated;
+    writeStorage(WATCHLIST_KEY, trimmed);
   };
 
   const remove = (id: number, media_type: 'movie' | 'tv') => {
-    setWatchlist((prev) => {
-      const updated = prev.filter((w) => !(w.id === id && w.media_type === media_type));
-      writeStorage(WATCHLIST_KEY, updated);
-      return updated;
-    });
+    const current = readStorage<WatchlistItem>(WATCHLIST_KEY);
+    const updated = current.filter((w) => !(w.id === id && w.media_type === media_type));
+    writeStorage(WATCHLIST_KEY, updated);
   };
 
   const isInWatchlist = (id: number, media_type: 'movie' | 'tv') =>

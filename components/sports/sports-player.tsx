@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { MatchSource, getMatchStreams } from '@/lib/sports';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,13 @@ interface SportsPlayerProps {
 export function SportsPlayer({ sources }: SportsPlayerProps) {
   const [sourceIndex, setSourceIndex] = useState(0);
   const [streamIndex, setStreamIndex] = useState(0);
+  const [prevSourceIndex, setPrevSourceIndex] = useState(sourceIndex);
+
+  // Reset stream selection when source changes
+  if (sourceIndex !== prevSourceIndex) {
+    setPrevSourceIndex(sourceIndex);
+    setStreamIndex(0);
+  }
 
   const currentSource = sources[sourceIndex];
 
@@ -21,11 +28,6 @@ export function SportsPlayer({ sources }: SportsPlayerProps) {
     enabled: !!currentSource,
     staleTime: 5 * 60 * 1000,
   });
-
-  // Reset stream selection when source changes
-  useEffect(() => {
-    setStreamIndex(0);
-  }, [sourceIndex]);
 
   const currentStream = streams[streamIndex];
 

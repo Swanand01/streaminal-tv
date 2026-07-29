@@ -29,21 +29,41 @@ export const HISTORY_KEY = 'streaminal_history';
 export const HISTORY_MAX = 20;
 export const HISTORY_EXPIRE_MS = 30 * 24 * 60 * 60 * 1000;
 
+const cache = new Map<string, unknown[]>();
+const listeners = new Map<string, Set<() => void>>();
+
 export function readStorage<T>(key: string): T[] {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
+  if (!cache.has(key)) {
+    let items: T[] = [];
+    try {
+      const raw = localStorage.getItem(key);
+      items = raw ? JSON.parse(raw) : [];
+    } catch {
+      items = [];
+    }
+    cache.set(key, items);
   }
+  return cache.get(key) as T[];
 }
 
 export function writeStorage<T>(key: string, items: T[]): void {
+  cache.set(key, items);
   try {
     localStorage.setItem(key, JSON.stringify(items));
   } catch {
     // Storage full or unavailable
   }
+  listeners.get(key)?.forEach((listener) => listener());
+}
+
+export function subscribeStorage(key: string, listener: () => void): () => void {
+  let set = listeners.get(key);
+  if (!set) {
+    set = new Set();
+    listeners.set(key, set);
+  }
+  set.add(listener);
+  return () => set!.delete(listener);
 }
 
 export function toMediaItem(item: WatchlistItem): Media {
