@@ -4,6 +4,8 @@ import { Navigation } from '@/components/navigation';
 import { MoviesContentSkeleton } from '@/components/skeletons/movies-content-skeleton';
 import { TVShows } from './tv-shows';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Watch TV Shows Online Free - Browse HD Series | Streaminal',
   description:

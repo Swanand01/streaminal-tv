@@ -4,6 +4,8 @@ import { Navigation } from '@/components/navigation';
 import { MoviesContentSkeleton } from '@/components/skeletons/movies-content-skeleton';
 import { Movies } from './movies';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Watch Movies Online Free - Browse HD Movies | Streaminal',
   description:

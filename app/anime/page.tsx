@@ -4,6 +4,8 @@ import { Navigation } from '@/components/navigation';
 import { MoviesContentSkeleton } from '@/components/skeletons/movies-content-skeleton';
 import { Anime } from './anime';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Watch Anime Online Free - Browse HD Anime | Streaminal',
   description:
