@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { FiltersSidebar } from '@/components/filters-sidebar';
 import { MediaGrid } from '@/components/media/media-grid';
@@ -32,6 +33,14 @@ interface BrowseContentProps {
   itemLabel?: string;
 }
 
+function parseGenres(param: string | null): number[] {
+  if (!param) return [];
+  return param
+    .split(',')
+    .map((id) => Number(id))
+    .filter((id) => !Number.isNaN(id));
+}
+
 export function BrowseContent({
   mediaType,
   title,
@@ -40,11 +49,25 @@ export function BrowseContent({
   lockedParams,
   itemLabel: itemLabelProp,
 }: BrowseContentProps) {
-  const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
-  const [minRating, setMinRating] = useState(0);
-  const [sortBy, setSortBy] = useState('popularity.desc');
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  const selectedGenres = parseGenres(searchParams.get('genres'));
+  const minRating = Number(searchParams.get('rating')) || 0;
+  const sortBy = searchParams.get('sort') || 'popularity.desc';
+  const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);
+
+  function updateParams(patch: Record<string, string | null>) {
+    const params = new URLSearchParams(searchParams.toString());
+    for (const [key, value] of Object.entries(patch)) {
+      if (value === null) params.delete(key);
+      else params.set(key, value);
+    }
+    const query = params.toString();
+    router.replace(`${pathname}${query ? `?${query}` : ''}`, { scroll: false });
+  }
 
   const isMovie = mediaType === 'movie';
   const queryKey = isMovie ? 'movies' : 'tvShows';
@@ -101,24 +124,22 @@ export function BrowseContent({
   const totalResults = mediaData?.total_results || 0;
 
   const handleGenreToggle = (genreId: number) => {
-    setSelectedGenres((prev) =>
-      prev.includes(genreId) ? prev.filter((id) => id !== genreId) : [...prev, genreId]
-    );
-    setCurrentPage(1);
+    const next = selectedGenres.includes(genreId)
+      ? selectedGenres.filter((id) => id !== genreId)
+      : [...selectedGenres, genreId];
+    updateParams({ genres: next.length > 0 ? next.join(',') : null, page: null });
   };
 
   const handleRatingChange = (rating: number) => {
-    setMinRating(rating);
-    setCurrentPage(1);
+    updateParams({ rating: rating > 0 ? String(rating) : null, page: null });
   };
 
   const handleSortChange = (sort: string) => {
-    setSortBy(sort);
-    setCurrentPage(1);
+    updateParams({ sort: sort !== 'popularity.desc' ? sort : null, page: null });
   };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    updateParams({ page: page > 1 ? String(page) : null });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
